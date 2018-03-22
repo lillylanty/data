@@ -1,5 +1,14 @@
 import mirror from 'mirror-creator';
 
+
+export const manageModeleType = mirror([
+  'GET_TREE',
+  'GET_TABLE_DATA',
+  'GET_FILTER_DATA',
+  'SET_NEW_DATA',
+  'GATEGORY_MANAGE'
+],'model/')
+
 export const homeType = mirror([
   'GET_FILTER',
   'GET_NEXT_PAGE',

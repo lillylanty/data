@@ -11,15 +11,5 @@ export default {
   },
   getFinishedJudgeData(params){
     return http.get(apiUrl.getFinishedJudgeData, params)
-  },
-  
-  getHomeData(params) {
-    return http.get(apiUrl.getHomeData, params);
-  },
-  getUserData(params) {
-    return http.post(apiUrl.getUserData, params);
-  },
-  getNavData(params) {
-    return http.get(apiUrl.getNavData, params);
-  },
+  }
 };

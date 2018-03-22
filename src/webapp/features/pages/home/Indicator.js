@@ -1,15 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import PieChart from '../../../../common/PieChart';
-var echarts = require('echarts/lib/echarts')
- require('echarts/lib/chart/pie')
- require('echarts/lib/component/tooltip')
- require('echarts/lib/component/title')
 
 export default class Top extends React.Component{
     constructor(props){
         super(props);
-        console.log(this.props);
         this.option = {
             color:['#2CA2FF','#26CECA','#28CF73','#FED332','#A35AE1'], //'#FED332','#FF3754',
             tooltip: {
@@ -63,9 +58,7 @@ export default class Top extends React.Component{
     }
     componentWillMount(){
         const {tableData,getTableData} = this.props;
-        getTableData();
-        console.log(tableData,getTableData);
-        
+        getTableData();      
         
         this.setState({
             model_counts:tableData.filter(v=>v.name == 'model').length,

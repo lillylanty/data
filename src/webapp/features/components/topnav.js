@@ -49,7 +49,6 @@ export default class TopNav extends React.Component {
         navis.push(navi);
       }
     });
-    console.log(navData,12131313);
     const userMenu = (<Menu>
       <Menu.Item style={{ overflow: 'hidden', textOverflow: '' }}>
         <a href="javascript:void(0)"

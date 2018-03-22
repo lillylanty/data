@@ -23,15 +23,6 @@ const mapState = state => ({
   navData: state.home.navData,
 });
 const mapDispatch = dispatch => ({
-  getHomeData(params) {
-    dispatch(homeAction.getHomeData(params));
-  },
-  getUserData(params) {
-    dispatch(homeAction.getUserData(params));
-  },
-  getNavData(params) {
-    dispatch(homeAction.getNavData(params));
-  },
   getFilterData: (v) => dispatch(homeAction.getFilterData(v)), //v:{type:'awaitJudge/judged'}
   getTableData: (v)=> dispatch(homeAction.getTableData(v)),
   setPager: (v) => dispatch(homeAction.setPager(v)),
@@ -46,7 +37,7 @@ export default class Home extends Component {
     
   }
   componentDidMount() {
-    this.props.getHomeData({});
+   
   }
   componentWillReceiveProps(nextProps) {
   }

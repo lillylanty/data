@@ -5,5 +5,9 @@ export default {
   getNavData: '/navData.json',
   getMyRequestData: '/myRequest.json',
   getAwaitJudgeData: '/awaitJudge.json',
-  getFinishedJudgeData:'/finishedJudge.json'
+  getFinishedJudgeData:'/finishedJudge.json',
+
+  /*----------model--------------*/
+  getTree: '/modelTree.json',
+  
 }

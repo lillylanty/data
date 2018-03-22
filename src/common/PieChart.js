@@ -1,9 +1,9 @@
 import React from 'react';
-var echarts = require('echarts/lib/echarts')
+/* var echarts = require('echarts/lib/echarts')
  require('echarts/lib/chart/pie')
  require('echarts/lib/component/tooltip')
  require('echarts/lib/component/title')
-
+ */
 export default class PieChart extends React.Component{
     constructor(props){
         super(props);
@@ -56,7 +56,7 @@ export default class PieChart extends React.Component{
     }
 
     ComponentDidMount(){
-        this.init();   
+        // this.init();   
     }
     componentDidUpdate() {
     //   this.init();
@@ -89,6 +89,6 @@ export default class PieChart extends React.Component{
 
 render(){
     const {width="100%",height="200px"} = this.props.style
-    return ( <div ref="mypie" style={{width,height}}></div> )
+    return ( <div ref="mypie" style={{width,height}}>饼图</div> )
 }   
 }

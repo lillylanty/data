@@ -2,22 +2,28 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Row, Col } from 'antd';
-import { helloAction } from '../../actions/helloAction';
+import { ModelManageAction } from '../../actions/modelManageAction';
 import { isEmpty } from 'lodash';
 import assign from 'object-assign';
+
+import SideTree from './SideTree'
+
 import './style.scss'
 
 const mapState = state => ({
-  helloData: state.hello.helloData,
+  tree: state.model.tree,
+  newData: state.model.newData, //新建
+  pager: state.model.pager,
+  filterData: state.model.filterData,
+  tableData: state.model.tableData,
 });
 const mapDispatch = dispatch => ({
-  getHelloData(params) {
-    dispatch(hello.getHelloData(params));
-  },
+  getTree:(params)=> dispatch(ModelManageAction.getTree(params))
+
 });
 
 @connect(mapState, mapDispatch)
-export default class Hello extends Component {
+export default class ModelManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +39,12 @@ export default class Hello extends Component {
   render() {
     return (
       <div className="content">
-        恭喜，Hello主页新建成功,你可以对页面DIY了.
+        <div className="left-tree">
+          <SideTree {...this.props} />
+        </div>
+        <div className ="data-area">
+        
+        </div>
       </div>
     )
   }
