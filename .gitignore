@@ -1,5 +1,10 @@
-node_module/
+node_modules/
 *.txt
 dist/
 build
 *config.js
+*.log
+*.lock
+.editorconfig
+package-lock.json
+
