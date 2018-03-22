@@ -1,4 +1,4 @@
-**/node_module/
+node_module/
 *.txt
 dist/
 build
