@@ -1,2 +1,5 @@
-**/node_module/;
-*.txt;
+**/node_module/
+*.txt
+dist/
+build
+*config.js
