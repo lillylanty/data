@@ -1,0 +1,22 @@
+
+.ant-row{
+    margin:0 auto;
+    >div{
+        background:#fff;
+        height:200px;
+        box-sizing: border-box;
+        padding-left:3%;
+        &:first-child {
+            margin-right:10px;
+        }
+        
+        h1{
+            min-height:70px;
+            line-height:70px;
+            vertical-align: middle;
+            &:first-child{
+                margin-top:10px;
+            }
+        }
+    }
+}

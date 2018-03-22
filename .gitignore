@@ -7,4 +7,13 @@ build
 *.lock
 .editorconfig
 package-lock.json
+idea/
+/.vscode/
+／src／public／config/config.dev.js
+compiler_ts/*
+.history/
+true?{\"compact\":false}/
+*.DS_Store
+*.idea
+static*
 

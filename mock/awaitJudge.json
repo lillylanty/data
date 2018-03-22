@@ -1,0 +1,60 @@
+{
+    "result":"succ",
+    "code":"0",
+    "data":[
+        {
+            "name": "Mastername1",
+            "status":"awaitJudge",
+            "encode":"t_mastername",
+            "description":"blablablabalba",
+            "latesttime":"2017-01-01",
+            "starttime":"2017-01-01",
+            "detail":{
+                    "otherInfo":"xyxyxyx",
+                    "user":"shh",
+                    "refer":"172.0.0."
+                }
+        },
+        {
+            "name": "Mastername1",
+            "status":"awaitJudge",
+            "encode":"t_mastername",
+            "description":"blablablabalba",
+            "latesttime":"2017-01-01",
+            "starttime":"2017-01-01",
+            "detail":{
+                    "otherInfo":"xyxyxyx",
+                    "user":"shh",
+                    "refer":"172.0.0."
+                }
+        },
+        {
+            "name": "Mastername1",
+            "status":"awaitJudge",
+            "encode":"t_mastername",
+            "description":"blablablabalba",
+            "latesttime":"2017-01-01",
+            "starttime":"2017-01-01",
+            "detail":{
+                    "otherInfo":"xyxyxyx",
+                    "user":"shh",
+                    "refer":"172.0.0."
+                }
+        },
+        {
+            "name": "Mastername1",
+            "status":"awaitJudge",
+            "encode":"t_mastername",
+            "description":"blablablabalba",
+            "latesttime":"2017-01-01",
+            "starttime":"2017-01-01",
+            "detail":{
+                    "otherInfo":"xyxyxyx",
+                    "user":"shh",
+                    "refer":"172.0.0."
+                }
+        }
+        
+
+    ]
+}
