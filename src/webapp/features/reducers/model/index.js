@@ -15,6 +15,8 @@ export const modelReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         tree: payload,
       });
+      case manageModeleType.SET_PAGE: 
+        return {...state,pager:payload};
 
       case manageModeleType.GET_TABLE_DATA: 
         return {...state,tableData:payload};

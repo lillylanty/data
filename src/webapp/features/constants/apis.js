@@ -1,3 +1,7 @@
+import {baseUrl} from './env'; 
+
+console.log(baseUrl);
+
 export default {
   /*---------------------home---------------------------*/
   getHomeData: '/homeData.json', // 获取总览数据
@@ -9,5 +13,7 @@ export default {
 
   /*----------model--------------*/
   getTree: '/modelTree.json',
+  deleteData: '/api/v1/entity/del',
+  getTable: `/api/v1/entity/list`,
   
 }

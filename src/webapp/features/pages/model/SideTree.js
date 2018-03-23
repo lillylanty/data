@@ -7,6 +7,86 @@ const Search = Input.Search;
 // const { Column, ColumnGroup } = Table;
 const { TextArea } = Input;
 
+/**
+export default class SideTree extends Component {
+  constructor(props){
+    super(props);
+    const {getTree,tree } = this.props;
+    getTree(123);
+    console.log(tree);
+    console.log('tree');
+    this.state = {
+      treeData: [
+      
+      ],
+    }
+  }
+  componentDidMount(){
+    const {getTree,tree } = this.props;
+    getTree(123);
+    console.log(tree);
+  
+    console.log('tree');
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {getTree,tree } = this.props;
+    
+    console.log(tree);
+    debugger;
+    console.log('tree',nextProps);
+    // console.log(this.state.treeData);
+    // this.renderTreeNodes(this.state.treeData)
+    // this.onLoadData(this.state.treeData)
+  }
+  
+  onLoadData = (treeNode) => {
+    console.log(treeNode)
+    return new Promise((resolve) => {
+      if (treeNode.props.child) {
+        resolve();
+        return;
+      }
+      console.log(treeNode, treeNode.props.dataRef,treeNode.props.dataRef.child)
+      setTimeout(() => {
+        treeNode.props.dataRef.child = [
+          { title: 'Child Node', key: `${treeNode.props.eventKey}-0` },
+          { title: 'Child Node', key: `${treeNode.props.eventKey}-1` },
+        ];
+        this.setState({
+          treeData: [...this.state.treeData],
+        });
+        resolve();
+      }, 1000);
+    });
+    console.log(this.state.treeNode)
+  }
+  renderTreeNodes = (data) => {
+    return data.map((item) => {
+      if (item.child) {
+        return (
+          <TreeNode title={item.title} key={item.key} dataRef={item}>
+            {this.renderTreeNodes(item.child)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode {...item} dataRef={item} />;
+    });
+  }
+  render() {
+    let props ={
+      autoExpandParent:true,
+      checkable:true
+    }
+    return (
+      <Tree loadData={this.onLoadData} {...props}>
+        {this.renderTreeNodes(this.state.treeData)}
+      </Tree>
+    );
+  }
+}
+*/
+
 export default class SideTree extends Component{
   constructor(props){
     super(props)
@@ -23,11 +103,8 @@ export default class SideTree extends Component{
   componentWillMount(){
      let {getTree,tree } = this.props;
     getTree(1);
-   /* tree.map((v,i)=>{v.key = v.id})
-    this.setState({
-      treeData:tree
-    }) */
-    
+    this.queryTree();
+   
   }
 
   componentDidMount(){
@@ -52,30 +129,108 @@ export default class SideTree extends Component{
 
 
   onLoadData = (treeNode) => { 
-    if(treeNode.length>0)   {
-     console.log(treeNode)
-    }
+    
+        let expandedKeys=[]
+        if(treeNode.props && treeNode.props.dataRef.level==0&&treeNode.props.dataRef.key!=expandedKeys[0]){
+            expandedKeys =[ treeNode.props.dataRef.key];
+            // console.log('expandedKeys',expandedKeys);
+        }
+
+        return new Promise((resolve) => {
+          if(treeNode.props && treeNode.props.dataRef.level <=3) {
+            //根据子节点发送请求,返回后数据遍历赋给当前节点的子节点 _arr应为返回的res
+            let _arr = treeNode.props.dataRef.child.slice(0) || [];
+            _arr.map((v,i)=>{
+              return {
+                title: v.name,
+                key:v.id || `${treeNode.level}-${i}`,
+                level:treeNode.level + 1 || treeNode.props.dataRef.level +1 
+              }
+            });
+            treeNode.props.dataRef.child = _arr;
+            this.setState({
+              treeData: [...this.state.treeData],
+              expandedKeys:_arr[0].key,
+              tempExpanded:_arr[0].key
+            });
+            resolve();
+          }else {
+              if(!treeNode.props || !treeNode.props.dataRef){
+                return
+              }
+                  let _arr =treeNode.props.dataRef.child.slice(0) || [];
+                  _arr.map((val,ind) => {
+                      return {
+                          title : val.name,
+                          key : val.id || `${treeNode.level}-${i}`,
+                          level : treeNode.level + 1 || treeNode.props.dataRef.level +1 ,
+                          isLeaf : true
+                      }
+                  })
+                  treeNode.props.dataRef.child = _arr;
+                  let childKeys=[];
+                  _arr.forEach(item=>{
+                      childKeys.push(item.key);
+                  })
+                  let parentNode=this.cloneObj( this.state.tempExpanded);
+                
+                  if(this.state.tempExpanded.length>2){
+                      parentNode=[parentNode[0],treeNode.props.dataRef.key]
+                  }
+                
+                  this.setState({
+                      treeData: [...this.state.treeData],
+                      expandedKeys:parentNode,
+                      rangeVar:Math.random()
+                  });
+                  let reqParma={ treeData: [...this.state.treeData],
+                      expandedKeys:parentNode}
+                  resolve(reqParma);
+              }
+              
+          })
+
+        
+
+  
+    
   }
+
   renderTreeNodes = (data) => {  
-    if(data.length>0){
-      return data.map((item) => {
-        if (item.child) {
-          return (
-            <TreeNode title={item.name} key={item.id} dataRef={item}>
+    return data.map((item) => {
+      if (item.child) {
+        return (
+          <TreeNode title={item.name} key={item.key} dataRef={item}>
             {this.renderTreeNodes(item.child)}
           </TreeNode>
         );
       }
-      
-      return <TreeNode {...item} dataRef={item} />;
+      return <TreeNode  title={item.name} key={item.key} dataRef={item} isLeaf={true}/>;
     });
+
   }
 
+  queryTree = ()=>{
+    let {getTree,tree } = this.props;
+    getTree(1);
+    if(tree.length>0){
+      let res = tree.map((val,i)=>{
+        return {
+          title : val.name,
+          key:val.id,
+          level:0
+        }
+      });
+      this.setState({
+        treeData:res
+      })
+    }
+    // console.log(this.state.treeData)
   }
 
   onTreeExpand=(expandedKeys,expandedObj)=>{
-    console.log('TreeExpand',expandedKeys,expandedObj);
-    console.log(expandedObj.node.props.dataRef);
+    // console.log('TreeExpand',expandedKeys,expandedObj);
+    // console.log(expandedObj.node.props.dataRef);
     let tempKeys=this.state.tempExpanded;
     let curKeysObj= this.cloneObj(expandedObj);
 
@@ -104,7 +259,7 @@ export default class SideTree extends Component{
   }
 
   onTreeSelect = (selectedKeys, info)=>{
-    console.log('treeSelect',selectedKeys, info);
+    // console.log('treeSelect',selectedKeys, info);
     if (!info.selected)return;
     let _data = info.selectedNodes[0].props.dataRef||{};
     this.onLoadData(info.node);
@@ -113,12 +268,12 @@ export default class SideTree extends Component{
 
   cloneObj = (obj)=>{
     var str, newobj = obj.constructor === Array ? [] : {};
-    if(typeof obj !== 'object'){
+    if(Object.prototype.toString.call(obj) !== ['object','Object']){
         return;
-    } /* else if(window.JSON){
+    }  else if(window.JSON){
         str = JSON.stringify(obj), //系列化对象
         newobj = JSON.parse(str); //还原
-    } */
+    } 
      else {
         for(var i in obj){
             newobj[i] = typeof obj[i] === 'object' ? 
@@ -135,15 +290,9 @@ export default class SideTree extends Component{
       <div>
       {
 
-        this.state.treeData.length< 0 ? null :
-        <Tree 
-            expandedKeys={expandedKeys}
-            onExpand={this.onTreeExpand.bind(this)}
-            onSelect={this.onTreeSelect.bind(this)}
-            loadData={this.onLoadData}
-            >
-          {this.renderTreeNodes(this.state.treeData)}
-        </Tree>
+        this.state.treeData.length> 0 ? <Tree loadData={this.onLoadData}>
+            {this.renderTreeNodes(this.state.treeData)}
+          </Tree> : null
       }
       </div>
     );
@@ -152,4 +301,5 @@ export default class SideTree extends Component{
 
   
 }
+
 

@@ -2,6 +2,7 @@ import mirror from 'mirror-creator';
 
 
 export const manageModeleType = mirror([
+  'SET_PAGE',
   'GET_TREE',
   'GET_TABLE_DATA',
   'GET_FILTER_DATA',

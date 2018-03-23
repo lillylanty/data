@@ -180,10 +180,14 @@ module.exports = function makeWebpackConfig() {
     disableHostCheck: true,
     proxy: [
       {
-        path: '/log/api/v2/**',
+       path: '/log/api/v2/**',
         //target: 'http://172.16.1.209:8854',
-        //target: 'http://172.16.1.44:8854',
         target: 'http://log.dev.dtstack.net:81',
+        changeOrigin: true
+      },
+      {
+        path:'/api/v1/**',
+        target: 'http://172.16.10.144:8899',
         changeOrigin: true
       }
     ],

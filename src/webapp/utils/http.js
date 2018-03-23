@@ -13,8 +13,17 @@ class Http {
     console.log('url:',url,'data:',data)
     let options = { method: 'POST', headers: { "content-type": "application/json;charset=UTF-8" } }
     // let options = { method: 'POST' }
-    if (data) options.body = JSON.stringify(data)
+    if (data) options.body = typeof data !=='string' ? JSON.stringify(data) :  data
     return this.request(url, options)
+  }
+  //参数时对象的形式的delete请求 http://172.16.10.144:8899/api/v1/entity/del/{id:1}
+  deleteByObj(url,params){
+    let options = { method: 'DELETE' }
+    if(Object.prototype.toString.call(params) !== "[object Object]" ){
+      return message.error('传入的参数不是对象形式')
+    }
+    let del_url = `${url}/${params}`
+    return this.request(del_url, options)
   }
 
   delete(url, params) { // delete请求
