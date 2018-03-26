@@ -14,6 +14,10 @@ export default {
   /*----------model--------------*/
   getTree: '/modelTree.json',
   deleteData: '/api/v1/entity/del',
-  getTable: `/api/v1/entity/list`,
+  getTableData: `/api/v1/entity/list`,
+  /*----新建模型------*/
+  getCategory: `/modelCategory.json`,
+  postModel:`/postModel.json`,
+
   
 }

@@ -1,7 +1,14 @@
 import mirror from 'mirror-creator';
 
+export const newModelType = mirror([
+  'EDIT_ENTITY',
+  'EDIT_MODEL_DATA',
+  'UPDATE_MODEL_DATA',
+  'SET_NEW_DATA',
+  'GET_GATEGORY',
+],'newModel/')
 
-export const manageModeleType = mirror([
+export const manageModelType = mirror([
   'SET_PAGE',
   'GET_TREE',
   'GET_TABLE_DATA',

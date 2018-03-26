@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import assign from 'object-assign';
-import { manageModeleType } from '../../constants/actionTypes';
+import { manageModelType } from '../../constants/actionTypes';
 const initialState = {
   tree: [],
   tableData:[],
@@ -11,20 +11,20 @@ const initialState = {
 export const modelReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-      case manageModeleType.GET_TREE:
+      case manageModelType.GET_TREE:
       return Object.assign({}, state, {
         tree: payload,
       });
-      case manageModeleType.SET_PAGE: 
+      case manageModelType.SET_PAGE: 
         return {...state,pager:payload};
 
-      case manageModeleType.GET_TABLE_DATA: 
+      case manageModelType.GET_TABLE_DATA: 
         return {...state,tableData:payload};
       
-      case manageModeleType.GET_FILTER_DATA:
+      case manageModelType.GET_FILTER_DATA:
         return {...state,filterData:payload};
 
-      case manageModeleType.SET_NEW_DATA:
+      case manageModelType.SET_NEW_DATA:
         return {...state,newData:payload};
 
     default:

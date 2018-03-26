@@ -112,6 +112,10 @@ export default class ModelTable extends React.Component{
 
   }
 
+  goToNewModel=()=>{
+    this.props.router.replace("model/newModel")
+  }
+
   render(){
      return(
           <div>
@@ -124,7 +128,7 @@ export default class ModelTable extends React.Component{
               />
               {/* <span style={{backgroundColor:"#1C8DE7"}}>搜索</span> */}
               {/* <Button type="primary"  style={{ width: 100,height:50,fontSize:16 }}> 搜索 </Button > */}
-              <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}}> 新建实体模型 </Button >
+              <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.goToNewModel}> 新建实体模型 </Button >
             </p>
     
             <TableData columns={this.state.columns} dataSource = {this.state.dataSource} pagination={this.state.pagination} />

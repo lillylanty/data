@@ -1,4 +1,4 @@
-import { manageModeleType } from '../constants/actionTypes';
+import { manageModelType } from '../constants/actionTypes';
 import { message } from 'antd';
 import ajax from '../../api/modelmanage';
 export const ModelManageAction = {
@@ -8,11 +8,11 @@ export const ModelManageAction = {
         const { data, success, result_code, result_message } = res;
         if (success) {
           dispatch({
-            type: manageModeleType.GET_TABLE_DATA,
+            type: manageModelType.GET_TABLE_DATA,
             payload: data.data
           });
           dispatch({
-            type:manageModeleType.SET_PAGE,
+            type:manageModelType.SET_PAGE,
             payload:{page:data.page,total:data.total}
           })
         } else {
@@ -27,7 +27,7 @@ export const ModelManageAction = {
         const { data, result, result_code, result_message } = res;
         if (result) {
           dispatch({
-            type: manageModeleType.GET_TREE,
+            type: manageModelType.GET_TREE,
             payload: data
           });
         } else {
@@ -43,7 +43,7 @@ export const ModelManageAction = {
         const { data, success, message } = res;
         if (success) {
           dispatch({
-            type: manageModeleType.GET_TABLE_DATA,
+            type: manageModelType.GET_TABLE_DATA,
             payload: data
           });
           message.success(message)
