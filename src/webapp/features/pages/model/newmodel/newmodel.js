@@ -14,10 +14,12 @@ import './newmodel.css'
 const mapState = state => ({
   modelData: state.newModel.modelData, //新建
   entity: state.newModel.entity, //
+  displayTable: state.newModel.displayTable, //是否显示表格
 });
 const mapDispatch = dispatch => ({
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
   editEntityModel:(params)=> dispatch(newModelManageAction.editEntityModel(params)),
+  toggleShowTable:()=> dispatch(newModelManageAction.toggleShowTable()),
 });
 
 @connect(mapState, mapDispatch)

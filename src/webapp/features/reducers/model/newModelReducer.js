@@ -5,6 +5,7 @@ const initialState = {
   modelData:{},
   category:null,
   entity:null,
+  displayTable:false,
 };
 export const newModelReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -18,8 +19,8 @@ export const newModelReducer = (state = initialState, action) => {
       case newModelType.EDIT_ENTITY:
         return {...state,entity:payload};
 
-      // case newModelType.SET_NEW_DATA:
-      //   return {...state,newData:payload};
+      case newModelType.SHOW_TABLE:
+        return {...state,displayTable:!state.displayTable};
 
     default:
       return state;

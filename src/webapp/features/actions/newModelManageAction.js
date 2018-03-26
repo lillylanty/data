@@ -38,7 +38,12 @@ export const newModelManageAction = {
       payload:v
     }
   },
-
+  toggleShowTable: (v) =>{
+    return {
+      type : newModelType.SHOW_TABLE,
+      payload: null
+    }
+  }
   /* getTableData(v) {
     return dispatch => {
       ajax.getTabelData(v).then(res => {

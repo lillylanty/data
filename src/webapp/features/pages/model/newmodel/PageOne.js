@@ -13,6 +13,7 @@ export default class PageOne extends Component{
     this.state = {
       column : undefined,
       sourceData: undefined,
+      display:false,
       attr : [
         {
           attr_name:'名称',
@@ -103,28 +104,39 @@ export default class PageOne extends Component{
 
     this.setState({
       column: column
-    })
+    });
+
+    
   
   }
 
    deleteElement = (r)=>{
-    console.log(r)
+    // console.log(r)
   }
    edit = (r)=>{
-    console.log(r)
+    // console.log(r)
   }
 
+ 
 
-  componentWillReceiveProps(){
-
+  componentWillReceiveProps(nextProps,nextState){
+    console.log(nextProps,nextState);
+    const { displayTable } = this.props;
+    this.setState({
+      display:nextProps.displayTable
+    })
   }
 
   render (){
     console.log(this.state)
+    let dis = this.state.display
     return(
       <div>
         <HorizontalAddForm {...this.props} />
-        <TableData {...this.state}/>
+        {
+          dis? <TableData style={{display:dis}} {...this.state}/> : null
+        }
+        
       </div>
     )
   }

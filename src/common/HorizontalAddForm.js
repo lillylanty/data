@@ -55,7 +55,7 @@ class HorizontalAddForm extends React.Component {
 
   }
   newAttri = ()=>{
-    const {editEntityModel,entity} = this.props;
+    const {editEntityModel,entity,toggleShowTable,displayTable} = this.props;
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
     let formdata = this.props.form.getFieldsValue();
     Object.values(formdata).forEach(element => {
@@ -66,7 +66,9 @@ class HorizontalAddForm extends React.Component {
         ...this.state.form,...formdata
       })
     }); 
-    editEntityModel(formdata)
+    editEntityModel(formdata);
+    toggleShowTable();
+    console.log(displayTable)
   }
 
   render() {
