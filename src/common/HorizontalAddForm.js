@@ -68,7 +68,6 @@ class HorizontalAddForm extends React.Component {
     }); 
     editEntityModel(formdata);
     toggleShowTable();
-    console.log(displayTable)
   }
 
   render() {
