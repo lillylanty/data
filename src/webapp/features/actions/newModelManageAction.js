@@ -5,8 +5,8 @@ export const newModelManageAction = {
   getCategory : (v)=>{
     return dispatch => {
       ajax.getCategory(v).then(res => {
-        const { data, result, code, result_message } = res;
-        if (result) {
+        const { data, success, code, result_message } = res;
+        if (success) {
           dispatch({
             type: newModelType.GET_CATEGORY,
             payload: data
@@ -20,8 +20,8 @@ export const newModelManageAction = {
   postModel : (v)=>{
     return dispatch => {
       ajax.postModel(v).then(res => {
-        const { data, result, code, result_message } = res;
-        if (result) {
+        const { data, success, code, result_message } = res;
+        if (success) {
           dispatch({ //应该为返回长传成功后就可以了
             type: newModelType.UPDATE_MODEL_DATA,
             payload: data
@@ -43,7 +43,22 @@ export const newModelManageAction = {
       type : newModelType.SHOW_TABLE,
       payload: null
     }
-  }
+  },
+  getDataType: (v) =>{
+    return dispatch => {
+      ajax.getDataType(v).then(res => {
+        const { data, success, code, result_message } = res;
+        if (success) {
+          dispatch({ //应该为返回长传成功后就可以了
+            type: newModelType.UPDATE_DATA_TYPE,
+            payload: data
+          });
+        } else {
+          message.error(result_message);
+        }
+      })
+    }
+  },
   /* getTableData(v) {
     return dispatch => {
       ajax.getTabelData(v).then(res => {

@@ -3,14 +3,14 @@ import { reqHeader, authBeforeRes, authAfterRes } from '../interceptor'
 import ProgressBar from '../features/components/progress-bar';
 class Http {
   get(url, params) { // GET请求
-    console.log('url:',url,'params:',params)
+   
     let options = { method: 'GET' }
     let req_url = params ? this.buildUrl(url, params) : url;
     return this.request(req_url, options)
   }
 
   post(url, data) { // POST请求
-    console.log('url:',url,'data:',data)
+    
     let options = { method: 'POST', headers: { "content-type": "application/json;charset=UTF-8" } }
     // let options = { method: 'POST' }
     if (data) options.body = typeof data !=='string' ? JSON.stringify(data) :  data

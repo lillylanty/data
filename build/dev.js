@@ -67,11 +67,11 @@ module.exports = function makeWebpackConfig() {
       {
         test: /\.ejs$/,
         use: ["ejs-loader"]
-      }, {
+      }, /* {
         test: /\.(js|ts)$/,
         use: ["strip-loader?strip[]=debug,strip[]=console.log"],
         exclude: /node_modules/
-      },
+      }, */
       ]
     };
   config.resolve = {
@@ -144,12 +144,12 @@ module.exports = function makeWebpackConfig() {
 
       new webpack.NamedModulesPlugin(),
       extractCSS,
-      new webpack.optimize.CommonsChunkPlugin({
+       new webpack.optimize.CommonsChunkPlugin({
         name: "vendor",
         chunks: ['webapp'],
         filename: 'vendor.js',
         minChunks: Infinity,
-      })
+      }) 
     )
   }
 

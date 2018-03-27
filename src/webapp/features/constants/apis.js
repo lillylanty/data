@@ -18,6 +18,7 @@ export default {
   /*----新建模型------*/
   getCategory: `/modelCategory.json`,
   postModel:`/postModel.json`,
+  getDataType: '/api/v1/dict/list',
 
   
 }
