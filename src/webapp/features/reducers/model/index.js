@@ -4,7 +4,7 @@ import { manageModelType } from '../../constants/actionTypes';
 const initialState = {
   tree: [],
   tableData:[],
-  pager:{},
+  pager:{total:0,pageSize:10},
   newData:[],
   filterData:[]
 };
@@ -16,7 +16,8 @@ export const modelReducer = (state = initialState, action) => {
         tree: payload,
       });
       case manageModelType.SET_PAGE: 
-        return {...state,pager:payload};
+      console.log({...state,pager:{...state.pager,...payload}})
+        return {...state,pager:{...state.pager,...payload}};
 
       case manageModelType.GET_TABLE_DATA: 
         return {...state,tableData:payload};

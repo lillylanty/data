@@ -432,7 +432,7 @@ hasRepeat( value, column){
   data_type: 'int',
   data_type_name:'整型',
   refer_obj:'',
-  refer_obj_name:'-',
+  refer_obj_name:'',
   attr_length:20,
   valid_rule:'-',
   is_require:false,

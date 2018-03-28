@@ -21,6 +21,7 @@ const mapState = state => ({
 });
 const mapDispatch = dispatch => ({
   getTree:(params)=> dispatch(ModelManageAction.getTree(params)),
+  setPager: (params) => dispatch(ModelManageAction.setPager(params)), //当改变煤业显示条目数时
   deleteData: (params) => dispatch(ModelManageAction.deleteData(params)),
   getTableData:(params)=> dispatch(ModelManageAction.getTableData(params)),
   // filterTableData:(params) => dispatch(ModelManageAction.filterTableData(params))
@@ -45,6 +46,7 @@ export default class ModelManage extends Component {
     this.props.deleteData({id:1});
     console.log(this.props.tableData);
   }
+ 
 
   render() {
     return (
@@ -53,6 +55,7 @@ export default class ModelManage extends Component {
         <div className="left-tree">
           <SideTree {...this.props} />
         </div>
+        
         <div className ="data-area">
           <ModelTable {...this.props}/>
         </div>

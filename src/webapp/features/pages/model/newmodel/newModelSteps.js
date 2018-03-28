@@ -56,12 +56,24 @@ export default class NewModelSteps extends Component {
 
     this.state = {
       current: 0,
+      alldata:null,
     };
   }
   next() {
     const current = this.state.current + 1;
     this.setState({ current });
   }
+  //保存新建数据 进行下一步
+  saveAllData(){
+    const {editEntityModelAttr ,entityModalAttr,modalData,saveEntity,alldata } = this.props;
+    //组合表单和表格字段
+    this.setState({
+      alldata: {...modalData,entityAttrParam:entityModalAttr}
+    });
+
+    
+  }
+
   prev() {
     const current = this.state.current - 1;
     this.setState({ current });

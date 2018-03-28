@@ -16,7 +16,8 @@ const mapState = state => ({
   modelData: state.newModel.modelData, //新建
   entity: state.newModel.entity, //
   displayTable: state.newModel.displayTable, //是否显示表格
-  relObj: state.newModel.relObj, //引用类型
+  relObj: state.newModel.relObj, //引用类型,
+  category: state.newModel.category, //类目
 });
 const mapDispatch = dispatch => ({
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
@@ -51,7 +52,7 @@ export default class NewModel extends Component {
       data_type: 'int',
       data_type_name:'整型',
       refer_obj:'',
-      refer_obj_name:'-',
+      refer_obj_name:'',
       attr_length:20,
       valid_rule:'/[a-zA-Z0-9]/',
       is_require:false,
@@ -63,7 +64,7 @@ export default class NewModel extends Component {
       data_type: 'int',
       data_type_name:'整型',
       refer_obj:'',
-      refer_obj_name:'-',
+      refer_obj_name:'',
       attr_length:20,
       valid_rule:'/[a-zA-Z0-9]/',
       is_require:false,
@@ -75,7 +76,7 @@ export default class NewModel extends Component {
       data_type: '',
       data_type_name:'整型',
       refer_obj:'',
-      refer_obj_name:'-',
+      refer_obj_name:'',
       attr_length:20,
       valid_rule:'/[a-zA-Z0-9]/',
       is_require:false,

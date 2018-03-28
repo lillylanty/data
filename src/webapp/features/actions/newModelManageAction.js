@@ -67,6 +67,22 @@ export const newModelManageAction = {
       })
     }
   },
+  saveEntity: (v)=>{
+    return dispatch => {
+      ajax.saveEntity(v).then(res=> {
+        const { data, success, message } = res;
+        if (success) {
+          dispatch({
+            type: newModelType.SAVE_NEW_ENTITY,
+            payload:v
+          });
+          message.success(message)
+        } else {
+          message.error(message);
+        }
+      })
+    }
+  }
   /* getTableData(v) {
     return dispatch => {
       ajax.getTabelData(v).then(res => {

@@ -22,7 +22,7 @@ class Http {
     if(Object.prototype.toString.call(params) !== "[object Object]" ){
       return message.error('传入的参数不是对象形式')
     }
-    let del_url = `${url}/${params}`
+    let del_url = `${url}/${params.id}`
     return this.request(del_url, options)
   }
 

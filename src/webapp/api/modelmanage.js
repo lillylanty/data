@@ -7,7 +7,7 @@ export default {
     return http.get(apiUrl.getTree,p)
   },
   getTabelData: (p)=>{
-    return http.get(apiUrl.getTree,p)
+    return http.post(apiUrl.getTableData,p)
   },
   deleteData :(v) =>{
     return http.deleteByObj(apiUrl.deleteData,v) //apiUrl.deleteData //'http://172.16.8.253:8899/api/v1/entity/del'
@@ -26,5 +26,8 @@ export default {
   getDataType(p){ //引用数据类型下拉选项
     return http.get(apiUrl.getDataType, p);
   },
+  saveEntity(p){
+    return http.post(apiUrl.saveEntity, p)
+  }
 
 };

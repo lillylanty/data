@@ -4,6 +4,7 @@ import { newModelType } from '../../constants/actionTypes';
 const initialState = {
   modelData:{}, //保存表单的字段
   entityModalAttr:[], //保存正在编辑的table属性
+  allData:{}, //表单和table拼接的数据 待上传的数据
   category:null,
   entity:null,
   displayTable:false,
@@ -12,6 +13,9 @@ const initialState = {
 export const newModelReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
+      case newModelType.SAVE_NEW_ENTITY: //新建的完整数据
+        return {...state,allData:payload};
+
       case newModelType.EDIT_MODEL_DATA: 
       if(payload.entity_encode === state.modelData.entity_encode){ //对同一个编辑
         return {...state,modelData:{...state.modelData,...payload}};

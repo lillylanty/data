@@ -16,8 +16,8 @@ export default {
   deleteData: '/api/v1/entity/del',
   getTableData: `/api/v1/entity/list`,
   /*----新建模型------*/
-  getCategory: `/modelCategory.json`,
-  postModel:`/postModel.json`,
+  getCategory: `/api/v1/entity-group/list`,
+  saveEntity:`/api/v1/entity/save`,
   getDataType: '/api/v1/dict/list',
 
   

@@ -7,7 +7,6 @@ const Search = Input.Search;
 export default class ModelTable extends React.Component{
   constructor(props){
       super(props);
-      
       this.state = {
           filteredInfo:null,
           columns:[{
@@ -37,8 +36,7 @@ export default class ModelTable extends React.Component{
             title: '操作',
             key: 'action',
             render:(text,record) =>{
-            console.log(record)
-              return (
+            return (
               <div>
                 <span style={{color:"#2CA2FF"}} >
                   编辑
@@ -73,7 +71,7 @@ export default class ModelTable extends React.Component{
     });
   }
   componentWillReceiveProps(nextProps,nextState){
-    console.log(nextProps.tableData);
+    // console.log(nextProps.tableData);
     if(nextProps.tableData.length>0){
       this.setState({
         dataSource: nextProps.tableData.slice(0),
@@ -81,9 +79,11 @@ export default class ModelTable extends React.Component{
       })
     }
   }
-  // onShowSizeChange=(current, pageSize)=> {
-  //   console.log(current, pageSize);
-  // }
+  onShowSizeChange=(current, pageSize)=> {
+    console.log(current, pageSize);
+    const {setPager} = this.props;
+    setPager({current:current,pageSize:pageSize})
+  }
 
   onChange = (pageNum)=>{
     // console.log('pageNum',pageNum)
@@ -92,23 +92,18 @@ export default class ModelTable extends React.Component{
     const {deleteData,getTableData,tableData,pager} = this.props;
     deleteData({id:record.entityGroupId});
     getTableData({
-      "entityName":record.entityName,
-      "pageNo": 1,
-      "pageSize": 5
+       ...pager,"entityName":record.entityName
     });
-    console.log(tableData)
   }
 
 
   searchModel(v){
-    console.log(v);
     const {getTableData,tableData,pager} = this.props;
     getTableData({
-      "entityName":v.toString(),
-      "pageNo": 1,
-      "pageSize": 5
+      ...pager,entityName:v.toString()
     });
-    console.log(tableData)
+    
+    
 
   }
 
@@ -116,9 +111,10 @@ export default class ModelTable extends React.Component{
     this.props.router.replace("model/newModel")
   }
 
+  
   render(){
-     return(
-          <div>
+    return(
+      <div>
             <p className="search-input">
              <Search
                 placeholder="输入实体名称"
@@ -126,8 +122,6 @@ export default class ModelTable extends React.Component{
                 style={{ width: 300,height:40,fontSize:16,paddingLeft:'10px' }}
                 size="large"
               />
-              {/* <span style={{backgroundColor:"#1C8DE7"}}>搜索</span> */}
-              {/* <Button type="primary"  style={{ width: 100,height:50,fontSize:16 }}> 搜索 </Button > */}
               <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.goToNewModel}> 新建实体模型 </Button >
             </p>
     

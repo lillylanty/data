@@ -10,6 +10,7 @@ const { TextArea } = Input;
 class HorizontalAddForm extends React.Component {
   constructor(props){
     super(props);
+    const {getCategory, category} = this.props;
     this.state = {
       form:{
         entity_name:'',
@@ -17,10 +18,17 @@ class HorizontalAddForm extends React.Component {
         entity_category:'',
       },
       disable:false,
+      select:null,
+      option:category
       
     }
-   
+    
   }
+
+  componentWillMount(){
+    
+  }
+
   componentDidMount() {
     this.props.form.validateFields();
   }
@@ -51,12 +59,18 @@ class HorizontalAddForm extends React.Component {
 
   }
 
-  handleSelectChange = ()=>{
-
+  handleSelectChange = (e)=>{
+    const {getCategory} = this.props;
+    console.log(e);
+    // getCategory()
   }
 
 
   render() {
+    const {getCategory, category} = this.props;
+    
+    console.log(category);
+    
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
     
       let xs = {span:6, offset: 0};
@@ -107,7 +121,10 @@ class HorizontalAddForm extends React.Component {
               onFocus = {this.queryCategory} 
               onChange = {this.handleSelectChange}
               >
-                <Option value="china">China</Option>
+              <Option value=''>无</Option>
+               {/* {
+                 category ? category.map(v=>{ <Option value={v.id}>{v.nodeName}</Option> }) : <Option value=''>无</Option>
+              }  */}
                 
               </Select>
             )}
