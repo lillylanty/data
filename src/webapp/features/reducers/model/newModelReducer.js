@@ -12,7 +12,11 @@ export const newModelReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
       case newModelType.EDIT_MODEL_DATA: 
-        return {...state,modelData:payload};
+      if(payload.entity_encode === state.modelData.entity_encode){ //对同一个编辑
+        return {...state,modelData:{...state.modelData,...payload}};
+      }else {
+        return {...state,modelData:payload}
+      }
 
       case newModelType.GET_GATEGORY: 
         return {...state,category:payload};

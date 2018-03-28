@@ -54,21 +54,7 @@ class HorizontalAddForm extends React.Component {
   handleSelectChange = ()=>{
 
   }
-  newAttri = ()=>{
-    const {editEntityModel,entity,toggleShowTable,displayTable} = this.props;
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-    let formdata = this.props.form.getFieldsValue();
-    Object.values(formdata).forEach(element => {
-      if(!element){
-        return 
-      }
-      this.setState({
-        ...this.state.form,...formdata
-      })
-    }); 
-    editEntityModel(formdata);
-    toggleShowTable();
-  }
+
 
   render() {
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
@@ -141,11 +127,6 @@ class HorizontalAddForm extends React.Component {
         </FormItem>
       </Col>
         </Row>
-        <Row>
-          <Col span={24} style={{textAlign:'right'}}>
-            <Button type="primary" onClick={this.newAttri}>新建属性</Button>
-          </Col>
-        </Row>
       </Form>
     ); 
   }
@@ -153,117 +134,3 @@ class HorizontalAddForm extends React.Component {
 
 HorizontalAddForm = Form.create()(HorizontalAddForm);
 export default HorizontalAddForm;
-
-
-        {/* <Row gutter={24}>
-        
-        <Col xs={xs} lg={lg} >
-          <FormItem label={`实体模型名称：`} >
-              {getFieldDecorator('entity_name', {
-                rules: [{ required: true, message: 'Please input your modelName!' }],
-              })
-              (
-                <Input />
-              )}
-          </FormItem>
-        </Col>
-
-        <Col xs={xs} lg={lg} >
-          <FormItem label={`实体模型编码：`}
-            validateStatus={passwordError ? 'error' : ''}
-            help={passwordError || ''}
-          >
-            {getFieldDecorator('entity_encode', {
-              rules: [{ required: true, message: 'Please input your modelEncode!' }],
-            })(
-              <Input type="password" placeholder="Password" />
-            )}
-          </FormItem>
-        </Col>
-
-        <Col xs={xs} lg={lg} >
-          <FormItem
-            label={`所属类目：`}
-            hasFeedback
-          >
-            {getFieldDecorator('entity_category', {
-              rules: [
-                { required: true, message: 'Please select your entity_category!' },
-              ],
-            })(
-              <Select placeholder="Please select a entity_category">
-                <Option value="china">China</Option>
-                <Option value="use">U.S.A</Option>
-              </Select>
-            )}
-          </FormItem>
-        </Col>
-        
-        <Col xs={xs} lg={lg}>
-        <FormItem label={`描述：`}
-          validateStatus={passwordError ? 'error' : ''}
-          help={passwordError || ''}
-        >
-          {getFieldDecorator('entity_description', {
-            rules: [{ required: true, message: 'Please input your modelEncode!' }],
-          })(
-            <TextArea rows={4} />
-          )}
-        </FormItem>
-      </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Button type="primary">新建属性</Button>
-          </Col>
-        </Row> */}
-
-        /**
-         * let mock = [
-  {
-    label:'实体模型名称',
-    type:'<Input />',
-    key:'entity_name',
-    required:true,
-    validator:'validEntityName'
-  },
-  {
-    label:'实体模型编码',
-    type:' <Input />',
-    key:'entity_encode',
-    required:true,
-    validator:'validEntityEncode'
-  },
-  {
-    label:'所属类目',
-    type:`
-          <Select placeholder="请选择类目">
-            <Option value="china">China</Option>
-            <Option value="use">U.S.A</Option>
-          </Select>`,
-    key:'entity_category',
-    required:true,
-    validator:'validCategory'
-  },
-  {
-    label:'描述',
-    type:'<TextArea rows={4} />',
-    key:'entity_description',
-    required:true,
-    validator:'validEntityDescription'
-  }
-];
-
-         */
-
-
-/**
- *  <FormItem label={`实体模型名称：`} >
-              {getFieldDecorator('entity_name', {
-                rules: [{ required: true, message: 'Please input your modelName!' }],
-              })
-              (
-                <Input />
-              )}
-          </FormItem>
-*/

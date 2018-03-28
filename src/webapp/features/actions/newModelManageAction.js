@@ -32,6 +32,14 @@ export const newModelManageAction = {
       })
     }
   },
+  //实体上部分字段
+  editModal:(v) =>{
+    return {
+      type:newModelType.EDIT_MODEL_DATA,
+      payload:v
+    }
+  },
+  //实体下部分表格 属性字段
   editEntityModel: (v) =>{
     return {
       type:newModelType.EDIT_ENTITY,

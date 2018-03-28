@@ -19,6 +19,7 @@ const mapState = state => ({
 });
 const mapDispatch = dispatch => ({
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
+  editModal:(params) => dispatch(newModelManageAction.editModal(params)),
   editEntityModel:(params)=> dispatch(newModelManageAction.editEntityModel(params)),
   getDataType: (params) => dispatch(newModelManageAction.getDataType(params)),
   toggleShowTable:()=> dispatch(newModelManageAction.toggleShowTable()),
@@ -43,33 +44,39 @@ export default class NewModel extends Component {
 
   render() {
     let data = [{
-      key:'1',
+      key:'0',
       attr_name: '名称',
       attr_code: 'name',
-      data_type: '',
-      refer_obj:'无',
-      attr_length:20,
-      valid_rule:'/[a-zA-Z0-9]/',
-      is_require:false,
-      is_only:false,
-      editable:true
-    }, {
-      key: '2',
-      attr_name: '编码',
-      attr_code: 'code',
-      data_type: '',
-      refer_obj:'无',
+      data_type: 'int',
+      data_type_name:'整型',
+      refer_obj:'',
+      refer_obj_name:'-',
       attr_length:20,
       valid_rule:'/[a-zA-Z0-9]/',
       is_require:false,
       is_only:false,
       editable:false
     }, {
-      key: '3',
+      key: '1',
+      attr_name: '编码',
+      attr_code: 'code',
+      data_type: 'int',
+      data_type_name:'整型',
+      refer_obj:'',
+      refer_obj_name:'-',
+      attr_length:20,
+      valid_rule:'/[a-zA-Z0-9]/',
+      is_require:false,
+      is_only:false,
+      editable:false
+    }, {
+      key: '2',
       attr_name: '描述',
       attr_code: 'desc',
       data_type: '',
-      refer_obj:'无',
+      data_type_name:'整型',
+      refer_obj:'',
+      refer_obj_name:'-',
       attr_length:20,
       valid_rule:'/[a-zA-Z0-9]/',
       is_require:false,
