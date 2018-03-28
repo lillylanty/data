@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import {  Icon, Input, Button,Popconfirm,Select, Spin ,Checkbox  } from 'antd';
+import {  Icon, Input, Button,Popconfirm,Select, Spin ,Checkbox ,message } from 'antd';
 import HorizontalAddForm from '../../../../../common/HorizontalAddForm';
 import TableData from '../../../../../common/TableData';
 import debounce from 'lodash/debounce';
@@ -52,14 +52,16 @@ let options1 = [
   }
 ];
 
-const EditableCell = ({ editable, value, onChange,column }) => (
+const EditableCell = ({ editable, value, onChange,column }) =>{
+  return (
   <div>
     {editable
       ? <Input style={{ margin: '-5px 0' }} value={value} onChange={e => onChange(e.target.value,column)} />
       : value
     }
-  </div>
-);
+  </div> 
+  )
+}
 
 const SelectableCell = ({ value,onChange,column,editable }) => {
   return (
@@ -79,7 +81,9 @@ const SelectableCell = ({ value,onChange,column,editable }) => {
 )
 };
 
-
+/**
+ * 注意handleChange的参数顺序要正确传，不然会更改不了表单显示的value
+ */
 
 export default class PageOne extends Component{
   constructor(props) {
@@ -151,7 +155,7 @@ export default class PageOne extends Component{
             {
               editable ?
                 <span>
-                  <a onClick={() => this.save(record.key)} style={{color:"#2CA2FF"}}>保存</a>
+                  <a onClick={() => this.save(record.key,record)} style={{color:"#2CA2FF"}}>保存</a>
                   <strong style={{margin:'0 15px'}}>|</strong>
                   <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
                     <a>取消</a>
@@ -172,9 +176,10 @@ export default class PageOne extends Component{
 
 
     this.cacheData; 
+    this.copytableData = data.slice(0);
 
   }
-
+  
   renderCheckbox(text, record, column){
     return <Checkbox onChange={(e) => this.onCheckChange(e,record,column)}></Checkbox>
   }
@@ -195,8 +200,8 @@ export default class PageOne extends Component{
     return (
         <EditableCell
         editable={editable}
-        value={text}
-        onChange={value => this.handleChange(value, record.key, column)}
+        value={ record[column]}
+        onChange={value => this.handleChange( record.key,value, column)}
       />  
       
     );
@@ -208,8 +213,8 @@ export default class PageOne extends Component{
     return (
       <EditableCell
         editable={record.editable}
-        value={record[column]}
-        onChange={value => this.handleChange(value, record.key, column)}
+        value={text}
+        onChange={value => this.handleChange( record.key, value,column)}
       />
     );
   }
@@ -227,7 +232,6 @@ export default class PageOne extends Component{
 
 //数据类型下拉选项
   handleSelectChange(value,record,column){
-    console.log(value)
     this.setState({
       selectValue:value,
       data_type:value
@@ -239,12 +243,14 @@ export default class PageOne extends Component{
        this.setState({
          refer_obj:relObj
        });
+       this.handleChange( record.key, value,column)
+
        break;
-        
+        default:
+          console.log(value);
+          this.handleChange( record.key, value,column)
     }
-     //结束选择后更改record保存到temp中  直接更改data就可以了
-    
-     this.handleChange( record.key, value,column)
+     //结束选择后更改record保存到temp中  直接更改data就可以了  
 
   }
 
@@ -308,15 +314,35 @@ export default class PageOne extends Component{
 
   } */
 
-
+hasRepeat( value, column){
+  let r;
+  switch (column){
+    case 'attr_name': case 'attr_code':
+      this.state.data.forEach((v,i)=>{
+        if(v === value){ //重复的属性名或编码
+            r = false;
+        }
+      });
+      break;
+      default: r = true;      
+   }
+   return r
+}
 
   handleChange( key, value, column) {
+    /* if(this.hasRepeat( value, column)){
+      message.error(`${column} 重复`);
+      return
+    } */
+   
     const newData = [...this.state.data];
     const target = newData.filter(item => key === item.key)[0];
    
     if (target) {
       target[column] = value;
-      this.setState({ data: newData });
+      this.setState({ data: newData },()=>{
+        console.log(this.state.data)
+      });
     }
   }
 
@@ -329,16 +355,21 @@ export default class PageOne extends Component{
         });
       }
     }
-    save(key) {
+    save(key,record) {
+      const {editEntityModelAttr ,entityModalAttr } = this.props;
       const newData = [...this.state.data];
       const target = newData.filter(item => key === item.key)[0];
       if (target) {
         target.editable = false;
         this.setState({ data: newData });
         this.cacheData = newData.map(item => ({ ...item }));
+        editEntityModelAttr(newData);
       }
-      console.log(this.cacheData,this.state.data)
+
     }
+    // hasRepeat(key,data,column){
+    //   this.state.data.filter(v=>v[column] === data)
+    // }
 
     cancel(key) {
       const newData = [...this.state.data];
@@ -375,7 +406,7 @@ export default class PageOne extends Component{
   }
 
   newAttri = ()=>{
-    const {modelData,editModal,editEntityModel,entity,displayTable,data} = this.props;
+    const {modelData,editModal,editEntityModelAttr,entityModalAttr,displayTable,data} = this.props;
     //获取实体模型数据
     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
    
@@ -390,11 +421,12 @@ export default class PageOne extends Component{
       })
     });  */
     editModal(formdata)
-  //table添加一行供编辑
+  //table添加一行供编辑 
   
-  let v = data.slice(0);
-  v.push({
-  key: `${data.length}`,
+  let v = data.concat(entityModalAttr);
+  let _v = Array.from( new Set(v));
+  _v.push({
+  key: `${_v.length}-${Math.floor(Math.random() * 1000 )}`,
   attr_name: '',
   attr_code: '',
   data_type: 'int',
@@ -408,12 +440,13 @@ export default class PageOne extends Component{
   editable:true
 });
 this.setState({
-  data:v
+  data:_v
 },()=>{
-     
+  
 });
  
-  }
+}
+
 
   componentWillReceiveProps(nextProps,nextState){
     //同步更新state中的modelData等属性
@@ -421,11 +454,15 @@ this.setState({
   }
 
   render (){ 
+  
+    let d = [...this.state.data];
+    d.map((v,i)=>{ return v.key = `${i}-${Math.floor(Math.random() * 1000 )}`});
+    
     return(
       <div>
         <HorizontalAddForm ref="HorizontalAddForm" {...this.props} />   
         <Button type="primary" onClick={this.newAttri}>新建属性</Button>
-        <TableData  dataSource={this.state.data} columns={this.columns} /> 
+        <TableData  dataSource={d} columns={this.columns} /> 
       </div>
     )
   }

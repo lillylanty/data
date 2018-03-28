@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import assign from 'object-assign';
 import { newModelType } from '../../constants/actionTypes';
 const initialState = {
-  modelData:{},
+  modelData:{}, //保存表单的字段
+  entityModalAttr:[], //保存正在编辑的table属性
   category:null,
   entity:null,
   displayTable:false,
@@ -23,6 +24,9 @@ export const newModelReducer = (state = initialState, action) => {
       
       case newModelType.EDIT_ENTITY:
         return {...state,entity:payload};
+
+      case newModelType.EDIT_ENTITY_MODAL_ATTR:     
+        return {...state,entityModalAttr:payload};
 
       case newModelType.SHOW_TABLE:
         return {...state,displayTable:!state.displayTable};

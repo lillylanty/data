@@ -40,9 +40,9 @@ export const newModelManageAction = {
     }
   },
   //实体下部分表格 属性字段
-  editEntityModel: (v) =>{
+  editEntityModelAttr: (v) =>{
     return {
-      type:newModelType.EDIT_ENTITY,
+      type:newModelType.EDIT_ENTITY_MODAL_ATTR,
       payload:v
     }
   },

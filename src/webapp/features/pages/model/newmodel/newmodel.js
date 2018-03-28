@@ -12,6 +12,7 @@ import {Button} from 'antd';
 import './newmodel.css'
 
 const mapState = state => ({
+  entityModalAttr: state.newModel.entityModalAttr, //属性表格
   modelData: state.newModel.modelData, //新建
   entity: state.newModel.entity, //
   displayTable: state.newModel.displayTable, //是否显示表格
@@ -19,8 +20,9 @@ const mapState = state => ({
 });
 const mapDispatch = dispatch => ({
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
-  editModal:(params) => dispatch(newModelManageAction.editModal(params)),
-  editEntityModel:(params)=> dispatch(newModelManageAction.editEntityModel(params)),
+  editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段
+  // editEntityModel:(params)=> dispatch(newModelManageAction.editEntityModel(params)),
+  editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格
   getDataType: (params) => dispatch(newModelManageAction.getDataType(params)),
   toggleShowTable:()=> dispatch(newModelManageAction.toggleShowTable()),
 });
@@ -44,7 +46,6 @@ export default class NewModel extends Component {
 
   render() {
     let data = [{
-      key:'0',
       attr_name: '名称',
       attr_code: 'name',
       data_type: 'int',
@@ -57,7 +58,6 @@ export default class NewModel extends Component {
       is_only:false,
       editable:false
     }, {
-      key: '1',
       attr_name: '编码',
       attr_code: 'code',
       data_type: 'int',
@@ -70,7 +70,6 @@ export default class NewModel extends Component {
       is_only:false,
       editable:false
     }, {
-      key: '2',
       attr_name: '描述',
       attr_code: 'desc',
       data_type: '',
