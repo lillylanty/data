@@ -8,7 +8,7 @@ export const newModelManageAction = {
         const { data, success, code, result_message } = res;
         if (success) {
           dispatch({
-            type: newModelType.GET_CATEGORY,
+            type: newModelType.GET_GATEGORY,
             payload: data
           });
         } else {

@@ -181,7 +181,14 @@ export default class PageOne extends Component{
   }
   
   renderCheckbox(text, record, column){
-    return <Checkbox onChange={(e) => this.onCheckChange(e,record,column)}></Checkbox>
+    return (
+      <div>
+        {
+          record.editable? <Checkbox  checked={record[column]}  onChange={(e) => this.onCheckChange(e,record,column)}></Checkbox> : record[column]?'是':'否'
+        }
+      </div>
+      
+    )
   }
 
   onCheckChange(e,record,column){
@@ -221,10 +228,11 @@ export default class PageOne extends Component{
 //渲染数据类型
   renderSelectableCol(text, record,column) { 
     //selectValue  int 数据类型
+
    return (
    <SelectableCell
     editable = {record.editable}
-    value={record.data_type_name} 
+    value={record.data_type} 
     onChange={value => this.handleSelectChange(value, record, column)}
   />
 );
@@ -247,7 +255,7 @@ export default class PageOne extends Component{
 
        break;
         default:
-          console.log(value);
+          // console.log(value);
           this.handleChange( record.key, value,column)
     }
      //结束选择后更改record保存到temp中  直接更改data就可以了  
@@ -367,9 +375,7 @@ hasRepeat( value, column){
       }
 
     }
-    // hasRepeat(key,data,column){
-    //   this.state.data.filter(v=>v[column] === data)
-    // }
+    
 
     cancel(key) {
       const newData = [...this.state.data];
@@ -381,11 +387,13 @@ hasRepeat( value, column){
       }
     }
     delEle(key){
+      const {editEntityModelAttr ,entityModalAttr } = this.props;
       let newData = [...this.state.data];
       const target = newData.filter(item => key === item.key)[0];
       if (target) {
           newData = this.cacheData.filter(item => key !== item.key);
           this.setState({ data: newData });
+          editEntityModelAttr(newData);
       }
     }
     getClassName(key){
