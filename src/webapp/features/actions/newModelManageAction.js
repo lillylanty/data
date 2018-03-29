@@ -52,17 +52,18 @@ export const newModelManageAction = {
       payload: null
     }
   },
-  getDataType: (v) =>{
+  getDataType: (v) =>{  //应该改为传对象的形式{type:v,data:data}。有的get需要传参数data
+  let t = v;
     return dispatch => {
       ajax.getDataType(v).then(res => {
-        const { data, success, code, result_message } = res;
+        const { data, success, code, message } = res;
         if (success) {
-          dispatch({ //应该为返回长传成功后就可以了
+          dispatch({ 
             type: newModelType.UPDATE_DATA_TYPE,
-            payload: data
+            payload: {type:t,data:data}
           });
         } else {
-          message.error(result_message);
+          message.error(v + '类型--' + message);
         }
       })
     }
@@ -82,7 +83,8 @@ export const newModelManageAction = {
         }
       })
     }
-  }
+  },
+ 
   /* getTableData(v) {
     return dispatch => {
       ajax.getTabelData(v).then(res => {

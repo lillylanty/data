@@ -8,7 +8,9 @@ const initialState = {
   category:null,
   entity:null,
   displayTable:false,
-  relObj:[], //实体引用下拉选项
+  relObj:[], //实体引用下拉选项,
+  enumObj:[], //枚举选项
+  codeObj:[], //编码规则选项
 };
 export const newModelReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -36,7 +38,16 @@ export const newModelReducer = (state = initialState, action) => {
         return {...state,displayTable:!state.displayTable};
 
       case newModelType.UPDATE_DATA_TYPE:
-        return {...state,relObj:payload};   
+      //三种复杂类型
+        if(payload.type === 'rel'){
+          return {...state,relObj:payload.data}; 
+        }else if(payload.type === 'code'){
+          
+          return {...state,codeObj:payload.data}; 
+        }else if(payload.type === 'enum') {
+          
+          return {...state,enumObj:payload.data}; 
+        }
     default:
       return state;
   }

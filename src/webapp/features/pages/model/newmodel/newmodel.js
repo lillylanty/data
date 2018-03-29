@@ -17,6 +17,8 @@ const mapState = state => ({
   entity: state.newModel.entity, //
   displayTable: state.newModel.displayTable, //是否显示表格
   relObj: state.newModel.relObj, //引用类型,
+  enumObj: state.newModel.enumObj,//
+  codeObj: state.newModel.codeObj,//
   category: state.newModel.category, //类目
 });
 const mapDispatch = dispatch => ({

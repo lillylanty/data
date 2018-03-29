@@ -9,11 +9,11 @@ const { Option, OptGroup } = Select;
 let options2 =[
   {
   text:'实体引用',
-  value:'entity_refer'
+  value:'rel'
   },
   {
     text:'编码规则',
-    value:'encode_rule'
+    value:'code'
   },
   {
     text:'枚举',
@@ -32,7 +32,7 @@ let options1 = [
   },
   {
     text:'浮点型',
-    value:'float'
+    value:'decimal'
   },
   {
     text:'日期',
@@ -48,7 +48,7 @@ let options1 = [
   },
   {
     text:'大文本',
-    value:'blob'
+    value:'text'
   }
 ];
 
@@ -89,11 +89,11 @@ export default class PageOne extends Component{
   constructor(props) {
     super(props);
     // this.fetchOption = debounce(this.fetchOption, 800);
-    const {relObj, data, entityModalAttr} = props;
+    const { data, entityModalAttr} = props;
     this.state = {
       display:false, //表格显示
       isEditting:false, //切换编辑 和保存操作
-      selectValue: 'int', //数据类型
+      
       relObject: [],
       selectReferObj:'',//引用对象 选中项
       fetching: false,
@@ -226,8 +226,6 @@ export default class PageOne extends Component{
   }
 //渲染数据类型
   renderSelectableCol(text, record,column) { 
-    //selectValue  int 数据类型
-
    return (
    <SelectableCell
     editable = {record.editable}
@@ -239,52 +237,117 @@ export default class PageOne extends Component{
 
 //数据类型下拉选项
   handleSelectChange(value,record,column){
-    this.setState({
-      selectValue:value,
-      attrDataType:value
-    });
-    const {relObj, getDataType} = this.props;
-    switch(value){
-     case 'entity_refer': case 'encode_rule': case 'enum':
-       getDataType({type:value});
-       this.setState({
-         relObject:relObj
-       });
-       this.handleChange( record.key, value,column)
-
-       break;
-        default:
-          // console.log(value);
-          this.handleChange( record.key, value,column)
+    const {getDataType} = this.props;
+    if(value === 'rel' || value === 'code' || value === 'enum'){
+      getDataType(value);
     }
-     //结束选择后更改record保存到temp中  直接更改data就可以了  
-
+     this.setState({
+      attrDataType:value
+    });    
+    
+       this.handleChange( record.key, value,column);
   }
+/**
+ *   rel: {
+            "data": [
+              {
+                "entityAttrCode": "id",
+                "entityAttrId": 1,
+                "entityCode": 1,
+                "entityName": "原材料"
+              }
+            ],
+            "message": "string",
+            "success": true
+          }
+
+
+    code: {
+            {
+            "success": true,
+            "message": "执行成功~~",
+            "data": [
+              {
+                "id": 1,
+                "ruleName": "规则1"
+              }
+            ]
+          }
+    }
+    enum: {
+            {
+            "data": [
+              {
+                "name": "名族",
+                "type": "enum",
+                "value": "nationality"
+              }
+            ],
+            "message": "string",
+            "success": true
+          }
+
+    }
+
+*/
+
 
 //渲染引用对象
   renderSelectRefer( record,column){
-    switch(this.state.attrDataType){
-      case 'entity_refer': case 'encode_rule': case 'enum':
-        const {relObj } = this.props;
-          
-        let _v = relObj.length>0 ?relObj : [{value:'',type:''}];
-        
+    const {relObj, enumObj, codeObj } = this.props;
+  
+    switch(record.attrDataType){
+      case 'rel': 
         return ( //引用对象
           <div>
-          {
-            record.editable
-            ?
-            <Select  style={{width:'100%'}}
-            type = {column}    
-            value={record.relObject_name}  
-            onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
-              { _v.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
-            </Select> 
-            : record.relObject
-          }
+            {
+              record.editable
+              ?
+              <Select  style={{width:'100%'}}
+              type = {column}    
+              value={record.relObject_name}  
+              onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
+                {relObj && relObj.map((d,i)=><Option key={d.entityCode || i}>{d.entityName || '-'}</Option>) }
+              </Select> 
+              : ''//record.relObject
+            }
           </div>
           
         );
+      case 'enum':
+          return (
+            <div>
+            {
+              record.editable
+              ?
+              <Select  style={{width:'100%'}}
+              type = {column}    
+              value={record.relObject_name}  
+              onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
+                {enumObj && enumObj.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
+              </Select> 
+              : ''//record.relObject
+            }
+            </div>
+          );
+
+        case 'code':
+          return (
+            <div>
+            {
+              record.editable
+              ?
+              <Select  style={{width:'100%'}}
+              type = {column}    
+              value={record.relObject_name}  
+              onChange={(value) => this.handleReferChange(value,record,column)}>
+                { codeObj && codeObj.map((d,i)=><Option key={d.id || i}>{d.ruleName || '-'}</Option>) }
+              </Select> 
+              : ''//record.relObject
+            }
+            </div>
+          );
+
         default:
         return <span>无</span>;
       }
@@ -292,15 +355,32 @@ export default class PageOne extends Component{
 
 
 //选择引用对象
-  handleReferChange(value,record,column,e){
-    const {relObj } = this.props;
-    let selected = relObj.filter(v => v.value === value);
+  handleReferChange(e,record,column){
+    let key = record.key;
+    const {relObj, enumObj, codeObj } = this.props;
     //筛选出选项
+    let checkedItem ;
+    switch(this.state.attrDataType){
+      case 'enum': 
+        checkedItem = enumObj.filter(a=>a.value === e);
+        this.handleChange(record.key,enumObj,column);
+        // this.handleChange(key,record.relObject.type,'relObject_name');
+        break;
+      case 'rel':
+        checkedItem = enumObj.filter(a=>a.entityCode === e );
+        this.handleChange(record.key,relObj,column);
+        // this.handleChange(key,record.relObject.entityAttrId, 'relObject_name');
+        break;
+      case 'code':
+        checkedItem = enumObj.filter(a=>a.id === e);
+        this.handleChange(record.key,codeObj,column);
+        this.handleChange(key,record.relObject.ruleName, 'relObject_name');break;
+    }
     this.setState({
-      selectReferObj: selected[0]
+      selectReferObj: checkedItem[0]
     });
-    this.handleChange(record.key,selected[0],column);
-    this.handleChange(record.key,record.relObject.type,'relObject_name')
+    this.handleChange(record.key,checkedItem[0],'selectReferObj');
+    
   }
 
   handleSpecialChange(key, value, column){
@@ -314,7 +394,7 @@ export default class PageOne extends Component{
   if (target) {
     target[column] = value;
     this.setState({ data: newData },()=>{
-      console.log(this.state.data)
+      // console.log(this.state.data)
     });
   }
 
@@ -342,7 +422,7 @@ export default class PageOne extends Component{
     if (target) {
       target[column] = value;
       this.setState({ data: newData },()=>{
-        console.log(this.state.data)
+        // console.log(this.state.data)
       });
     }
   }
@@ -366,7 +446,8 @@ export default class PageOne extends Component{
         return 
       }
        
-   
+      console.log(record);
+
       const {editEntityModelAttr ,entityModalAttr } = this.props;
       const newData = [...this.state.data];
       const target = newData.filter(item => key === item.key)[0];
@@ -452,11 +533,10 @@ this.setState({
     
   }
 
-  render (){ 
-  
+  render (){   
     let d = [...this.state.data];
     d.map((v,i)=>{ return v.key = `${i}-${Math.floor(Math.random() * 1000 )}`});
-    
+
     return(
       <div>
         <HorizontalAddForm ref="HorizontalAddForm" {...this.props} />   

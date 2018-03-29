@@ -23,11 +23,25 @@ export default {
   getTableData(p){
     return http.post(apiUrl.getTableData, p);
   },
-  getDataType(p){ //引用数据类型下拉选项
-    return http.get(apiUrl.getDataType, p);
+  getDataType(p){ //复杂类型下拉选项
+    switch(p){
+      case 'rel': 
+       return http.get(apiUrl.getrelEntity);
+      case 'enum': 
+        return http.get(apiUrl.getEnumType,{type:'enum'});
+      case 'code':
+        return http.get(apiUrl.getCodeType);
+      default:
+        console.warn(`传入的参数类型有误${p}`);
+    }
+    
   },
   saveEntity(p){
     return http.post(apiUrl.saveEntity, p)
-  }
+  },
+  getrelEntity(){
+    return http.get(apiUrl.getrelEntity)
+  },
+
 
 };

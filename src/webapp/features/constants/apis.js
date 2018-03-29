@@ -17,8 +17,12 @@ export default {
   getTableData: `/api/v1/entity/list`,
   /*----新建模型------*/
   getCategory: `/api/v1/entity-group/list`,
-  getDataType: '/api/v1/dict/list',
-  saveEntity: `/api/v1/entity/save`,//上传编辑或新增的实体模型
+  saveEntity: `/api/v1/entity/save`,         //上传编辑或新增的实体模型
+  getrelEntity:'/api/v1/entity/rel-entity',  //实体引用选择 获取关联实体接口
+  getEnumType: '/api/v1/dict/list',          // 获取枚举类型
+  getCodeType: '/api/v1/code/enum-list',     //获取编码类型接口，建模数据类型下拉框选择编码时请求
+  
+  
 
   
 }
