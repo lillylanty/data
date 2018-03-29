@@ -17,8 +17,8 @@ export default {
   getTableData: `/api/v1/entity/list`,
   /*----新建模型------*/
   getCategory: `/api/v1/entity-group/list`,
-  saveEntity:`/api/v1/entity/save`,
   getDataType: '/api/v1/dict/list',
+  saveEntity: `/api/v1/entity/save`,//上传编辑或新增的实体模型
 
   
 }

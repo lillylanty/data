@@ -15,9 +15,10 @@ class HorizontalAddForm extends React.Component {
 
     this.state = {
       form:{
-        entity_name:'',
-        entity_encode:'',
-        entity_category:'',
+        entityName:'',
+        entityDesc:'',
+        entityCode:'',
+        entityGroupId:'',
       },
       disable:false,
       select:null,
@@ -59,8 +60,13 @@ class HorizontalAddForm extends React.Component {
 
  
   handleSelectChange = (value)=>{
-    let v = value.length>0 ?value[length-1] : value
-    this.props.form.setFieldsValue({ entity_category: v });
+    let v = value.length>0 ?value[length-1] : value  ;// [1,2] 1为父节点，取叶节点2
+    this.props.form.setFieldsValue({ entityGroupId : v }); //似乎没起作用
+    this.setState({
+      entityGroupId:v
+    },()=>{
+      // console.log( this.props.form.getFieldsValue())
+    })
   }
 
   replaceKey(category){
@@ -95,7 +101,7 @@ class HorizontalAddForm extends React.Component {
         <Row gutter={24}>       
         <Col xs={xs} lg={lg} >
           <FormItem label={`实体模型名称：`} >
-              {getFieldDecorator('entity_name', {
+              {getFieldDecorator('entityName', {
                rules: [{ required: true, message: '请输入实体模型名称'}], 
               })
               (
@@ -109,7 +115,7 @@ class HorizontalAddForm extends React.Component {
             validateStatus={passwordError ? 'error' : ''}
             help={passwordError || ''}
           >
-            {getFieldDecorator('entity_encode', {
+            {getFieldDecorator('entityCode', {
               rules: [{ required: true, message: '实体模型编码只能录入一次，保存后不可编辑' },{validator:this.validEntityEncode}],
             })(
               <Input type="password" placeholder="请输入实体模型编码"  disabled={this.state.disable} />
@@ -122,7 +128,7 @@ class HorizontalAddForm extends React.Component {
             label={`所属类目：`}
             hasFeedback
           >
-            {getFieldDecorator('entity_category', {
+            {getFieldDecorator('entityGroupId', {
               rules: [
                 { required: true, message: '请选择类目' },
               ],
@@ -143,7 +149,7 @@ class HorizontalAddForm extends React.Component {
           validateStatus={passwordError ? 'error' : ''}
           help={passwordError || ''}
         >
-          {getFieldDecorator('entity_description', {
+          {getFieldDecorator('entityDesc', {
             rules: [{ required: true, message: 'Please input your modelEncode!' }],
           })(
             <TextArea rows={4} placeholder="请填写实体描述" />

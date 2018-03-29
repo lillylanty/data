@@ -47,41 +47,42 @@ export default class NewModel extends Component {
 
   render() {
     let data = [{
-      attr_name: '名称',
-      attr_code: 'name',
-      data_type: 'int',
-      data_type_name:'整型',
-      refer_obj:'',
-      refer_obj_name:'',
-      attr_length:20,
-      valid_rule:'/[a-zA-Z0-9]/',
-      is_require:false,
-      is_only:false,
-      editable:false
+      attrName: '名称',
+      attrCode: '122',
+      attrDataType: 'int',
+      attrDataType_name:'整型',
+      relObject:'',
+      relObject_name:'',
+      attrLength:20,
+      checkRule:'-',
+      isRequired:false,
+      isUnique:false,
+      editable:true
+      
     }, {
-      attr_name: '编码',
-      attr_code: 'code',
-      data_type: 'int',
-      data_type_name:'整型',
-      refer_obj:'',
-      refer_obj_name:'',
-      attr_length:20,
-      valid_rule:'/[a-zA-Z0-9]/',
-      is_require:false,
-      is_only:false,
-      editable:false
+      attrName: '编码',
+      attrCode: '11113',
+      attrDataType: 'int',
+      attrDataType_name:'整型',
+      relObject:'',
+      relObject_name:'',
+      attrLength:20,
+      checkRule:'-',
+      isRequired:false,
+      isUnique:false,
+      editable:true
     }, {
-      attr_name: '描述',
-      attr_code: 'desc',
-      data_type: '',
-      data_type_name:'整型',
-      refer_obj:'',
-      refer_obj_name:'',
-      attr_length:20,
-      valid_rule:'/[a-zA-Z0-9]/',
-      is_require:false,
-      is_only:false,
-      editable:false
+      attrName: '描述',
+      attrCode: '',
+      attrDataType: 'int',
+      attrDataType_name:'整型',
+      relObject:'',
+      relObject_name:'',
+      attrLength:20,
+      checkRule:'-',
+      isRequired:false,
+      isUnique:false,
+      editable:true
     }];
 
     return (

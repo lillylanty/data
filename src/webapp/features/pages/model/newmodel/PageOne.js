@@ -89,59 +89,58 @@ export default class PageOne extends Component{
   constructor(props) {
     super(props);
     // this.fetchOption = debounce(this.fetchOption, 800);
-    const {relObj, data} = props;
+    const {relObj, data, entityModalAttr} = props;
     this.state = {
       display:false, //表格显示
       isEditting:false, //切换编辑 和保存操作
       selectValue: 'int', //数据类型
-
-      refer_obj: [],
+      relObject: [],
       selectReferObj:'',//引用对象 选中项
       fetching: false,
       tempData:{}, // 更改record列保存的临时table的一条record {"2":{data[0]}}
-      data: data,     
+      data: entityModalAttr.length>0 ? entityModalAttr : data,     
       
     };
     this.columns = [
       {
       title: '属性名称',
-      dataIndex: 'attr_name',
-      render: (text, record) => this.renderColumnsSpecial(text, record, 'attr_name'),
+      dataIndex: 'attrName',
+      render: (text, record) => this.renderColumnsSpecial(text, record, 'attrName'),
     },
      {
       title: '编码',
-      dataIndex: 'attr_code',
-      render: (text, record) => this.renderColumnsSpecial(text, record, 'attr_code'),
+      dataIndex: 'attrCode',
+      render: (text, record) => this.renderColumnsSpecial(text, record, 'attrCode'),
     }, 
     {
       title: '数据类型',
-      dataIndex: 'data_type',
-      render: (text, record) => this.renderSelectableCol(text, record, 'data_type'),
+      dataIndex: 'attrDataType',
+      render: (text, record) => this.renderSelectableCol(text, record, 'attrDataType'),
     },
      {
       title: '引用对象',
-      dataIndex: 'refer_obj',
-      render: (text, record) => this.renderSelectRefer( record, 'refer_obj'),
+      dataIndex: 'relObject',
+      render: (text, record) => this.renderSelectRefer( record, 'relObject'),
     },
     {
       title: '长度',
-      dataIndex: 'attr_length',
-      render: (text, record) => this.renderColumns(text, record, 'attr_length'),
+      dataIndex: 'attrLength',
+      render: (text, record) => this.renderColumns(text, record, 'attrLength'),
     },
     {
       title: '校验规则',
-      dataIndex: 'valid_rule',
-      render: (text, record) => this.renderColumns(text, record, 'valid_rule'),
+      dataIndex: 'checkRule',
+      render: (text, record) => this.renderColumns(text, record, 'checkRule'),
     },
     {
       title: '是否必填',
-      dataIndex: 'is_require',
-      render: (text, record) => this.renderCheckbox(text, record, 'is_require'),
+      dataIndex: 'isRequired',
+      render: (text, record) => this.renderCheckbox(text, record, 'isRequired'),
     },
     {
       title: '是否唯一',
-      dataIndex: 'is_only',
-      render: (text, record) => this.renderCheckbox(text, record, 'is_only'),
+      dataIndex: 'isUnique',
+      render: (text, record) => this.renderCheckbox(text, record, 'isUnique'),
     },
     {
       title: '操作',
@@ -164,7 +163,7 @@ export default class PageOne extends Component{
                 : <span>
                     <a onClick={() => this.edit(record.key)}>编辑</a>
                      
-                    <a onClick={() => this.delEle(record.key)} style={this.getClassName(record.key)} >
+                    <a onClick={() => this.delEle(record.key)} style={this.getClassName(record)} >
                     <strong style={{margin:'0 15px'}} >|</strong>删除</a>
                   </span> 
             }
@@ -197,8 +196,8 @@ export default class PageOne extends Component{
 
   renderColumnsSpecial(text, record, column){
     let editable;
-    switch(record.key){
-      case '1': case '2': case '0':
+    switch(record[column]){
+      case '名称': case '编码': case '描述':
        editable = false;
        break;
        default: 
@@ -208,7 +207,7 @@ export default class PageOne extends Component{
         <EditableCell
         editable={editable}
         value={ record[column]}
-        onChange={value => this.handleChange( record.key,value, column)}
+        onChange={value => this.handleSpecialChange( record.key,value, column)}
       />  
       
     );
@@ -232,7 +231,7 @@ export default class PageOne extends Component{
    return (
    <SelectableCell
     editable = {record.editable}
-    value={record.data_type} 
+    value={record.attrDataType} 
     onChange={value => this.handleSelectChange(value, record, column)}
   />
 );
@@ -242,14 +241,14 @@ export default class PageOne extends Component{
   handleSelectChange(value,record,column){
     this.setState({
       selectValue:value,
-      data_type:value
+      attrDataType:value
     });
     const {relObj, getDataType} = this.props;
     switch(value){
      case 'entity_refer': case 'encode_rule': case 'enum':
        getDataType({type:value});
        this.setState({
-         refer_obj:relObj
+         relObject:relObj
        });
        this.handleChange( record.key, value,column)
 
@@ -264,7 +263,7 @@ export default class PageOne extends Component{
 
 //渲染引用对象
   renderSelectRefer( record,column){
-    switch(this.state.data_type){
+    switch(this.state.attrDataType){
       case 'entity_refer': case 'encode_rule': case 'enum':
         const {relObj } = this.props;
           
@@ -277,11 +276,11 @@ export default class PageOne extends Component{
             ?
             <Select  style={{width:'100%'}}
             type = {column}    
-            value={record.refer_obj_name}  
+            value={record.relObject_name}  
             onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
               { _v.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
             </Select> 
-            : record.refer_obj_name 
+            : record.relObject
           }
           </div>
           
@@ -301,48 +300,42 @@ export default class PageOne extends Component{
       selectReferObj: selected[0]
     });
     this.handleChange(record.key,selected[0],column);
-    this.handleChange(record.key,record.refer_obj.type,'refer_obj_name')
+    this.handleChange(record.key,record.relObject.type,'relObject_name')
   }
 
-  
+  handleSpecialChange(key, value, column){
+    if(this.hasRepeat(key,value,column)){
+      message.warn(`属性名称重复`);
+    return
+  }
+  const newData = [...this.state.data];
+  const target = newData.filter(item => key === item.key)[0];
+ 
+  if (target) {
+    target[column] = value;
+    this.setState({ data: newData },()=>{
+      console.log(this.state.data)
+    });
+  }
 
-/*   saveTempRecord(key,column,value){
-     if(!key || !value) {return}
-     let newdata = this.state.data.slice(0),obj = {};
-     newdata.map(d=>{
-       if(d.key === key ){
-         d[column] = value;
-       }
-     });
-     obj[key] = newdata
-     this.setState({
-       tempData: obj
-     })
-     this.handleChange(key,value,column)
+  }
 
-  } */
 
-hasRepeat( value, column){
-  let r;
-  switch (column){
-    case 'attr_name': case 'attr_code':
+  hasRepeat(key,value,column){
+    let r = false;
+    if( column== 'attrName' || column == 'attrCode'){
       this.state.data.forEach((v,i)=>{
-        if(v === value){ //重复的属性名或编码
-            r = false;
+        if(key !== v.key){
+            value === v[column] && (r = true);
         }
-      });
-      break;
-      default: r = true;      
+      })
+    }  
+    return r;
    }
-   return r
-}
+
 
   handleChange( key, value, column) {
-    /* if(this.hasRepeat( value, column)){
-      message.error(`${column} 重复`);
-      return
-    } */
-   
+    
     const newData = [...this.state.data];
     const target = newData.filter(item => key === item.key)[0];
    
@@ -363,7 +356,17 @@ hasRepeat( value, column){
         });
       }
     }
+
+    
+
     save(key,record) {
+      //如果属性名称和编码没有填写则认为此属性是无效的
+      if(!record.attrName.trim()){
+        message.warn('请先填写属性名称');
+        return 
+      }
+       
+   
       const {editEntityModelAttr ,entityModalAttr } = this.props;
       const newData = [...this.state.data];
       const target = newData.filter(item => key === item.key)[0];
@@ -396,8 +399,8 @@ hasRepeat( value, column){
           editEntityModelAttr(newData);
       }
     }
-    getClassName(key){
-      if(key === '0'|| key === '1' || key === '2'){
+    getClassName(record){
+      if(record.attrName === '名称'|| record.attrName === '编码' || record.attrName === '描述'){
         return {
           display:'none'
         }
@@ -417,34 +420,23 @@ hasRepeat( value, column){
     const {modelData,editModal,editEntityModelAttr,entityModalAttr,displayTable,data} = this.props;
     //获取实体模型数据
     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
-   
-    /* const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-    let formdata = this.props.form.getFieldsValue();
-    Object.values(formdata).forEach(element => {
-      if(!element){
-        return 
-      }
-      this.setState({
-        ...this.state.form,...formdata
-      })
-    });  */
     editModal(formdata)
   //table添加一行供编辑 
   
-  let v = data.concat(entityModalAttr);
+  let v = entityModalAttr.length>0 ? entityModalAttr : data.concat(entityModalAttr);
   let _v = Array.from( new Set(v));
   _v.push({
   key: `${_v.length}-${Math.floor(Math.random() * 1000 )}`,
-  attr_name: '',
-  attr_code: '',
-  data_type: 'int',
-  data_type_name:'整型',
-  refer_obj:'',
-  refer_obj_name:'',
-  attr_length:20,
-  valid_rule:'-',
-  is_require:false,
-  is_only:false,
+  attrName: '',
+  attrCode: '',
+  attrDataType: 'int',
+  attrDataType_name:'整型',
+  relObject:'',
+  relObject_name:'',
+  attrLength:20,
+  checkRule:'-',
+  isRequired:false,
+  isUnique:false,
   editable:true
 });
 this.setState({
@@ -454,7 +446,6 @@ this.setState({
 });
  
 }
-
 
   componentWillReceiveProps(nextProps,nextState){
     //同步更新state中的modelData等属性
