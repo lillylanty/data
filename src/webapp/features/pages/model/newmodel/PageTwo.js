@@ -34,6 +34,16 @@ class ShowEntityForm extends Component {
       console.log(allData)
   }
 
+  show=(name)=>{
+    const {entityModalAttr} = this.props;
+    let show = false;
+    entityModalAttr.map(a=>{
+      a.attrName === name;
+      show = true;
+    });
+    return show    
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -64,23 +74,7 @@ class ShowEntityForm extends Component {
     // Warning: `getFieldDecorator` will override `value`, so please don't set `value` directly and use `setFieldsValue` to set it.
     const {editEntityModelAttr ,entityModalAttr,modalData,saveEntity,alldata } = this.props;
     //动态展示表单
-  /*   if(entityModalAttr.length>0){
-      entityModalAttr.map(v=>{
-        <FormItem
-            {...formItemLayout}
-            label=v.attrName
-          >
-            {getFieldDecorator('attrName', {
-              rules: [ {
-                required: true, message: '!',
-              }],
-            })(
-              <Input />
-            )}
-          </FormItem>
-      })
-    } */
-    
+ 
   
 
     let style ={
@@ -88,6 +82,8 @@ class ShowEntityForm extends Component {
       margin:'0 auto',
       transformX:'-50%',
   }
+
+
 
     return (
       <div style={style}>
@@ -160,6 +156,7 @@ class ShowEntityForm extends Component {
           <FormItem
             {...formItemLayout}
             label="岗位"
+            style={{display:this.show('岗位')}}
           >
             {getFieldDecorator('station', {
               rules: [{
@@ -174,6 +171,7 @@ class ShowEntityForm extends Component {
           <FormItem
             {...formItemLayout}
             label="部门"
+            style={{display:this.show('部门')}}
           >
             {getFieldDecorator('department', {
               rules: [{
@@ -188,6 +186,7 @@ class ShowEntityForm extends Component {
           <FormItem
             {...formItemLayout}
             label="身份证号"
+            style={{display:this.show('身份证号')}}
           >
             {getFieldDecorator('ID', {
               rules: [ {
@@ -197,9 +196,11 @@ class ShowEntityForm extends Component {
               <Input /> // onBlur={this.handleConfirmBlur} 
             )}
           </FormItem> 
+
           <FormItem
             {...formItemLayout}
             label="邮箱"
+            style={{display:this.show('邮箱')}}
           >
             {getFieldDecorator('email', {
               rules: [ {
@@ -211,9 +212,9 @@ class ShowEntityForm extends Component {
           </FormItem> 
                 
           
-          <FormItem {...tailFormItemLayout}>
+         {/*  <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">Register</Button>
-          </FormItem>
+          </FormItem> */}
         </Form>
       </div>
     );
