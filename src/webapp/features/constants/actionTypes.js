@@ -1,5 +1,9 @@
 import mirror from 'mirror-creator';
 
+export const systemmanageType = mirror([
+  'GET_SYSTEMMANAGE_DATA',
+],'systemmanage/');
+
 export const newModelType = mirror([
   'CAN_NEXT',
   'UPLOAD_MODEL_RESULT',

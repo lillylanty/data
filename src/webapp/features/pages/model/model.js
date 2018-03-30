@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Row, Col } from 'antd';
 import { ModelManageAction } from '../../actions/modelManageAction';
+import { newModelManageAction } from '../../actions/newModelManageAction';
 import { isEmpty } from 'lodash';
 import assign from 'object-assign';
 
@@ -15,10 +16,10 @@ const mapState = state => ({
   tree: state.model.tree,
   newData: state.model.newData, //新建
   pager: state.model.pager,
-  // filterData: state.model.filterData,
   tableData: state.model.tableData,
   recordAttr: state.model.recordAttr, 
-   
+  //新建页面的
+
 });
 const mapDispatch = dispatch => ({
   getTree:(params)=> dispatch(ModelManageAction.getTree(params)),
@@ -26,7 +27,10 @@ const mapDispatch = dispatch => ({
   deleteData: (params) => dispatch(ModelManageAction.deleteData(params)),
   getTableData:(params)=> dispatch(ModelManageAction.getTableData(params)),
   getRecordAttr:(params)=> dispatch(ModelManageAction.getRecordAttr(params)),
-  // filterTableData:(params) => dispatch(ModelManageAction.filterTableData(params))
+
+  //新建页面的
+  editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段
+  editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格
 });
 
 @connect(mapState, mapDispatch)

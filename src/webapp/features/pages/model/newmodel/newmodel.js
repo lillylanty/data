@@ -14,7 +14,7 @@ import './newmodel.css'
 
 const mapState = state => ({
   entityModalAttr: state.newModel.entityModalAttr, //属性表格
-  modelData: state.newModel.modelData, //新建
+  modelData: state.newModel.modelData, //表单
   entity: state.newModel.entity, //
   canNext: state.newModel.canNext, //是否填写实体编码字段
   relObj: state.newModel.relObj, //引用类型,
@@ -29,7 +29,6 @@ const mapDispatch = dispatch => ({
   setcanNext:(p) => dispatch(newModelManageAction.canNext(p)),
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
   editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段
-  // editEntityModel:(params)=> dispatch(newModelManageAction.editEntityModel(params)),
   editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格
   saveEntity:(params) => dispatch(newModelManageAction.saveEntity(params)), //上传新建的模型所有数据
   getDataType: (params) => dispatch(newModelManageAction.getDataType(params)),
@@ -65,6 +64,7 @@ export default class NewModel extends Component {
   render() {
     console.log(this.props.recordAttr);
     let data = [{
+      key:1,
       attrName: '名称',
       attrCode: '122',
       attrDataType: 'int',
@@ -75,9 +75,9 @@ export default class NewModel extends Component {
       checkRule:'-',
       isRequired:true,
       isUnique:false,
-      editable:true
-      
+      editable:true 
     }, {
+      key:2,
       attrName: '编码',
       attrCode: '11113',
       attrDataType: 'int',
@@ -90,6 +90,7 @@ export default class NewModel extends Component {
       isUnique:false,
       editable:true
     }, {
+      key:3,
       attrName: '描述',
       attrCode: '',
       attrDataType: 'int',

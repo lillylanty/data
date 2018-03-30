@@ -4,6 +4,8 @@ import {  Icon, Input, Button,Popconfirm,Select, Spin ,Checkbox ,message } from 
 import HorizontalAddForm from '../../../../../common/HorizontalAddForm';
 import TableData from '../../../../../common/TableData';
 import debounce from 'lodash/debounce';
+import EditableTable  from './test';
+
 const { Option, OptGroup } = Select;
 
 let options2 =[
@@ -91,6 +93,7 @@ export default class PageOne extends Component{
     const { data, entityModalAttr} = props;
     this.state = {
       relObject: [],
+      rel_name:'',
       selectReferObj:'',//引用对象 选中项
       data: entityModalAttr.length>0 ? entityModalAttr : data,     
     };
@@ -200,6 +203,7 @@ export default class PageOne extends Component{
         <EditableCell
         editable={editable}
         value={ record[column]}
+        value={ text }
         onChange={value => this.handleSpecialChange( record.key,value, column)}
       />  
       
@@ -288,7 +292,6 @@ export default class PageOne extends Component{
 //渲染引用对象
   renderSelectRefer( record,column){
     const {relObj, enumObj, codeObj } = this.props;
-  
     switch(record.attrDataType){
       case 'rel': 
         return ( //引用对象
@@ -298,9 +301,9 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={record.relObject_name}  
+              value={this.state.rel_name}  
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
-                {relObj && relObj.map((d,i)=><Option key={d.entityCode || i}>{d.entityName || '-'}</Option>) }
+                {relObj && relObj.map((d,i)=><Option key={d.entityAttrId || i}>{d.entityName || '-'}</Option>) }
               </Select> 
               : ''//record.relObject
             }
@@ -315,7 +318,7 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={record.relObject_name}  
+              value={this.state.rel_name}  
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
                 {enumObj && enumObj.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
               </Select> 
@@ -332,7 +335,7 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={record.relObject_name}  
+              value={this.state.rel_name}  
               onChange={(value) => this.handleReferChange(value,record,column)}>
                 { codeObj && codeObj.map((d,i)=><Option key={d.id || i}>{d.ruleName || '-'}</Option>) }
               </Select> 
@@ -349,30 +352,47 @@ export default class PageOne extends Component{
 
 //选择引用对象
   handleReferChange(e,record,column){
+    console.log(e)
     let key = record.key;
     const {relObj, enumObj, codeObj } = this.props;
     //筛选出选项
     let checkedItem ;
     switch(this.state.attrDataType){
       case 'enum': 
-        checkedItem = enumObj.filter(a=>a.value === e);
+        checkedItem = enumObj.filter(a=>a.value == e)[0];
         this.handleChange(record.key,enumObj,column);
         // this.handleChange(key,record.relObject.type,'relObject_name');
+        // console.log(checkedItem)
+        checkedItem && (this.setState({
+          rel_name: checkedItem.type
+        }) 
+        )
         break;
       case 'rel':
-        checkedItem = enumObj.filter(a=>a.entityCode === e );
+        checkedItem = enumObj.filter(a=>a.entityAttrId == e )[0];
         this.handleChange(record.key,relObj,column);
         // this.handleChange(key,record.relObject.entityAttrId, 'relObject_name');
+        // console.log(checkedItem)
+        checkedItem && ( this.setState({
+          rel_name: checkedItem.entityName
+        }) 
+        )
         break;
       case 'code':
-        checkedItem = enumObj.filter(a=>a.id === e);
+        checkedItem = enumObj.filter(a=>a.id == e)[0];
         this.handleChange(record.key,codeObj,column);
-        this.handleChange(key,record.relObject.ruleName, 'relObject_name');break;
+        // console.log(checkedItem)
+        // this.handleChange(key,record.relObject.ruleName, 'relObject_name');
+        checkedItem && ( this.setState({
+          rel_name: checkedItem.ruleName
+        }) 
+        )
+        break;
     }
     this.setState({
-      selectReferObj: checkedItem[0]
+      selectReferObj: checkedItem
     });
-    this.handleChange(record.key,checkedItem[0],'selectReferObj');
+    this.handleChange(record.key,checkedItem,'selectReferObj');
     
   }
 
@@ -387,7 +407,7 @@ export default class PageOne extends Component{
   if (target) {
     target[column] = value;
     this.setState({ data: newData },()=>{
-      // console.log(this.state.data)
+      
     });
   }
 
@@ -415,7 +435,7 @@ export default class PageOne extends Component{
     if (target) {
       target[column] = value;
       this.setState({ data: newData },()=>{
-        // console.log(this.state.data)
+        
       });
     }
   }
@@ -439,7 +459,7 @@ export default class PageOne extends Component{
         return 
       }
        
-      // console.log(record);
+     
 
       const {editEntityModelAttr ,entityModalAttr } = this.props;
       const newData = [...this.state.data];
@@ -501,7 +521,7 @@ export default class PageOne extends Component{
   let v = entityModalAttr.length>0 ? entityModalAttr : data.concat(entityModalAttr);
   let _v = Array.from( new Set(v));
   _v.push({
-  key: `${_v.length}-${Math.floor(Math.random() * 1000 )}`,
+  key: `${_v.length + 1}`,
   attrName: '',
   attrCode: '',
   attrDataType: 'int',
@@ -527,15 +547,16 @@ this.setState({
     
   }
 
-  render (){   
+  render (){ 
+    
     let d = [...this.state.data];
-    d.map((v,i)=>{ return v.key = `${i}-${Math.floor(Math.random() * 1000 )}`});
 
     return(
       <div>
         <HorizontalAddForm ref="HorizontalAddForm" {...this.props} />   
         <Button type="primary" onClick={this.newAttri}>新建属性</Button>
-        <TableData  dataSource={d} columns={this.columns} /> 
+        <TableData  dataSource={d} columns={this.columns} rowKey="key" /> 
+        {/* <EditableTable  {...this.props}/> */}
       </div>
     )
   }

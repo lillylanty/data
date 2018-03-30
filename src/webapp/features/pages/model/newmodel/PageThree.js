@@ -1,9 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { Button,  Icon } from 'antd';
 
+let counter = 5;
 class PageThree extends Component{
   constructor(props){
     super(props);
+  }
+  componentDidMount(){
+    setTimeout(()=>{
+      counter--;
+      if(counter = 0){
+        this.backToModel();
+      }
+    },1000);
   }
   
 
@@ -15,13 +24,8 @@ class PageThree extends Component{
     var style={
       fontSize: '26px'
     };
-    var counter = 5;
-    setTimeout(()=>{
-      counter--;
-      if(counter = 0){
-        backToModel();
-      }
-    },1000);
+    
+    
     return (
       <div>
        <p>

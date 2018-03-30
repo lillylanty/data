@@ -4,6 +4,7 @@ import { homeReducer } from './home';
 import {modelReducer } from './model';
 import {newModelReducer } from './model/newModelReducer';
 import { globalReducer } from './global';
+import { systemmanageReducer } from './systemmanage';
 
 const appReducer = combineReducers({
   routing,
@@ -11,6 +12,7 @@ const appReducer = combineReducers({
   newModel:newModelReducer,
   home: homeReducer,
   global: globalReducer
+ ,systemmanage:systemmanageReducer
 });
 
 export default appReducer;
