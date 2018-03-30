@@ -18,9 +18,10 @@ export const ModelManageAction = {
         });
          
           
-        } else {
-          message.error(message);
         }
+         /* else {
+          message.error(message);
+        } */
       })
     }
   },
@@ -34,9 +35,10 @@ export const ModelManageAction = {
             type: manageModelType.GET_TREE,
             payload: data
           });
-        } else {
+        } 
+        /* else {
           message.error(message);
-        }
+        } */
       })
     }
     
@@ -48,23 +50,15 @@ export const ModelManageAction = {
         if (success) {
           this.getTabelData()
           message.success(message)
-        } else {
+        } 
+        /* else {
           message.error(message);
-        }
+        } */
+        
       })
     }
     
   }
 }
-
-
-
-
-/**
- * dispatch({
-            type: manageModelType.GET_TABLE_DATA,
-            payload: data
-          });
-*/
 
 

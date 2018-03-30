@@ -8,7 +8,7 @@ const AutoCompleteOption = AutoComplete.Option;
 class ShowEntityForm extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    // console.log(props)
     this.state = {
       current: 0,
       confirmDirty: false,
@@ -30,25 +30,14 @@ class ShowEntityForm extends Component {
   }
 
   componentDidMount(){
-      const {allData,modelData,editModal,editEntityModelAttr,entityModalAttr,displayTable,data} = this.props;
-      console.log(allData)
+     
   }
 
-  show=(name)=>{
+
+  dynamicFormItem = ()=>{
     const {entityModalAttr} = this.props;
-    let show = false;
-    entityModalAttr.map(a=>{
-      a.attrName === name;
-      show = true;
-    });
-    return show    
-  }
-
-
-  render() {
+    let arr = [];
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -71,6 +60,86 @@ class ShowEntityForm extends Component {
         },
       },
     };
+
+    if(entityModalAttr.length <1){
+      return
+    }
+     
+      entityModalAttr.forEach(e => {
+        switch(e.attrName){
+          case '编码':
+            arr.push(
+              <FormItem
+                {...formItemLayout}
+                label={(
+                  <span>
+                    {e.attrName}&nbsp;
+                    <Tooltip title="业务部门填写编码时将会看到编码规则的解释，如果编码规则中包含自定义编码，则建议填写较详细的解释">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </span>
+                )}
+              >
+              
+                <Row gutter={2}>
+                    <Col span={8}>
+                    {getFieldDecorator('attrCode_1', {
+                    rules: [ {
+                      required: true, message: '!',
+                    }],
+                  })(
+                    <Input />
+                  )}
+                    </Col>
+                    <Col span={8}>
+                    {getFieldDecorator('attrCode_2', { //最后checkRule由code组合而得2可以自定义被编辑
+                    
+                  })(
+                      <Input />
+                  )}
+                    </Col>
+                    <Col span={8}>
+                    {getFieldDecorator('attrCode_3', {
+                    rules: [ {
+                      required: true
+                    }],
+                  })(
+                      <Input />
+                  )}
+                    </Col>
+                </Row>
+              </FormItem>
+            );
+            break;
+            // case '名称': case '描述':
+            default:
+            arr.push(
+              <FormItem {...formItemLayout}
+              label = {e.attrName}
+              >
+              {getFieldDecorator(`${e.attrName}`, {
+              rules: [ {
+                required: e.isRequired, message: '!',
+              }],
+            })(
+              <Input />
+            )}
+              </FormItem>
+            );
+            break;
+        }
+        
+    });
+    return arr
+  
+  }
+
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { autoCompleteResult } = this.state;
+
+ 
     // Warning: `getFieldDecorator` will override `value`, so please don't set `value` directly and use `setFieldsValue` to set it.
     const {editEntityModelAttr ,entityModalAttr,modalData,saveEntity,alldata } = this.props;
     //动态展示表单
@@ -83,12 +152,20 @@ class ShowEntityForm extends Component {
       transformX:'-50%',
   }
 
-
-
     return (
       <div style={style}>
         <Form style={{width:'100%'}}>
-          <FormItem
+          {this.dynamicFormItem()}
+        </Form>
+      </div>
+    );
+}
+}
+const PageTwo = Form.create()(ShowEntityForm);
+export default PageTwo;
+
+/**
+ * <FormItem
             {...formItemLayout}
             label="名称"
           >
@@ -106,7 +183,7 @@ class ShowEntityForm extends Component {
           
             label={(
               <span>
-                编码&nbsp;
+                {msg}&nbsp;
                 <Tooltip title="业务部门填写编码时将会看到编码规则的解释，如果编码规则中包含自定义编码，则建议填写较详细的解释">
                   <Icon type="question-circle-o" />
                 </Tooltip>
@@ -212,18 +289,16 @@ class ShowEntityForm extends Component {
           </FormItem> 
                 
           
-         {/*  <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Register</Button>
-          </FormItem> */}
-        </Form>
-      </div>
-    );
-}
-}
-const PageTwo = Form.create()(ShowEntityForm);
-export default PageTwo;
-
-/**
+       
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
     <FormItem {...tailFormItemLayout}>
             {getFieldDecorator('agreement', {
               valuePropName: 'checked',

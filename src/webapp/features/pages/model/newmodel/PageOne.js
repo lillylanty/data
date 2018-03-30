@@ -88,18 +88,11 @@ const SelectableCell = ({ value,onChange,column,editable }) => {
 export default class PageOne extends Component{
   constructor(props) {
     super(props);
-    // this.fetchOption = debounce(this.fetchOption, 800);
     const { data, entityModalAttr} = props;
     this.state = {
-      display:false, //表格显示
-      isEditting:false, //切换编辑 和保存操作
-      
       relObject: [],
       selectReferObj:'',//引用对象 选中项
-      fetching: false,
-      tempData:{}, // 更改record列保存的临时table的一条record {"2":{data[0]}}
       data: entityModalAttr.length>0 ? entityModalAttr : data,     
-      
     };
     this.columns = [
       {
@@ -446,7 +439,7 @@ export default class PageOne extends Component{
         return 
       }
        
-      console.log(record);
+      // console.log(record);
 
       const {editEntityModelAttr ,entityModalAttr } = this.props;
       const newData = [...this.state.data];
@@ -498,10 +491,11 @@ export default class PageOne extends Component{
   }
 
   newAttri = ()=>{
-    const {modelData,editModal,editEntityModelAttr,entityModalAttr,displayTable,data} = this.props;
+    const {modelData,editModal,editEntityModelAttr,entityModalAttr,data,setcanNext} = this.props;
     //获取实体模型数据
     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
-    editModal(formdata)
+    editModal(formdata);
+    
   //table添加一行供编辑 
   
   let v = entityModalAttr.length>0 ? entityModalAttr : data.concat(entityModalAttr);

@@ -1,6 +1,8 @@
 import mirror from 'mirror-creator';
 
 export const newModelType = mirror([
+  'CAN_NEXT',
+  'UPLOAD_MODEL_RESULT',
   'REL_ENTITY',
   'SAVE_NEW_ENTITY',
   'EDIT_ENTITY_MODAL_ATTR',

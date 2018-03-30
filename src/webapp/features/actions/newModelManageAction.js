@@ -11,9 +11,10 @@ export const newModelManageAction = {
             type: newModelType.GET_GATEGORY,
             payload: data
           });
-        } else {
-          message.error(result_message);
-        }
+        } 
+        /* else {
+          message.error(message);
+        } */
       })
     }
   },
@@ -26,9 +27,10 @@ export const newModelManageAction = {
             type: newModelType.UPDATE_MODEL_DATA,
             payload: data
           });
-        } else {
-          message.error(result_message);
-        }
+        } 
+        /* else {
+          message.error(message);
+        } */
       })
     }
   },
@@ -46,12 +48,7 @@ export const newModelManageAction = {
       payload:v
     }
   },
-  toggleShowTable: (v) =>{
-    return {
-      type : newModelType.SHOW_TABLE,
-      payload: null
-    }
-  },
+  
   getDataType: (v) =>{  //应该改为传对象的形式{type:v,data:data}。有的get需要传参数data
   let t = v;
     return dispatch => {
@@ -77,51 +74,30 @@ export const newModelManageAction = {
             type: newModelType.SAVE_NEW_ENTITY,
             payload:v
           });
-          message.success(message)
+          dispatch({
+            type: newModelType.UPLOAD_MODEL_RESULT,
+            payload:success
+          });          
         } else {
-          message.error(message);
+          // message.error(message);
+          dispatch({
+            type: newModelType.UPLOAD_MODEL_RESULT,
+            payload:false
+          });
         }
       })
     }
   },
- 
-  /* getTableData(v) {
-    return dispatch => {
-      ajax.getTabelData(v).then(res => {
-        const { data, success, result_code, result_message } = res;
-        if (success) {
-          dispatch({
-            type: manageModeleType.GET_TABLE_DATA,
-            payload: data.data
-          });
-          dispatch({
-            type:manageModeleType.SET_PAGE,
-            payload:{page:data.page,total:data.total}
-          })
-        } else {
-          message.error(result_message);
-        }
-      })
+  canNext:(v)=>{
+    return {
+      type:newModelType.CAN_NEXT,
+      payload:v
     }
   },
-
-  deleteData : (v)=>{
-    return dispatch => {
-      ajax.deleteData(v).then(res => {
-        const { data, success, message } = res;
-        if (success) {
-          dispatch({
-            type: manageModeleType.GET_TABLE_DATA,
-            payload: data
-          });
-          message.success(message)
-        } else {
-          message.error(message);
-        }
-      })
+  toggleShowTable: (v) =>{
+    return {
+      type : newModelType.SHOW_TABLE,
+      payload: null
     }
-    
-  }, */
+  }
 }
-
-
