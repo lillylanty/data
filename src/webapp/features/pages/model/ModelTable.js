@@ -92,8 +92,7 @@ export default class ModelTable extends React.Component{
   editEle = (record) =>{
     const {getRecordAttr,getTableData,tableData,pager,recordAttr} = this.props;
     getRecordAttr({id:record.entityGroupId});
-    this.props.router.replace('/model/newmodel')
-    
+    this.props.router.push({pathname:'/model/newmodel',query:{id:record.entityGroupId}})  //{recordAttr:recordAttr}});
   }
   
   deleteElement = (record)=>{
