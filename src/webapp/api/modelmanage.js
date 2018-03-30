@@ -12,6 +12,9 @@ export default {
   deleteData :(v) =>{
     return http.deleteByObj(apiUrl.deleteData,v) //apiUrl.deleteData //'http://172.16.8.253:8899/api/v1/entity/del'
   },
+  getRecordAttr :(v)=>{
+    return http.get(apiUrl.getRecordAttr,v) //层层嵌套函数真的很烦欸
+  },
 
   /* 新建模型api  */
   getCategory: (p)=>{

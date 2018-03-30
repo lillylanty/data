@@ -17,6 +17,7 @@ const mapState = state => ({
   pager: state.model.pager,
   // filterData: state.model.filterData,
   tableData: state.model.tableData,
+  recordAttr: state.model.recordAttr, 
    
 });
 const mapDispatch = dispatch => ({
@@ -24,6 +25,7 @@ const mapDispatch = dispatch => ({
   setPager: (params) => dispatch(ModelManageAction.setPager(params)), //当改变煤业显示条目数时
   deleteData: (params) => dispatch(ModelManageAction.deleteData(params)),
   getTableData:(params)=> dispatch(ModelManageAction.getTableData(params)),
+  getRecordAttr:(params)=> dispatch(ModelManageAction.getRecordAttr(params)),
   // filterTableData:(params) => dispatch(ModelManageAction.filterTableData(params))
 });
 

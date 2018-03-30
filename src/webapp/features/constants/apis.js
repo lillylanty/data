@@ -12,9 +12,10 @@ export default {
   getFinishedJudgeData:'/finishedJudge.json',
 
   /*----------model--------------*/
-  getTree: '/modelTree.json',
+  getTree: '/api/v1/entity-group/list',
   deleteData: '/api/v1/entity/del',
   getTableData: `/api/v1/entity/list`,
+  getRecordAttr: '/api/v1/entity/attr',           //编辑时获取模型属性 id传groupId
   /*----新建模型------*/
   getCategory: `/api/v1/entity-group/list`,
   saveEntity: `/api/v1/entity/save`,         //上传编辑或新增的实体模型

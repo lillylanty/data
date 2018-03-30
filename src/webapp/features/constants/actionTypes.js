@@ -16,6 +16,7 @@ export const newModelType = mirror([
 ],'newModel/')
 
 export const manageModelType = mirror([
+  'GET_ATTR',
   'SET_PAGE',
   'GET_TREE',
   'GET_TABLE_DATA',

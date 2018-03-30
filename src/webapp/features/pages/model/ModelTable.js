@@ -38,7 +38,7 @@ export default class ModelTable extends React.Component{
             render:(text,record) =>{
             return (
               <div>
-                <span style={{color:"#2CA2FF"}} >
+                <span style={{color:"#2CA2FF"}} onClick={this.editEle.bind(this,record)}>
                   编辑
                 </span>
                 <span style={{margin:'0 15px'}}>|</span>
@@ -58,7 +58,7 @@ export default class ModelTable extends React.Component{
             defaultCurrent:1,
             total:300
       },
-      // filterData:[]
+     
       }  
   }
 
@@ -88,6 +88,14 @@ export default class ModelTable extends React.Component{
   onChange = (pageNum)=>{
     // console.log('pageNum',pageNum)
   }
+
+  editEle = (record) =>{
+    const {getRecordAttr,getTableData,tableData,pager,recordAttr} = this.props;
+    getRecordAttr({id:record.entityGroupId});
+    this.props.router.replace('/model/newmodel')
+    
+  }
+  
   deleteElement = (record)=>{
     const {deleteData,getTableData,tableData,pager} = this.props;
     deleteData({id:record.entityGroupId});

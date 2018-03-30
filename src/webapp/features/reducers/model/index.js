@@ -6,17 +6,21 @@ const initialState = {
   tableData:[],
   pager:{total:0,pageSize:10},
   newData:[],
-  filterData:[]
+  filterData:[],
+  recordAttr:undefined
 };
 export const modelReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
+    case manageModelType.GET_ATTR: 
+        return {...state,recordAttr:payload};
+
       case manageModelType.GET_TREE:
-      return Object.assign({}, state, {
-        tree: payload,
-      });
+        return Object.assign({}, state, {
+          tree: payload,
+        });
       case manageModelType.SET_PAGE: 
-      console.log({...state,pager:{...state.pager,...payload}})
+      // console.log({...state,pager:{...state.pager,...payload}})
         return {...state,pager:{...state.pager,...payload}};
 
       case manageModelType.GET_TABLE_DATA: 

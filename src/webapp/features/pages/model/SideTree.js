@@ -7,92 +7,11 @@ const Search = Input.Search;
 // const { Column, ColumnGroup } = Table;
 const { TextArea } = Input;
 
-/**
-export default class SideTree extends Component {
-  constructor(props){
-    super(props);
-    const {getTree,tree } = this.props;
-    getTree(123);
-    console.log(tree);
-    console.log('tree');
-    this.state = {
-      treeData: [
-      
-      ],
-    }
-  }
-  componentDidMount(){
-    const {getTree,tree } = this.props;
-    getTree(123);
-    console.log(tree);
-  
-    console.log('tree');
-  }
 
-  componentWillReceiveProps(nextProps){
-    const {getTree,tree } = this.props;
-    
-    console.log(tree);
-    debugger;
-    console.log('tree',nextProps);
-    // console.log(this.state.treeData);
-    // this.renderTreeNodes(this.state.treeData)
-    // this.onLoadData(this.state.treeData)
-  }
-  
-  onLoadData = (treeNode) => {
-    console.log(treeNode)
-    return new Promise((resolve) => {
-      if (treeNode.props.child) {
-        resolve();
-        return;
-      }
-      console.log(treeNode, treeNode.props.dataRef,treeNode.props.dataRef.child)
-      setTimeout(() => {
-        treeNode.props.dataRef.child = [
-          { title: 'Child Node', key: `${treeNode.props.eventKey}-0` },
-          { title: 'Child Node', key: `${treeNode.props.eventKey}-1` },
-        ];
-        this.setState({
-          treeData: [...this.state.treeData],
-        });
-        resolve();
-      }, 1000);
-    });
-    console.log(this.state.treeNode)
-  }
-  renderTreeNodes = (data) => {
-    return data.map((item) => {
-      if (item.child) {
-        return (
-          <TreeNode title={item.title} key={item.key} dataRef={item}>
-            {this.renderTreeNodes(item.child)}
-          </TreeNode>
-        );
-      }
-      return <TreeNode {...item} dataRef={item} />;
-    });
-  }
-  render() {
-    let props ={
-      autoExpandParent:true,
-      checkable:true
-    }
-    return (
-      <Tree loadData={this.onLoadData} {...props}>
-        {this.renderTreeNodes(this.state.treeData)}
-      </Tree>
-    );
-  }
-}
-*/
 
 export default class SideTree extends Component{
   constructor(props){
     super(props)
-    const {getTree,tree } = this.props;
-    getTree(123);
-   
     this.state = {
       expandedKeys:[],
       value: undefined,
@@ -101,16 +20,15 @@ export default class SideTree extends Component{
     
   }
   componentWillMount(){
-     let {getTree,tree } = this.props;
-    getTree(1);
-    this.queryTree();
    
   }
 
   componentDidMount(){
-     
+    this.queryTree()
   }
+
   componentWillReceiveProps(nextProps,nextState){
+    // console.log(nextProps)
     if(nextProps.tree.length>0){
       nextProps.tree.map(v=>v.key=v.id);
       this.setState({
@@ -122,7 +40,7 @@ export default class SideTree extends Component{
 
   componentWillUpdate(){
     // console.log(this.state.treeData);
-    this.renderTreeNodes(this.state.treeData)
+    // this.renderTreeNodes(this.state.treeData)
     this.onLoadData(this.state.treeData)
   }
 
@@ -198,34 +116,22 @@ export default class SideTree extends Component{
 
   renderTreeNodes = (data) => {  
     return data.map((item) => {
-      if (item.child) {
+      if (item.children) {
         return (
-          <TreeNode title={item.name} key={item.key} dataRef={item}>
-            {this.renderTreeNodes(item.child)}
+          <TreeNode title={item.nodeName} key={item.id} dataRef={item}>
+            {this.renderTreeNodes(item.children)}
           </TreeNode>
         );
       }
-      return <TreeNode  title={item.name} key={item.key} dataRef={item} isLeaf={true}/>;
+      return <TreeNode  title={item.nodeName} key={item.id} dataRef={item} isLeaf={true}/>;
     });
 
   }
 
   queryTree = ()=>{
     let {getTree,tree } = this.props;
-    getTree(1);
-    if(tree.length>0){
-      let res = tree.map((val,i)=>{
-        return {
-          title : val.name,
-          key:val.id,
-          level:0
-        }
-      });
-      this.setState({
-        treeData:res
-      })
-    }
-    // console.log(this.state.treeData)
+    getTree({source:0});
+    
   }
 
   onTreeExpand=(expandedKeys,expandedObj)=>{
@@ -286,12 +192,25 @@ export default class SideTree extends Component{
 
   render() {   
     const { expandedKeys } = this.state;
+    
+    let {tree} = this.props;
+    let treeData =[...tree] ;
+    
+    treeData.map((val,i)=>{
+          val.title = val.nodeName;
+          val.key =val.id;
+          /* if(!val.children || val.children.length <1){
+            val.isLeaf = true;
+          } */
+          
+      });
+     
     return (
       <div>
       {
 
         this.state.treeData.length> 0 ? <Tree loadData={this.onLoadData}>
-            {this.renderTreeNodes(this.state.treeData)}
+            {this.renderTreeNodes(treeData)}
           </Tree> : null
       }
       </div>
@@ -303,3 +222,82 @@ export default class SideTree extends Component{
 }
 
 
+/**
+export default class SideTree extends Component {
+  constructor(props){
+    super(props);
+    const {getTree,tree } = this.props;
+    getTree(123);
+    console.log(tree);
+    console.log('tree');
+    this.state = {
+      treeData: [
+      
+      ],
+    }
+  }
+  componentDidMount(){
+    const {getTree,tree } = this.props;
+    getTree(123);
+    console.log(tree);3
+  
+    console.log('tree');
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {getTree,tree } = this.props;
+    
+    console.log(tree);
+    debugger;
+    console.log('tree',nextProps);
+    // console.log(this.state.treeData);
+    // this.renderTreeNodes(this.state.treeData)
+    // this.onLoadData(this.state.treeData)
+  }
+  
+  onLoadData = (treeNode) => {
+    console.log(treeNode)
+    return new Promise((resolve) => {
+      if (treeNode.props.child) {
+        resolve();
+        return;
+      }
+      console.log(treeNode, treeNode.props.dataRef,treeNode.props.dataRef.child)
+      setTimeout(() => {
+        treeNode.props.dataRef.child = [
+          { title: 'Child Node', key: `${treeNode.props.eventKey}-0` },
+          { title: 'Child Node', key: `${treeNode.props.eventKey}-1` },
+        ];
+        this.setState({
+          treeData: [...this.state.treeData],
+        });
+        resolve();
+      }, 1000);
+    });
+    console.log(this.state.treeNode)
+  }
+  renderTreeNodes = (data) => {
+    return data.map((item) => {
+      if (item.child) {
+        return (
+          <TreeNode title={item.title} key={item.key} dataRef={item}>
+            {this.renderTreeNodes(item.child)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode {...item} dataRef={item} />;
+    });
+  }
+  render() {
+    let props ={
+      autoExpandParent:true,
+      checkable:true
+    }
+    return (
+      <Tree loadData={this.onLoadData} {...props}>
+        {this.renderTreeNodes(this.state.treeData)}
+      </Tree>
+    );
+  }
+}
+*/

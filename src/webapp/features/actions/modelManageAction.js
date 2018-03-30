@@ -1,13 +1,13 @@
 import { manageModelType } from '../constants/actionTypes';
 import { message } from 'antd';
 import ajax from '../../api/modelmanage';
+
 export const ModelManageAction = {
   getTableData(v) {
     return dispatch => {
       ajax.getTabelData(v).then(res => {
         const { success,data, message } = res;
-        if (success) {
-          
+        if (success) {    
           dispatch({
             type: manageModelType.GET_TABLE_DATA,
             payload: data.data
@@ -16,12 +16,7 @@ export const ModelManageAction = {
           type:manageModelType.SET_PAGE,
           payload:{total:data.total}
         });
-         
-          
         }
-         /* else {
-          message.error(message);
-        } */
       })
     }
   },
@@ -36,9 +31,6 @@ export const ModelManageAction = {
             payload: data
           });
         } 
-        /* else {
-          message.error(message);
-        } */
       })
     }
     
@@ -48,16 +40,26 @@ export const ModelManageAction = {
       ajax.deleteData(v).then(res => {
         const { data, success, message } = res;
         if (success) {
-          this.getTabelData()
           message.success(message)
         } 
-        /* else {
-          message.error(message);
-        } */
-        
+
       })
     }
     
+  },
+
+  getRecordAttr: (v)=>{
+    return dispatch => {
+      ajax.getRecordAttr(v).then(res => {
+        const { data, success, message } = res;
+        if (success) {
+          dispatch({
+            type: manageModelType.GET_ATTR,
+            payload: data
+          })
+        } 
+      })
+    }
   }
 }
 

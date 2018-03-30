@@ -41,6 +41,7 @@ export default class NewModel extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.props)
   }
   componentWillReceiveProps(nextProps) {
   }
