@@ -301,9 +301,9 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={this.state.rel_name}  
+              value={record.rel_name}  
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
-                {relObj && relObj.map((d,i)=><Option key={d.entityAttrId || i}>{d.entityName || '-'}</Option>) }
+                {relObj && relObj.map((d,i)=><Option key={d.entityCode || i}>{d.entityName || '-'}</Option>) }
               </Select> 
               : ''//record.relObject
             }
@@ -318,7 +318,7 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={this.state.rel_name}  
+              value={record.rel_name}  
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
                 {enumObj && enumObj.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
               </Select> 
@@ -335,7 +335,7 @@ export default class PageOne extends Component{
               ?
               <Select  style={{width:'100%'}}
               type = {column}    
-              value={this.state.rel_name}  
+              value={record.rel_name}  
               onChange={(value) => this.handleReferChange(value,record,column)}>
                 { codeObj && codeObj.map((d,i)=><Option key={d.id || i}>{d.ruleName || '-'}</Option>) }
               </Select> 
@@ -361,32 +361,17 @@ export default class PageOne extends Component{
       case 'enum': 
         checkedItem = enumObj.filter(a=>a.value == e)[0];
         this.handleChange(record.key,enumObj,column);
-        // this.handleChange(key,record.relObject.type,'relObject_name');
-        // console.log(checkedItem)
-        checkedItem && (this.setState({
-          rel_name: checkedItem.type
-        }) 
-        )
+        checkedItem && this.handleChange(key,checkedItem.type,'rel_name');
         break;
       case 'rel':
-        checkedItem = enumObj.filter(a=>a.entityAttrId == e )[0];
+        checkedItem = relObj.filter(a=>a.entityCode == e )[0];
         this.handleChange(record.key,relObj,column);
-        // this.handleChange(key,record.relObject.entityAttrId, 'relObject_name');
-        // console.log(checkedItem)
-        checkedItem && ( this.setState({
-          rel_name: checkedItem.entityName
-        }) 
-        )
+        checkedItem && this.handleChange(key, checkedItem.entityAttrId, 'rel_name');
         break;
       case 'code':
-        checkedItem = enumObj.filter(a=>a.id == e)[0];
+        checkedItem = codeObj.filter(a=>a.id == e)[0];
         this.handleChange(record.key,codeObj,column);
-        // console.log(checkedItem)
-        // this.handleChange(key,record.relObject.ruleName, 'relObject_name');
-        checkedItem && ( this.setState({
-          rel_name: checkedItem.ruleName
-        }) 
-        )
+        checkedItem && this.handleChange(key, checkedItem.ruleName, 'rel_name');
         break;
     }
     this.setState({

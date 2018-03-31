@@ -62,7 +62,7 @@ export default class NewModel extends Component {
   }
 
   render() {
-    console.log(this.props.recordAttr);
+    // console.log(this.props.recordAttr);
     let data = [{
       key:1,
       attrName: '名称',
