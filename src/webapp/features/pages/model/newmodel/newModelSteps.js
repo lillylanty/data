@@ -28,6 +28,7 @@ export default class NewModelSteps extends Component {
     this.state = {
       current: 0,
       alldata:null,
+      modalData:{}
     };
   }
   next() {
@@ -35,10 +36,7 @@ export default class NewModelSteps extends Component {
     const {modalData } = this.props;
 
     if(current == 0){
-      /* if(!modalData.entityCode){
-        message.console.warn('请先填写实体模型编码');
-        return
-      } */
+      
       this.saveAllData();
 
     }else if(current == 1){
@@ -64,6 +62,16 @@ postData(){
   const {saveEntity} = this.props;
   saveEntity(this.state.alldata);
 }
+
+componentWillReceiveProps(nextProps,nextState){
+  console.log('willReceive',nextProps.modelForm);
+  this.setState({
+    modalData:nextProps.modelForm
+  })
+}
+// componentWillUpdate(nextProps,nextState){
+//   console.log('willUpdata',nextProps.modelForm);
+// }
  
 
   prev() {
@@ -74,11 +82,10 @@ postData(){
     const { current } = this.state;
     let hint = current == 0?'下一步':'确认新建';
     let disable = true;
-    const{modalData} = this.props;
-    //若没填编码就阻止添加属性
-    if(modalData && modalData.entityAttrCode){
+    if(this.state.modalData && this.state.modalData.entityCode){
       disable = false;
     }
+    // console.log(this.state.modalData)
 
     return (
       <div>
@@ -100,7 +107,7 @@ postData(){
           {
             this.state.current < steps.length - 1
             &&
-            <Button type="primary" onClick={() => this.next()} disabled={this.props.modalData }>{hint}</Button>
+            <Button type="primary" onClick={() => this.next()} disabled={disable }>{hint}</Button>
           }
           {
             this.state.current === steps.length - 1

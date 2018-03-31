@@ -20,11 +20,11 @@ export const newModelReducer = (state = initialState, action) => {
         return {...state,allData:payload};
 
       case newModelType.EDIT_MODEL_DATA: 
-        if(payload.entityCode === state.modelData.entityCode){ //对同一个编辑
+        // if(payload.entityCode === state.modelData.entityCode){ //对同一个编辑
           return {...state,modelData:{...state.modelData,...payload}};
-        }else {
-          return {...state,modelData:payload}
-        }
+        // }else {
+          // return {...state,modelData:payload}
+        // }
 
       case newModelType.GET_GATEGORY: 
         return {...state,category:payload};

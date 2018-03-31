@@ -43,6 +43,7 @@ export default class NewModel extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modelForm:{}
     };
   }
   componentDidMount() {
@@ -52,6 +53,11 @@ export default class NewModel extends Component {
     // getRecordAttr({...data})
   }
   componentWillReceiveProps(nextProps) {
+    // console.log(nextProps.modelData, this.props.modelData);
+    this.setState({
+      modelForm:{...this.state.modelForm,...nextProps.modelData}
+    })
+    //redux中的modelData变化后强制使子组件能更新
   }
   shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
@@ -103,7 +109,7 @@ export default class NewModel extends Component {
       isUnique:false,
       editable:true
     }];
-
+    console.log(this.state.modelForm)
     return (
       <div className="content">
         <div className="wrapper">
@@ -111,7 +117,7 @@ export default class NewModel extends Component {
             <p style={{float:'left',width:'80%'}}>新建模型页</p>
             <Button style={{float:'left'}} onClick={this.backToModel}>返回实体模型管理</Button>
           </div>
-            <NewModelSteps {...this.props} data={data}/>
+            <NewModelSteps {...this.props} data={data} modelForm={this.state.modelForm}/>
         </div>
       </div>
     )

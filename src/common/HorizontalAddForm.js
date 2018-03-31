@@ -38,8 +38,11 @@ class HorizontalAddForm extends React.Component {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
   validEntityEncode = (rule, value, callback) =>{
+    const {editModal,modalData} = this.props;
     callback("实体模型编码只能录入一次，点击新建属性保存后不可编辑");
     if(value){
+      editModal({...modalData,entityCode:value});
+      console.log(this.props.form)
       setTimeout(() => {
         this.setState({
           disable:true
@@ -48,8 +51,23 @@ class HorizontalAddForm extends React.Component {
     }
   }
 
+  validEntityName = (rule, value, callback)=>{
+    const {editModal,modalData} = this.props;
+    if(value){
+      editModal({...modalData,entityName:value});
+    }
+  }
+
+  validEntityDesc = (rule, value, callback)=>{
+    const {editModal,modalData} = this.props;
+    if(value){
+      editModal({...modalData,entityDesc:value});
+    }
+  }
+  
+
   handleSubmit = (e) => {
-    console.log(e,values)
+    // console.log(e,values)
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -60,13 +78,16 @@ class HorizontalAddForm extends React.Component {
 
  
   handleSelectChange = (value)=>{
+    const {editModal,modalData} = this.props;
     let v = value.length>0 ?value[length-1] : value  ;// [1,2] 1为父节点，取叶节点2
+    console.log(v)
+    editModal({...modalData,entityGroupId:v});
+
     this.props.form.setFieldsValue({ entityGroupId : v }); //似乎没起作用
     this.setState({
       entityGroupId:v
-    },()=>{
-      // console.log( this.props.form.getFieldsValue())
     })
+
   }
 
   replaceKey(category){
@@ -76,8 +97,6 @@ class HorizontalAddForm extends React.Component {
     category.map((v,i)=>{
       v.value = v.id;
       v.label = v.nodeName;
-     /*  delete v.id;
-      delete v.nodeName; */
       if(v.children.length>0){
         this.replaceKey(v.children);
       }
@@ -102,7 +121,7 @@ class HorizontalAddForm extends React.Component {
         <Col xs={xs} lg={lg} >
           <FormItem label={`实体模型名称：`} >
               {getFieldDecorator('entityName', {
-               rules: [{ required: true, message: '请输入实体模型名称'}], 
+               rules: [{ required: true, message: '请输入实体模型名称'},{validator:this.validEntityName}], 
               })
               (
                 <Input placeholder="请输入实体模型名称" />
@@ -150,7 +169,7 @@ class HorizontalAddForm extends React.Component {
           help={passwordError || ''}
         >
           {getFieldDecorator('entityDesc', {
-            rules: [{ required: true, message: 'Please input your modelEncode!' }],
+            rules: [{ required: true, message: 'Please input your modelEncode!' },{validator:this.validEntityDesc}],
           })(
             <TextArea rows={4} placeholder="请填写实体描述" />
           )}
