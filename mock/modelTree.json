@@ -1,0 +1,70 @@
+{
+	"result": true,
+	"code": 0,
+	"result_msg": "succ",
+	"data": [{
+			"name": "客户主数据",
+            "id": "01",
+            "level":0,
+			"child": [{
+					"name": "采购",
+                    "id": "01",
+                    "level":1,
+					"child": [
+                                {
+                                    "name": "原材料",
+                                    "id": "001",
+                                    "level":2,
+                                    "child": [
+                                        {
+                                        "name":"钢筋",
+                                        "id":"0001",
+                                        "level":3
+                                         },
+                                         {
+                                         "name":"水泥",
+                                         "id":"0002",
+                                         "level":3
+                                         } , 
+                                         {
+                                             "name":"办公设备",
+                                             "id":"0003",
+                                             "level":3
+                                          }
+                                        ]
+                                },
+                                {
+                                    "name": "物流",
+                                    "id": "002",
+                                    "level":2
+                                },
+                                {
+                                    "name": "生产",
+                                    "id": "003",
+                                    "level":2
+                                }
+                            ]
+                        },
+                        {
+                            "name": "aaa",
+                            "id": "02",
+                            "level":1,
+                            "child": [{
+                                "name": "bbb",
+                                "id": "001",
+                                "level":2
+                            }]
+                        }
+                    ]
+                },
+                {
+                    "name":"商务主数据",
+                    "id":"02",
+                    "level":0
+                    
+                }
+
+            ]
+
+
+}

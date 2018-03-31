@@ -1,0 +1,38 @@
+.content{
+  margin:20px 20px;
+  padding:20px;
+  text-align:left;
+ font-size:36px;
+ .wrap-style{
+   display: flex;
+   flex-wrap: nowrap;
+  
+ }
+ .left-tree{
+    background: #fff;
+    border-right:1px solid #eee;
+    height:100%;
+    width:12%;
+    max-width: 300px;
+    padding: 20px 1em;
+    margin-left:20px;
+    margin-right:30px;
+    font-size: 18px;
+    min-height:800px;
+ }
+ .data-area{
+  background: #fff;
+  border-left:1px solid #eee;
+  padding: 20px ;
+  width:80%;
+  height:100%;
+  min-height:800px;
+  padding: 20px 50px;
+  // margin-left:20px;
+  .search-input{
+    padding-top:10px;
+    height:100px;
+    // line-height: 100px;
+  }
+ }
+}

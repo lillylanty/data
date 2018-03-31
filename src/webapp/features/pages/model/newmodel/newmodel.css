@@ -1,0 +1,29 @@
+.title{
+  height:80px;
+  /* line-height: 80px; */
+  
+}
+.title p{
+  vertical-align: top;
+  padding-left: 1%;
+  font-size: 1em;
+}
+.title button{
+  /* vertical-align: bottom; */
+
+  height: 40px;
+}
+
+.steps-content {
+    margin-top: 16px;
+    border: 1px dashed #e9e9e9;
+    border-radius: 6px;
+    background-color: #fafafa;
+    min-height: 200px;
+    text-align: center;
+    padding-top: 80px;
+  }
+  
+  .steps-action {
+    margin-top: 24px;
+  }
