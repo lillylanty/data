@@ -70,6 +70,7 @@ class ShowEntityForm extends Component {
           case '编码':
             arr.push(
               <FormItem
+              key={e.attrName}
                 {...formItemLayout}
                 label={(
                   <span>
@@ -83,29 +84,29 @@ class ShowEntityForm extends Component {
               
                 <Row gutter={2}>
                     <Col span={8}>
-                    {getFieldDecorator('attrCode_1', {
+                    {/* {getFieldDecorator('attrCode_1', {
                     rules: [ {
                       required: true, message: '!',
                     }],
                   })(
-                    <Input />
-                  )}
+                  )} */}
+                  <Input />
                     </Col>
                     <Col span={8}>
                     {getFieldDecorator('attrCode_2', { //最后checkRule由code组合而得2可以自定义被编辑
-                    
-                  })(
-                      <Input />
-                  )}
-                    </Col>
-                    <Col span={8}>
-                    {getFieldDecorator('attrCode_3', {
                     rules: [ {
                       required: true
                     }],
                   })(
                       <Input />
                   )}
+                    </Col>
+                    <Col span={8}>
+                    {/* {getFieldDecorator('attrCode_3', {
+                    
+                  })(
+                  )} */}
+                  <Input />
                     </Col>
                 </Row>
               </FormItem>
@@ -114,7 +115,9 @@ class ShowEntityForm extends Component {
             // case '名称': case '描述':
             default:
             arr.push(
-              <FormItem {...formItemLayout}
+              <FormItem 
+              key={e.attrName}
+              {...formItemLayout}
               label = {e.attrName}
               >
               {getFieldDecorator(`${e.attrName}`, {

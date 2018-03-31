@@ -93,6 +93,7 @@ export default class PageOne extends Component{
     const { data, entityModalAttr} = props;
     this.state = {
       relObject: [],
+      data_type_name:'',
       rel_name:'',
       selectReferObj:'',//引用对象 选中项
       data: entityModalAttr.length>0 ? entityModalAttr : data,     
@@ -226,7 +227,7 @@ export default class PageOne extends Component{
    return (
    <SelectableCell
     editable = {record.editable}
-    value={record.attrDataType} 
+    value= {record.attrDataType_name} 
     onChange={value => this.handleSelectChange(value, record, column)}
   />
 );
@@ -235,14 +236,21 @@ export default class PageOne extends Component{
 //数据类型下拉选项
   handleSelectChange(value,record,column){
     const {getDataType} = this.props;
+    let selectedItem;
     if(value === 'rel' || value === 'code' || value === 'enum'){
       getDataType(value);
+      selectedItem = options2.filter(a=>a.value==value)[0]
+      
+    }else{
+      selectedItem = options1.filter(a=>a.value==value)[0]
     }
      this.setState({
-      attrDataType:value
-    });    
-    
+      attrDataType:value,
+      data_type_name:selectedItem.text
+    }); 
+
        this.handleChange( record.key, value,column);
+       selectedItem && this.handleChange(record.key, selectedItem.text, 'attrDataType_name')
   }
 /**
  *   rel: {
@@ -305,7 +313,7 @@ export default class PageOne extends Component{
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
                 {relObj && relObj.map((d,i)=><Option key={d.entityCode || i}>{d.entityName || '-'}</Option>) }
               </Select> 
-              : ''//record.relObject
+              : record.rel_name
             }
           </div>
           
@@ -322,7 +330,7 @@ export default class PageOne extends Component{
               onChange={(value,e) => this.handleReferChange(value,record,column,e)}>
                 {enumObj && enumObj.map((d,i)=><Option key={d.value || i}>{d.type || '-'}</Option>) }
               </Select> 
-              : ''//record.relObject
+              : record.rel_name
             }
             </div>
           );
@@ -339,7 +347,7 @@ export default class PageOne extends Component{
               onChange={(value) => this.handleReferChange(value,record,column)}>
                 { codeObj && codeObj.map((d,i)=><Option key={d.id || i}>{d.ruleName || '-'}</Option>) }
               </Select> 
-              : ''//record.relObject
+              : record.rel_name
             }
             </div>
           );
@@ -352,7 +360,6 @@ export default class PageOne extends Component{
 
 //选择引用对象
   handleReferChange(e,record,column){
-    console.log(e)
     let key = record.key;
     const {relObj, enumObj, codeObj } = this.props;
     //筛选出选项
