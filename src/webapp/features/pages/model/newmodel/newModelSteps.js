@@ -28,33 +28,33 @@ export default class NewModelSteps extends Component {
     this.state = {
       current: 0,
       alldata:null,
-      modalData:{}
+      modelData:{}
     };
   }
   next() {
     const current = this.state.current + 1;
-    const {modalData } = this.props;
+   
 
     if(current == 0){
       
       this.saveAllData();
 
     }else if(current == 1){
-      this.postData();
+      // this.postData();
     }
     this.setState({ current });
   }
   //保存新建数据 进行下一步
   saveAllData(){
-    const {editEntityModelAttr ,entityModalAttr,modalData,alldata, } = this.props;
+     const {editEntityModelAttr ,entityModalAttr,modelData,alldata, } = this.props;
     //组合表单和表格字段
-    let adata = {...modalData,entityAttrParam:[...entityModalAttr]}
+    let adata = {...modelData,entityAttrParam:[...entityModalAttr]}
     // 组合上传字段
     
     this.setState({
       alldata:adata
-    })
-    console.log(this.state.alldata)
+    }) 
+   
     //成功后供第二页调用展示
     
   }
@@ -64,14 +64,10 @@ postData(){
 }
 
 componentWillReceiveProps(nextProps,nextState){
-  console.log('willReceive',nextProps.modelForm);
   this.setState({
-    modalData:nextProps.modelForm
+    modelData:nextProps.modelForm
   })
 }
-// componentWillUpdate(nextProps,nextState){
-//   console.log('willUpdata',nextProps.modelForm);
-// }
  
 
   prev() {
@@ -82,11 +78,10 @@ componentWillReceiveProps(nextProps,nextState){
     const { current } = this.state;
     let hint = current == 0?'下一步':'确认新建';
     let disable = true;
-    if(this.state.modalData && this.state.modalData.entityCode){
+    if(this.state.modelData && this.state.modelData.entityCode){
       disable = false;
     }
-    // console.log(this.state.modalData)
-
+    
     return (
       <div>
         <Steps current={current}>
@@ -124,5 +119,12 @@ componentWillReceiveProps(nextProps,nextState){
         </div>
       </div>
     );
+   
+    
+  
   }
+
 }
+
+
+

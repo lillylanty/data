@@ -38,30 +38,24 @@ class HorizontalAddForm extends React.Component {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
   validEntityEncode = (rule, value, callback) =>{
-    const {editModal,modalData} = this.props;
+    const {editModal,modelData} = this.props;
     callback("实体模型编码只能录入一次，点击新建属性保存后不可编辑");
     if(value){
-      editModal({...modalData,entityCode:value});
-      console.log(this.props.form)
-      setTimeout(() => {
-        this.setState({
-          disable:true
-        })
-      }, 1500);
+      editModal({...modelData,entityCode:value});
     }
   }
 
   validEntityName = (rule, value, callback)=>{
-    const {editModal,modalData} = this.props;
+    const {editModal,modelData} = this.props;
     if(value){
-      editModal({...modalData,entityName:value});
+      editModal({...modelData,entityName:value});
     }
   }
 
   validEntityDesc = (rule, value, callback)=>{
-    const {editModal,modalData} = this.props;
+    const {editModal,modelData} = this.props;
     if(value){
-      editModal({...modalData,entityDesc:value});
+      editModal({...modelData,entityDesc:value});
     }
   }
   
@@ -78,10 +72,9 @@ class HorizontalAddForm extends React.Component {
 
  
   handleSelectChange = (value)=>{
-    const {editModal,modalData} = this.props;
+    const {editModal,modelData} = this.props;
     let v = value.length>0 ?value[length-1] : value  ;// [1,2] 1为父节点，取叶节点2
-    console.log(v)
-    editModal({...modalData,entityGroupId:v});
+    editModal({...modelData,entityGroupId:v});
 
     this.props.form.setFieldsValue({ entityGroupId : v }); //似乎没起作用
     this.setState({
@@ -96,8 +89,8 @@ class HorizontalAddForm extends React.Component {
     }
     category.map((v,i)=>{
       v.value = v.id;
-      v.label = v.nodeName;
-      if(v.children.length>0){
+      v.label = v.groupName; //后端改了此字段
+      if(v.children && v.children.length>0){
         this.replaceKey(v.children);
       }
     });

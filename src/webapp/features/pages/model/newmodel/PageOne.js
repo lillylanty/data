@@ -3,8 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import {  Icon, Input, Button,Popconfirm,Select, Spin ,Checkbox ,message } from 'antd';
 import HorizontalAddForm from '../../../../../common/HorizontalAddForm';
 import TableData from '../../../../../common/TableData';
-import debounce from 'lodash/debounce';
-import EditableTable  from './test';
 
 const { Option, OptGroup } = Select;
 
@@ -54,7 +52,7 @@ let options1 = [
   }
 ];
 
-const EditableCell = ({ editable, value, onChange,column }) =>{
+ const EditableCell = ({ editable, value, onChange,column }) =>{
   return (
   <div>
     {editable
@@ -81,7 +79,7 @@ const SelectableCell = ({ value,onChange,column,editable }) => {
       }
     </div> 
 )
-};
+}; 
 
 /**
  * 注意handleChange的参数顺序要正确传，不然会更改不了表单显示的value
@@ -90,15 +88,16 @@ const SelectableCell = ({ value,onChange,column,editable }) => {
 export default class PageOne extends Component{
   constructor(props) {
     super(props);
-    const { data, entityModalAttr} = props;
+    const {entityModalAttr} = props;
+    console.log(props)
     this.state = {
       relObject: [],
       data_type_name:'',
       rel_name:'',
       selectReferObj:'',//引用对象 选中项
-      data: entityModalAttr.length>0 ? entityModalAttr : data,     
+      data: entityModalAttr || [],     
     };
-    this.columns = [
+     this.columns = [
       {
       title: '属性名称',
       dataIndex: 'attrName',
@@ -169,10 +168,10 @@ export default class PageOne extends Component{
       }   
     }
     ];
-
+ 
 
     this.cacheData; 
-    this.copytableData = data.slice(0);
+    this.copytableData = entityModalAttr.slice(0);
 
   }
   
@@ -252,49 +251,7 @@ export default class PageOne extends Component{
        this.handleChange( record.key, value,column);
        selectedItem && this.handleChange(record.key, selectedItem.text, 'attrDataType_name')
   }
-/**
- *   rel: {
-            "data": [
-              {
-                "entityAttrCode": "id",
-                "entityAttrId": 1,
-                "entityCode": 1,
-                "entityName": "原材料"
-              }
-            ],
-            "message": "string",
-            "success": true
-          }
 
-
-    code: {
-            {
-            "success": true,
-            "message": "执行成功~~",
-            "data": [
-              {
-                "id": 1,
-                "ruleName": "规则1"
-              }
-            ]
-          }
-    }
-    enum: {
-            {
-            "data": [
-              {
-                "name": "名族",
-                "type": "enum",
-                "value": "nationality"
-              }
-            ],
-            "message": "string",
-            "success": true
-          }
-
-    }
-
-*/
 
 
 //渲染引用对象
@@ -534,11 +491,6 @@ this.setState({
  
 }
 
-  componentWillReceiveProps(nextProps,nextState){
-    //同步更新state中的modelData等属性
-    
-  }
-
   render (){ 
     
     let d = [...this.state.data];
@@ -548,8 +500,54 @@ this.setState({
         <HorizontalAddForm ref="HorizontalAddForm" {...this.props} />   
         <Button type="primary" onClick={this.newAttri}>新建属性</Button>
         <TableData  dataSource={d} columns={this.columns} rowKey="key" /> 
-        {/* <EditableTable  {...this.props}/> */}
       </div>
     )
   }
 }
+
+
+
+
+/**
+ *   rel: {
+            "data": [
+              {
+                "entityAttrCode": "id",
+                "entityAttrId": 1,
+                "entityCode": 1,
+                "entityName": "原材料"
+              }
+            ],
+            "message": "string",
+            "success": true
+          }
+
+
+    code: {
+            {
+            "success": true,
+            "message": "执行成功~~",
+            "data": [
+              {
+                "id": 1,
+                "ruleName": "规则1"
+              }
+            ]
+          }
+    }
+    enum: {
+            {
+            "data": [
+              {
+                "name": "名族",
+                "type": "enum",
+                "value": "nationality"
+              }
+            ],
+            "message": "string",
+            "success": true
+          }
+
+    }
+
+*/

@@ -32,7 +32,6 @@ const mapDispatch = dispatch => ({
   editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格
   saveEntity:(params) => dispatch(newModelManageAction.saveEntity(params)), //上传新建的模型所有数据
   getDataType: (params) => dispatch(newModelManageAction.getDataType(params)),
-  toggleShowTable:()=> dispatch(newModelManageAction.toggleShowTable()),
 
   //主页的
   getRecordAttr:(params) =>dispatch(ModelManageAction.getRecordAttr(params)),
@@ -70,7 +69,7 @@ export default class NewModel extends Component {
             <p style={{float:'left',width:'80%'}}>新建模型页</p>
             <Button style={{float:'left'}} onClick={this.backToModel}>返回实体模型管理</Button>
           </div>
-            <NewModelSteps {...this.props} data={data} modelForm={this.state.modelForm}/>
+            <NewModelSteps {...this.props}  modelForm={this.state.modelForm}/>
         </div>
       </div>
     )
