@@ -83,7 +83,8 @@ editEle = (record) =>{
   const{ setFormItems,saveCategory } = this.props;
   this.setState({
     visible: true
-  })
+  });
+
 }
 
 deletEle = (record)=>{
@@ -100,7 +101,6 @@ deletEle = (record)=>{
 
   handleOk = (e) => {
     const{ setFormItems,saveCategory } = this.props;
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -118,7 +118,6 @@ deletEle = (record)=>{
   }
 
   handleCancel = (e) => {
-    console.log(e);
     const{ setFormItems } = this.props;
     this.setState({
       visible: false,

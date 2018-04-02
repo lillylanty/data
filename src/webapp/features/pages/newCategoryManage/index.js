@@ -40,65 +40,38 @@ class categoryForm extends Component {
   }
 
   componentDidMount() {
-    const {categoryList,formsItems,getParentCategory} = this.props;
+    // const {categoryList,formsItems,getParentCategory} = this.props;
 
-   /*  if(formsItems){
-      this.setState({
-        form: {formsItems}
-      },()=>{
-        console.log(this.state.form)
-      })
-    } */
 
   }
   componentWillReceiveProps(nextProps) {
  
     if(nextProps.categoryList){
       this.setState({
-        options:nextProps.categoryList
+        options:nextProps.categoryList,
+        form:{...nextProps.formItems}
       },()=>{
-        console.log(this.state.options)
+       
       })
     }
-    if(nextProps.formsItems){
-      this,this.setState({
-        form: {...nextProps.formsItems}
-      },()=>{
-        console.log(this.state.form)
-      })
-    }
+    
   }
  /*  shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
   } */
 
-
-
-
-
-   handleSubmit=(v)=>{
-/*
-    const {getTableData,pager} = this.props; //,tableData,pager
-    console.log(getTableData)
-    getTableData({...pager,entityName:v.toString()}); //
-    */
-
-  } 
-
-  backToCategory=()=>{
-   
-      // const {modelData,editModal,entityModelAttr,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
-      //新建时清空modelData和attr
-   
-      // this.props.router.replace("/categorymanage")
-
-  }
   componentDidMount(){
-    console.log({
+    
+    if(this.props.formItems){
+       this.props.form.setFieldsValue({
       ...this.props.formsItems
     })
-    this.props.form.setFieldsValue({
-      ...this.props.formsItems
+    } 
+  }
+  selectChange = (value)=>{
+    // console.log(value)
+    this.props.form.setFieldValue({
+      parentId:value
     })
   }
 
@@ -106,8 +79,11 @@ class categoryForm extends Component {
 
 
   render() {
+ 
     const { getFieldDecorator } = this.props.form;
     const { groupName,parentId, sortOrder} = this.state.form;
+
+    
     return (
       <div className="content">
 
@@ -127,12 +103,12 @@ class categoryForm extends Component {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             // <Cascader options={residences} />
-            <Select>
+            <Select onChange={(value)=>this.selectChange(value)}>
               { 
                 this.state.options.length >0 ?
                   this.state.options.map((v,i)=>{
-                      <Option key={v.id}>{v.groupName}</Option>
-                   }):<Option key='undefined' >父节点为空</Option>  
+                     return <Option key={v.id}>{v.groupName}</Option>
+                   }): <Option key='undefined' >父节点为空</Option>  
               }
             </Select>
            
@@ -159,44 +135,3 @@ class categoryForm extends Component {
 const NewCategoryManage = Form.create()(categoryForm);
 export default NewCategoryManage;
 
-/*
-
-
-        <Button type="primary"onOk={this.handleOk}
-         >
-            确定
-          </Button>
-          <Button type="primary"  onClick={this.handleCancel} >
-            取消
-          </Button>
-
-            handleOk = (e) => {
-    const{ setFormItems,saveCategory } = this.props;
-    console.log(e);
-    
-    let v = this.props.form.getFieldsValue();//this.refs.NewCategoryForm.getFieldsValue();
-    let a = {};
-    for(var k in v){
-      if(v.hasOwnProperty(k) && v[k]){
-        a[k] = v[k]
-      }
-    }
-    if(a){
-      setFormItems(a);
-      saveCategory(a)
-    } 
-  }
-
-  handleCancel = (e) => {
-    console.log(e);
-    const{ setFormItems } = this.props;
-    this.setState({
-      form:{
-        groupName:'',
-        parentId:'',
-        sortOrder:''
-      }
-    });
-    setFormItems({});
-  }
-*/

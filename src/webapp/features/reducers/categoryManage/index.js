@@ -11,7 +11,6 @@ export const categoryManageReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
       case categoryManageType.GET_TABLE:
-      console.log(action)
       return{...state,tableData: payload};
       case categoryManageType.SET_PAGE: 
         return {...state,pager:{...state.pager,...payload}};
