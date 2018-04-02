@@ -93,7 +93,8 @@ export default class ModelTable extends React.Component{
     const {modelData,editModal,getRecordAttr,getTableData,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
     getRecordAttr({id:record.entityGroupId});
     editModal(Object.assign({},record));
-    recordAttr && recordAttr.length>0 && editEntityModelAttr([...recordAttr])
+    //如果该记录有属性的话，就更新新建页面的列表 调的是api/v1/entity/attr?id=1接口,id是record的groupId
+    recordAttr && recordAttr.length>0 && editEntityModelAttr([...recordAttr]);
     this.props.router.push({pathname:'/model/newmodel',query:{id:record.entityGroupId}})  //{recordAttr:recordAttr}});
   }
   
