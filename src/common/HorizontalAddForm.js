@@ -38,9 +38,10 @@ class HorizontalAddForm extends React.Component {
     const {editModal} = this.props;
    
     this.setState({
-      form: {...nextProps.modelData}
+      form: {...nextProps.modelData},
+      disable: (nextProps.modelData &&  nextProps.modelData.entityCode) ? true :false
     },()=>{
-    //  console.log(this.state.form)
+  
     })
   }
 
