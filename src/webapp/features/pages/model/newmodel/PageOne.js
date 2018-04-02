@@ -89,7 +89,6 @@ export default class PageOne extends Component{
   constructor(props) {
     super(props);
     const {entityModalAttr} = props;
-    console.log(props)
     this.state = {
       relObject: [],
       data_type_name:'',
@@ -461,12 +460,6 @@ export default class PageOne extends Component{
 
   newAttri = ()=>{
     const {modelData,editModal,editEntityModelAttr,entityModalAttr} = this.props;
-    //获取实体模型数据
-   /*   当编辑时不要更新modelData
-     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
-    if() editModal(formdata); */
-    
-  //table添加一行供编辑 
   
   let v = entityModalAttr.length>0 ? entityModalAttr : [];
   let _v = Array.from( new Set(v));

@@ -48,7 +48,6 @@ export default class SideTree extends Component{
         let expandedKeys=[]
         if(treeNode.props && treeNode.props.dataRef.level==0&&treeNode.props.dataRef.key!=expandedKeys[0]){
             expandedKeys =[ treeNode.props.dataRef.key];
-            // console.log('expandedKeys',expandedKeys);
         }
 
         return new Promise((resolve) => {
@@ -132,8 +131,7 @@ export default class SideTree extends Component{
   }
 
   onTreeExpand=(expandedKeys,expandedObj)=>{
-    // console.log('TreeExpand',expandedKeys,expandedObj);
-    // console.log(expandedObj.node.props.dataRef);
+
     let tempKeys=this.state.tempExpanded;
     let curKeysObj= this.cloneObj(expandedObj);
 

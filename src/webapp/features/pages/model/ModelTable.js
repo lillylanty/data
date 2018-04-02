@@ -79,7 +79,6 @@ export default class ModelTable extends React.Component{
     }
   }
   onShowSizeChange=(current, pageSize)=> {
-    console.log(current, pageSize);
     const {setPager} = this.props;
     setPager({current:current,pageSize:pageSize})
   }

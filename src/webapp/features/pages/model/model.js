@@ -51,7 +51,7 @@ export default class ModelManage extends Component {
 
   testDelete = ()=>{
     this.props.deleteData({id:1});
-    console.log(this.props.tableData);
+    // console.log(this.props.tableData);
   }
  
 
