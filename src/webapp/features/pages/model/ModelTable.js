@@ -71,7 +71,6 @@ export default class ModelTable extends React.Component{
     });
   }
   componentWillReceiveProps(nextProps,nextState){
-    // console.log(nextProps.tableData);
     if(nextProps.tableData.length>0){
       this.setState({
         dataSource: nextProps.tableData.slice(0),
@@ -90,8 +89,11 @@ export default class ModelTable extends React.Component{
   }
 
   editEle = (record) =>{
-    const {getRecordAttr,getTableData,tableData,pager,recordAttr} = this.props;
+    
+    const {modelData,editModal,getRecordAttr,getTableData,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
     getRecordAttr({id:record.entityGroupId});
+    editModal(Object.assign({},record));
+    recordAttr && recordAttr.length>0 && editEntityModelAttr([...recordAttr])
     this.props.router.push({pathname:'/model/newmodel',query:{id:record.entityGroupId}})  //{recordAttr:recordAttr}});
   }
   

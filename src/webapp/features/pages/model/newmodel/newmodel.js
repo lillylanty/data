@@ -44,13 +44,17 @@ export default class NewModel extends Component {
     this.state = {
       modelForm:{}
     };
+   
   }
   componentDidMount() {
-    var data = this.props.location.query;
+   
+   
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
       modelForm:{...this.state.modelForm,...nextProps.modelData}
+    },()=>{
+      console.log(this.state.modelForm)
     })
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -76,4 +80,3 @@ export default class NewModel extends Component {
   }
 }
 
- //,marginRight:'20%'

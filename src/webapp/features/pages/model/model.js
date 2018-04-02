@@ -19,6 +19,7 @@ const mapState = state => ({
   tableData: state.model.tableData,
   recordAttr: state.model.recordAttr, 
   //新建页面的
+  modelData: state.newModel.modelData,
 
 });
 const mapDispatch = dispatch => ({
