@@ -8,6 +8,8 @@ export const categoryManageType = mirror([
   'GET_TABLE',
   'SET_PAGE',
   'GET_PARENT_CATEGORY',
+  'SET_FORM_ITEM',
+  
   
 ],'categoryManage/');
 

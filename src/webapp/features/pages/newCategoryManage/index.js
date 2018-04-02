@@ -27,10 +27,11 @@ class categoryForm extends Component {
         groupName:'',
         parentId:'',
         sortOrder:''
-      }
+      },
+      options:[]
       
     };
-    this.categoryList = [];
+    
   }
 
   componentWillMount(){
@@ -39,14 +40,33 @@ class categoryForm extends Component {
   }
 
   componentDidMount() {
-    if(this.props.formsItems){
-      this,this.setState({
-        form: {...this.props.formsItems}
+    const {categoryList,formsItems,getParentCategory} = this.props;
+
+    if(formsItems){
+      this.setState({
+        form: {formsItems}
+      },()=>{
+        console.log(this.state.form)
       })
     }
+
   }
   componentWillReceiveProps(nextProps) {
-    console.log('newcategorypop',nextProps)
+ 
+    if(nextProps.categoryList){
+      this.setState({
+        options:nextProps.categoryList
+      },()=>{
+        console.log(this.state.options)
+      })
+    }
+    if(nextProps.formsItems){
+      this,this.setState({
+        form: {...nextProps.formsItems}
+      },()=>{
+        console.log(this.state.form)
+      })
+    }
   }
  /*  shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
@@ -74,30 +94,7 @@ class categoryForm extends Component {
 
   }
 
-  getOption=()=>{
-    if(this.categoryList.length >0){
-     this.categoryList.map((v,i)=>{
-      return <Option key={v.id}>{v.groupName}</Option>
-    })
-  }else {
-    return  <Option key='0' >父节点为空</Option>
-  }
 
-     
-    
-  }
-  cancel = ()=>{
-    this.setState({
-      form:{
-        groupName:'',
-        parentId:'',
-        sortOrder:''
-      }
-    })
-  }
-  add =()=>{
-
-  }
 
 
   render() {
@@ -123,7 +120,12 @@ class categoryForm extends Component {
           })(
             // <Cascader options={residences} />
             <Select>
-              { this.getOption()}
+              { 
+                this.state.options.length >0 ?
+                  this.state.options.map((v,i)=>{
+                      <Option key={v.id}>{v.groupName}</Option>
+                   }):<Option key='undefined' >父节点为空</Option>  
+              }
             </Select>
            
           )}
@@ -133,28 +135,60 @@ class categoryForm extends Component {
             rules: [{ required: true, message: 'Please input your Password!' }],
             initialValue: sortOrder,
           })(
-           <Input />
+           <Input type="number" />
           )} 
         </FormItem>
-       {/*  <FormItem>
-        <Button type="primary" onClick={this.add}>
-            确定
-          </Button>
-          <Button type="primary"  onClick={this.cancel} >
-            取消
-          </Button>
-        </FormItem> */}
+        <FormItem>
+
+        </FormItem> 
       </Form>        
       </div>
     )
   }
 }
 
+
 const NewCategoryManage = Form.create()(categoryForm);
 export default NewCategoryManage;
 
 /*
-      <p className="operation-area">
-        <h1 style={{width:'70%'}}></h1>        <Button  size="large" style={{float:'right',marginRight:'10%'}} onClick={this.backToCategory()}> 返回类目管理 </Button >
-      </p>
+
+
+        <Button type="primary"onOk={this.handleOk}
+         >
+            确定
+          </Button>
+          <Button type="primary"  onClick={this.handleCancel} >
+            取消
+          </Button>
+
+            handleOk = (e) => {
+    const{ setFormItems,saveCategory } = this.props;
+    console.log(e);
+    
+    let v = this.props.form.getFieldsValue();//this.refs.NewCategoryForm.getFieldsValue();
+    let a = {};
+    for(var k in v){
+      if(v.hasOwnProperty(k) && v[k]){
+        a[k] = v[k]
+      }
+    }
+    if(a){
+      setFormItems(a);
+      saveCategory(a)
+    } 
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    const{ setFormItems } = this.props;
+    this.setState({
+      form:{
+        groupName:'',
+        parentId:'',
+        sortOrder:''
+      }
+    });
+    setFormItems({});
+  }
 */

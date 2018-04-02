@@ -13,8 +13,22 @@ export default class CategoryTable extends React.Component{
           filteredInfo:null,
           columns:[{
             title: '类目名称',
-            dataIndex: 'groupName',
             key: 'name',
+            render:(text,record) =>{
+              let content = (
+                <div>
+                  <p>类目名称：{record.groupName}</p>
+                  <p>父目录：{record.parentId||''}</p>
+                  <p>排序值：{record.sortOrder || ''}</p> 
+                </div>
+              );
+              return (
+                <Popover content={content} title="类目详细">
+                  <span style={{color:'#098FFF'}}>{record.groupName || ''}</span>
+                </Popover>
+              )
+            }
+
           },    
           {
             title: '创建时间',
@@ -35,7 +49,7 @@ export default class CategoryTable extends React.Component{
                   编辑
                 </span>
                 <span style={{margin:'0 15px'}}>|</span>
-                <span style={{color:"#2CA2FF"}} onClick={this.deleteElement.bind(this,record)} >
+                <span style={{color:"#2CA2FF"}} onClick={this.deletEle.bind(this,record)} >
                   删除
                 </span>
               </div>
@@ -58,7 +72,7 @@ export default class CategoryTable extends React.Component{
 
   componentWillReceiveProps(nextProps,nextState){
     if(nextProps.tableData && nextProps.tableData.length>0){
-      console.log('CategoryTable - will Receive',nextProps.tableData)
+      // console.log('CategoryTable - will Receive',nextProps.tableData)
       this.setState({
         dataSource: nextProps.tableData.slice(0),
         pagination: {...this.state.pagination,...nextProps.pager}
@@ -74,14 +88,14 @@ export default class CategoryTable extends React.Component{
   onChange = (pageNum)=>{
     // console.log('pageNum',pageNum)
   }
+  editEle =(record)=>{
+    this.props.handleEvent && this.props.handleEvent.editEle(record);
+   }
 
-  editEle = (record) =>{
-    /* const {getRecordAttr,getTableData,tableData,pager,recordAttr} = this.props;
-    getRecordAttr({id:record.entityGroupId});
-    this.props.router.push({pathname:'/model/newmodel',query:{id:record.entityGroupId}})  */ //{recordAttr:recordAttr}});
-  }
+ 
   
-  deleteElement = (record)=>{
+  deletEle = (record)=>{
+    this.props.handleEvent && this.props.handleEvent.deletEle(record);
    /*  const {deleteData,getTableData,tableData,pager} = this.props;
     deleteData({id:record.entityGroupId});
     getTableData({
@@ -90,33 +104,14 @@ export default class CategoryTable extends React.Component{
   }
 
 
-  searchModel(v){
-    /* const {getTableData,tableData,pager} = this.props;
-    getTableData({
-      ...pager,entityName:v.toString()
-    }); */
-    
-    
-
-  }
-
-  goToNewModel=()=>{
-    // this.props.router.replace("model/newModel")
-  }
-
   
   render(){
     const {dataSource} = this.state;
     return(
-      <div>
-            {/* <p className="title">
-              <span>类目管理</span>
-              <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.goToNewModel}> 新增类目 </Button >
-            </p> */}
-    
-            <TableData columns={this.state.columns} rowKey="id" dataSource = {dataSource} pagination={this.state.pagination} />
-          </div>
-          )
+      <div className="table-style">   
+        <TableData columns={this.state.columns} rowKey="id" dataSource = {dataSource} pagination={this.state.pagination} />
+      </div>
+        )
      }
 
 }

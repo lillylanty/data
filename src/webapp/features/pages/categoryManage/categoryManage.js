@@ -16,10 +16,14 @@ const Search = Input.Search;
 const mapState = state => ({
   tableData : state.categoryManage.tableData,
   pager: state.categoryManage.pager,
+  formItems: state.categoryManage.formItems,
 });
 const mapDispatch = dispatch => ({
   getTableData:(p)=> dispatch(categoryManageAction.getTableData(p)),
   setPager:(p)=> dispatch(categoryManageAction.setPager(p)),
+  setFormItems: (p)=> dispatch(categoryManageAction.setFormItems(p)),
+  saveCategory: (p)=> dispatch(categoryManageAction.saveCategory(p)),
+  deleteCategory: (p) => dispatch(categoryManageAction.deleteCategory(p)),
 });
 
 @connect(mapState, mapDispatch)
@@ -43,7 +47,7 @@ export default class CategoryManage extends Component {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.tableData)
+    // console.log(nextProps.tableData)
   }
   shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
@@ -72,23 +76,61 @@ export default class CategoryManage extends Component {
       // this.props.router.replace("newcategorymanage")
 
   }
+
+/*******子组件中的函数******/
+editEle = (record) =>{
+  console.log('editEle',record)
+  const{ setFormItems,saveCategory } = this.props;
+  this.setState({
+    visible: true
+  })
+}
+
+deletEle = (record)=>{
+  // console.log(record)
+  const {deleteCategory,getTableData,pager} = this.props;
+
+  record && record.id && deleteCategory({id:record.id});
+  getTableData({ ...pager}); 
+}
+
+/********/
+
+
+
   handleOk = (e) => {
+    const{ setFormItems,saveCategory } = this.props;
     console.log(e);
     this.setState({
       visible: false,
     });
-    console.log(this.refs.NewCategoryForm.getFieldsValue());
-    console.log(this.wrappedComponentRef('NewCategoryForm'))
-    
+    let v = this.refs.NewCategoryForm.getFieldsValue();
+    let a = {};
+    for(var k in v){
+      if(v.hasOwnProperty(k) && v[k]){
+        a[k] = v[k]
+      }
+    }
+    if(a){
+      setFormItems(a);
+      saveCategory(a)
+    } 
   }
+
   handleCancel = (e) => {
     console.log(e);
+    const{ setFormItems } = this.props;
     this.setState({
       visible: false,
     });
+    setFormItems({});
   }
 
   render() {
+    let handleEvent = {
+      editEle: this.editEle,
+      deletEle: this.deletEle,
+    }
     return (
       <div className="content">
       <h3 className="title">类目管理</h3>
@@ -102,14 +144,14 @@ export default class CategoryManage extends Component {
       <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.addCategory}> 新增类目 </Button >
             
       </p>
-        <CategoryTable {...this.props}/>
+        <CategoryTable {...this.props} handleEvent={handleEvent}/>
         <Modal
           title="新建类目"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-        <NewCategoryManage ref="NewCategoryForm"/>
+        <NewCategoryManage ref="NewCategoryForm" formItems={this.props.formItems}/>
         </Modal>
       </div>
     )
