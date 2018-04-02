@@ -10,10 +10,14 @@ import Noauth from './pages/noauth';
 import ModelManage from './pages/model/model';
 import NewModel from './pages/model/newmodel';
 import Systemmanage from './pages/systemmanage';
+import CategoryManage from './pages/categoryManage';
+import EncodeManage from './pages/encodeManage';
 
 
 const Routers = <Route path="/" component={WebApp}>
   <IndexRoute component={Home}></IndexRoute>
+  <Route path='encodeManage' component={EncodeManage}></Route>
+  <Route path='categoryManage' component={CategoryManage}></Route>
   <Route path='systemmanage' component={Systemmanage}></Route>
   <Route path="home" component={Home}></Route>
   <Route path="model" component={ModelManage}></Route>

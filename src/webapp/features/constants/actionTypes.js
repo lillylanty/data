@@ -1,5 +1,13 @@
 import mirror from 'mirror-creator';
 
+export const encodeManageType = mirror([
+  'GET_ENCODEMANAGE_DATA',
+],'encodeManage/');
+
+export const categoryManageType = mirror([
+  'GET_CATEGORYMANAGE_DATA',
+],'categoryManage/');
+
 export const systemmanageType = mirror([
   'GET_SYSTEMMANAGE_DATA',
 ],'systemmanage/');

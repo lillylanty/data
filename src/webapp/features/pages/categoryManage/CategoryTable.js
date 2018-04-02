@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input, Popover,Button } from 'antd';
 import TableData from '../../../../common/TableData';
-import './index.scss'
+import './style.scss'
 
 const Search = Input.Search;
 

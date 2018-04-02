@@ -37,6 +37,26 @@
 			"checked":true,
 			"children":[],
 			"code":"M_LIVETAIL1",
+			"id":519,
+			"name":"编码管理",
+			"pid":0,
+			"type":0,
+			"url":"/webapp.html#/encodemanage"
+		},
+		{
+			"checked":true,
+			"children":[],
+			"code":"M_LIVETAIL1",
+			"id":519,
+			"name":"类目管理",
+			"pid":0,
+			"type":0,
+			"url":"/webapp.html#/categorymanage"
+		},
+		{
+			"checked":true,
+			"children":[],
+			"code":"M_LIVETAIL1",
 			"id":569,
 			"name":"数据清洗",
 			"pid":0,

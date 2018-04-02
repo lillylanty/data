@@ -2,23 +2,22 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Row, Col } from 'antd';
-import { systemmanageAction } from '../../actions/systemmanageAction';
+import { encodeManageAction } from '../../actions/encodeManageAction';
 import { isEmpty } from 'lodash';
 import assign from 'object-assign';
-import CategoryTable from './CategoryTable'
+import './style.scss';
 
-/* const mapState = state => ({
-  systemmanageData: state.systemmanage.systemmanageData,
+const mapState = state => ({
+  encodeManageData: state.encodeManage.encodeManageData,
 });
 const mapDispatch = dispatch => ({
-  getSystemmanageData(params) {
-    dispatch(systemmanage.getSystemmanageData(params));
+  getEncodeManageData(params) {
+    dispatch(encodeManage.getEncodeManageData(params));
   },
 });
 
-@connect(mapState, mapDispatch) */
-
-export default class Systemmanage extends Component {
+@connect(mapState, mapDispatch)
+export default class EncodeManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,9 +33,7 @@ export default class Systemmanage extends Component {
   render() {
     return (
       <div className="content">
-        <div className ="data-area">
-          <CategoryTable {...this.props}/>
-        </div>
+        恭喜，EncodeManage主页新建成功,你可以对页面DIY了.
       </div>
     )
   }
