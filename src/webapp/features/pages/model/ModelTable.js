@@ -117,6 +117,51 @@ export default class ModelTable extends React.Component{
   }
 
   goToNewModel=()=>{
+    const {modelData,editModal,entityModelAttr,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
+    //新建时清空modelData和attr
+    editModal({});
+    editEntityModelAttr(
+      [{
+        key:1,
+        attrName: '名称',
+        attrCode: '122',
+        attrDataType: 'int',
+        attrDataType_name:'整型',
+        relObject:'',
+        relObject_name:'',
+        attrLength:20,
+        checkRule:'-',
+        isRequired:true,
+        isUnique:false,
+        editable:true 
+      }, {
+        key:2,
+        attrName: '编码',
+        attrCode: '11113',
+        attrDataType: 'int',
+        attrDataType_name:'整型',
+        relObject:'',
+        relObject_name:'',
+        attrLength:20,
+        checkRule:'-',
+        isRequired:true,
+        isUnique:false,
+        editable:true
+      }, {
+        key:3,
+        attrName: '描述',
+        attrCode: '',
+        attrDataType: 'int',
+        attrDataType_name:'整型',
+        relObject:'',
+        relObject_name:'',
+        attrLength:20,
+        checkRule:'-',
+        isRequired:true,
+        isUnique:false,
+        editable:true
+      }]
+    );
     this.props.router.replace("model/newModel")
   }
 
