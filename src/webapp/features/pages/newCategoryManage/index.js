@@ -42,13 +42,13 @@ class categoryForm extends Component {
   componentDidMount() {
     const {categoryList,formsItems,getParentCategory} = this.props;
 
-    if(formsItems){
+   /*  if(formsItems){
       this.setState({
         form: {formsItems}
       },()=>{
         console.log(this.state.form)
       })
-    }
+    } */
 
   }
   componentWillReceiveProps(nextProps) {
@@ -93,6 +93,14 @@ class categoryForm extends Component {
       // this.props.router.replace("/categorymanage")
 
   }
+  componentDidMount(){
+    console.log({
+      ...this.props.formsItems
+    })
+    this.props.form.setFieldsValue({
+      ...this.props.formsItems
+    })
+  }
 
 
 
@@ -107,7 +115,7 @@ class categoryForm extends Component {
         <FormItem
         label={'类目名称'}>
           {getFieldDecorator('groupName', {
-            initialValue:groupName,
+            // initialValue:groupName,
             rules: [{ required: true, message: 'Please input your groupName!' }],
           })(
             <Input placeholder="水泥" />
@@ -115,7 +123,7 @@ class categoryForm extends Component {
         </FormItem>
         <FormItem label={'上级(父)类目'}>
           {getFieldDecorator('parentId', {
-            initialValue:parentId,
+            // initialValue:parentId,
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             // <Cascader options={residences} />
@@ -133,7 +141,7 @@ class categoryForm extends Component {
         <FormItem label={'排序值'}>
           {getFieldDecorator('sortOrder', {
             rules: [{ required: true, message: 'Please input your Password!' }],
-            initialValue: sortOrder,
+            // initialValue: sortOrder,
           })(
            <Input type="number" />
           )} 
