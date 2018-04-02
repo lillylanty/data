@@ -1,4 +1,16 @@
 .content{
-  margin:160px auto;
- font-size:36px;
+  margin:0px auto;
+  font-size:20px;
+  width:100%;
+  padding: 20px;
+  .title{
+    margin:20px;
+  }
+  .operation-area{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin:10px;
+  }
 }

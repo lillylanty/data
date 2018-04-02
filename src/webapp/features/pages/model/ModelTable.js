@@ -164,7 +164,7 @@ export default class ModelTable extends React.Component{
     );
     this.props.router.replace("model/newModel")
   }
-
+  
   
   render(){
     return(
@@ -179,7 +179,7 @@ export default class ModelTable extends React.Component{
               <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.goToNewModel}> 新建实体模型 </Button >
             </p>
     
-            <TableData columns={this.state.columns} dataSource = {this.state.dataSource} pagination={this.state.pagination} />
+            <TableData columns={this.state.columns}  dataSource = {this.state.dataSource} pagination={this.state.pagination} />
           </div>
           )
      }

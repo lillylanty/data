@@ -1,7 +1,5 @@
 import {baseUrl} from './env'; 
 
-console.log(baseUrl);
-
 export default {
   /*---------------------home---------------------------*/
   getHomeData: '/homeData.json', // 获取总览数据

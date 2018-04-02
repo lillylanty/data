@@ -5,7 +5,10 @@ export const encodeManageType = mirror([
 ],'encodeManage/');
 
 export const categoryManageType = mirror([
-  'GET_CATEGORYMANAGE_DATA',
+  'GET_TABLE',
+  'SET_PAGE',
+  'GET_PARENT_CATEGORY',
+  
 ],'categoryManage/');
 
 export const systemmanageType = mirror([

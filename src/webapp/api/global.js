@@ -8,4 +8,5 @@ export default {
   getNavData(params) {
     return http.get(apiUrl.getNavData, params);
   },
+  
 };

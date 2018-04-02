@@ -1,7 +1,14 @@
 import http from '../utils/http'
-import apiUrl from '../features/constants/apis';
+export let urls = {
+  getTableData:'/api/v1/entity-group/list',
+  getCategorySelect:'/api/v1/entity-group/list-all',
+}
+
 export default {
-  getCategoryManageData(params) {
-    return http.post(apiUrl.getUserData, params);
+  getTableData(params) {
+    return http.post(urls.getTableData, params);
+  },
+  getCategorySelect(){
+    return http.get(urls.getCategorySelect)
   }
 };

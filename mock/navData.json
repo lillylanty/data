@@ -37,7 +37,7 @@
 			"checked":true,
 			"children":[],
 			"code":"M_LIVETAIL1",
-			"id":519,
+			"id":512,
 			"name":"编码管理",
 			"pid":0,
 			"type":0,
@@ -47,7 +47,7 @@
 			"checked":true,
 			"children":[],
 			"code":"M_LIVETAIL1",
-			"id":519,
+			"id":933,
 			"name":"类目管理",
 			"pid":0,
 			"type":0,
@@ -272,70 +272,13 @@
 		},
 		{
 			"checked":true,
-			"children":[
-				{
-					"checked":true,
-					"children":[],
-					"code":"M_ALERT_HTY",
-					"icon":"iconfont icon-gaojinglishi",
-					"id":507,
-					"name":"告警历史",
-					"pid":506,
-					"type":0,
-					"url":"/webapp.html#/alert/history"
-				},
-				{
-					"checked":true,
-					"children":[],
-					"code":"M_ALERT_RULE",
-					"icon":"iconfont icon-guize",
-					"id":509,
-					"name":"告警规则",
-					"pid":506,
-					"type":0,
-					"url":"/webapp.html#/alert/rulelist"
-				},
-				{
-					"checked":true,
-					"children":[
-						{
-							"checked":true,
-							"children":[],
-							"code":"M_ALERT_RCV",
-							"icon":"iconfont icon-people",
-							"id":514,
-							"name":"告警人",
-							"pid":513,
-							"type":0,
-							"url":"/webapp.html#/alert/userlist"
-						},
-						{
-							"checked":true,
-							"children":[],
-							"code":"M_ALERT_RCV_GRP",
-							"icon":"iconfont  icon-fenzu",
-							"id":518,
-							"name":"告警分组",
-							"pid":513,
-							"type":0,
-							"url":"/webapp.html#/alert/grouplist"
-						}
-					],
-					"code":"M_RCV_SET",
-					"icon":"iconfont icon-jieshoupeizhi",
-					"id":513,
-					"name":"接收设置",
-					"pid":506,
-					"type":0
-				}
-			],
 			"code":"M_ALERT",
 			"icon":"fa fa-bell",
 			"id":506,
-			"name":"告警",
+			"name":"类目管理",
 			"pid":0,
 			"type":0,
-			"url":"/webapp.html#/3_home"
+			"url":"/webapp.html#/categorymanage"
 		}
 	],
 	"result":true,

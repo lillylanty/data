@@ -33,7 +33,7 @@ export default class EncodeManage extends Component {
   render() {
     return (
       <div className="content">
-        恭喜，EncodeManage主页新建成功,你可以对页面DIY了.
+        encodeManage页面
       </div>
     )
   }

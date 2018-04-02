@@ -1,20 +1,47 @@
 import { categoryManageType } from '../constants/actionTypes';
 import { message } from 'antd';
-import ajax from '../../api/global';
+import ajax from '../../api/categoryManage';
 export const categoryManageAction = {
-  getbigCamelData() {
+  getTableData (v) {
     return dispatch => {
-      ajax.getbigCamelData().then(res => {
-        const { data, result, result_code, result_message } = res;
-        if (result) {
+      ajax.getTableData(v).then(res => {
+        const { success,data, message } = res;
+        if (success) {   
+          console.log(res) 
           dispatch({
-            type: categoryManageType.GET_CATEGORYMANAGE_DATA,
-            payload: data
+            type: categoryManageType.GET_TABLE,
+            payload: data.data
           });
-        } else {
-          message.error(result_message);
+        dispatch({
+          type:categoryManageType.SET_PAGE,
+          payload:{total:data.total}
+        });
+        }else{
+          message.error(message)
         }
       })
+    }
+  },
+  getPrentCategory(v){
+    return dispatch=>{
+      ajax.getCategorySelect().then(res=>{
+        const { success,data, message } = res;
+        if (success) {   
+          console.log(res); 
+          dispatch({
+            type:categoryManageType.GET_PARENT_CATEGORY,
+            payload:data
+          })
+        }
+      }
+    )
+    }
+  },
+
+  setPager: (v)=>{
+    return {
+      type: categoryManageType.SET_PAGE,
+      payload:v
     }
   }
 }

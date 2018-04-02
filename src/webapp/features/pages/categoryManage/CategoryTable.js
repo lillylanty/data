@@ -9,19 +9,20 @@ export default class CategoryTable extends React.Component{
   constructor(props){
       super(props);
       this.state = {
+          dataSource: props.dataSource || [],
           filteredInfo:null,
           columns:[{
             title: '类目名称',
-            dataIndex: 'entityName',
+            dataIndex: 'groupName',
             key: 'name',
           },    
           {
             title: '创建时间',
-            dataIndex: 'entityCode',
+            dataIndex: 'gmtModified',
             key: 'encode',
           }, {
             title: '创建者',
-            dataIndex: 'entityDesc',
+            dataIndex: 'modifier',
             key: 'description',
           },
           {
@@ -42,7 +43,7 @@ export default class CategoryTable extends React.Component{
             }
           }
         ],
-          dataSource:[],
+          
           pagination: {
             showSizeChanger:true,
             onShowSizeChange:this.onShowSizeChange,
@@ -55,16 +56,9 @@ export default class CategoryTable extends React.Component{
   }
 
 
-  componentWillMount(){
-    /* const {getTableData,tableData,pager} = this.props;
-    getTableData({
-      "pageNo": 0,
-      "pageSize": 15
-    }); */
-  }
   componentWillReceiveProps(nextProps,nextState){
-    // console.log(nextProps.tableData);
-    if(nextProps.tableData.length>0){
+    if(nextProps.tableData && nextProps.tableData.length>0){
+      console.log('CategoryTable - will Receive',nextProps.tableData)
       this.setState({
         dataSource: nextProps.tableData.slice(0),
         pagination: {...this.state.pagination,...nextProps.pager}
@@ -73,8 +67,8 @@ export default class CategoryTable extends React.Component{
   }
   onShowSizeChange=(current, pageSize)=> {
     console.log(current, pageSize);
-   /*  const {setPager} = this.props;
-    setPager({current:current,pageSize:pageSize}) */
+    const {setPager} = this.props;
+    setPager({current:current,pageSize:pageSize})
   }
 
   onChange = (pageNum)=>{
@@ -112,14 +106,15 @@ export default class CategoryTable extends React.Component{
 
   
   render(){
+    const {dataSource} = this.state;
     return(
       <div>
-            <p className="title">
+            {/* <p className="title">
               <span>类目管理</span>
               <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.goToNewModel}> 新增类目 </Button >
-            </p>
+            </p> */}
     
-            <TableData columns={this.state.columns} dataSource = {this.state.dataSource} pagination={this.state.pagination} />
+            <TableData columns={this.state.columns} rowKey="id" dataSource = {dataSource} pagination={this.state.pagination} />
           </div>
           )
      }
