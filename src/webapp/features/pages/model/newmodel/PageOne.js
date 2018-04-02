@@ -460,14 +460,15 @@ export default class PageOne extends Component{
   }
 
   newAttri = ()=>{
-    const {modelData,editModal,editEntityModelAttr,entityModalAttr,data} = this.props;
+    const {modelData,editModal,editEntityModelAttr,entityModalAttr} = this.props;
     //获取实体模型数据
-    let formdata = this.refs.HorizontalAddForm.getFieldsValue();
-    editModal(formdata);
+   /*   当编辑时不要更新modelData
+     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
+    if() editModal(formdata); */
     
   //table添加一行供编辑 
   
-  let v = entityModalAttr.length>0 ? entityModalAttr : data.concat(entityModalAttr);
+  let v = entityModalAttr.length>0 ? entityModalAttr : [];
   let _v = Array.from( new Set(v));
   _v.push({
   key: `${_v.length + 1}`,

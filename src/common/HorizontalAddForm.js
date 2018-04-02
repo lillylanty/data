@@ -35,11 +35,12 @@ class HorizontalAddForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
+    const {editModal} = this.props;
     console.log(nextProps.modelData);
     this.setState({
       form: {...nextProps.modelData}
     },()=>{
-      // console.log(this.state.form)
+     console.log(this.state.form)
     })
   }
 
@@ -55,6 +56,7 @@ class HorizontalAddForm extends React.Component {
   }
 
   validEntityName = (rule, value, callback)=>{
+    callback();
     const {editModal,modelData} = this.props;
     if(value){
       editModal({...modelData,entityName:value});
@@ -62,12 +64,25 @@ class HorizontalAddForm extends React.Component {
   }
 
   validEntityDesc = (rule, value, callback)=>{
+    callback();
     const {editModal,modelData} = this.props;
+    const {entityDesc} = this.state.form;
+    console.log(entityDesc)
     if(value){
       editModal({...modelData,entityDesc:value});
+    }else{
+      editModal({...modelData,entityDesc:entityDesc});
     }
   }
-  
+  componentDidUpdate(){
+    let a = this.state.form;
+    for(var k in a){
+      if(a[k]){
+        console.log(a[k])
+      }
+    }
+   
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -109,7 +124,7 @@ class HorizontalAddForm extends React.Component {
   render() {
     const {getCategory, category} = this.props;
     const {entityCode,entityDesc,entityGroupId,entityName} = this.state.form;
-
+    console.log(this.state.form);
     this.arr = this.replaceKey(category);
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
     
