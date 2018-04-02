@@ -88,12 +88,6 @@ export const newModelManageAction = {
       })
     }
   },
-  canNext:(v)=>{
-    return {
-      type:newModelType.CAN_NEXT,
-      payload:v
-    }
-  },
   toggleShowTable: (v) =>{
     return {
       type : newModelType.SHOW_TABLE,

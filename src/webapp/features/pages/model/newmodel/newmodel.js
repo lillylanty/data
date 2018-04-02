@@ -16,7 +16,7 @@ const mapState = state => ({
   entityModalAttr: state.newModel.entityModalAttr, //属性表格
   modelData: state.newModel.modelData, //表单
   entity: state.newModel.entity, //
-  canNext: state.newModel.canNext, //是否填写实体编码字段
+
   relObj: state.newModel.relObj, //引用类型,
   enumObj: state.newModel.enumObj,//
   codeObj: state.newModel.codeObj,//
@@ -26,7 +26,7 @@ const mapState = state => ({
   recordAttr: state.model.recordAttr, 
 });
 const mapDispatch = dispatch => ({
-  setcanNext:(p) => dispatch(newModelManageAction.canNext(p)),
+
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
   editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段
   editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格
@@ -48,16 +48,11 @@ export default class NewModel extends Component {
   }
   componentDidMount() {
     var data = this.props.location.query;
-   
-    // const {recordAttr, getRecordAttr} = this.props;
-    // getRecordAttr({...data})
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps.modelData, this.props.modelData);
     this.setState({
       modelForm:{...this.state.modelForm,...nextProps.modelData}
     })
-    //redux中的modelData变化后强制使子组件能更新
   }
   shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
@@ -68,48 +63,6 @@ export default class NewModel extends Component {
   }
 
   render() {
-    // console.log(this.props.recordAttr);
-    let data = [{
-      key:1,
-      attrName: '名称',
-      attrCode: '122',
-      attrDataType: 'int',
-      attrDataType_name:'整型',
-      relObject:'',
-      relObject_name:'',
-      attrLength:20,
-      checkRule:'-',
-      isRequired:true,
-      isUnique:false,
-      editable:true 
-    }, {
-      key:2,
-      attrName: '编码',
-      attrCode: '11113',
-      attrDataType: 'int',
-      attrDataType_name:'整型',
-      relObject:'',
-      relObject_name:'',
-      attrLength:20,
-      checkRule:'-',
-      isRequired:true,
-      isUnique:false,
-      editable:true
-    }, {
-      key:3,
-      attrName: '描述',
-      attrCode: '',
-      attrDataType: 'int',
-      attrDataType_name:'整型',
-      relObject:'',
-      relObject_name:'',
-      attrLength:20,
-      checkRule:'-',
-      isRequired:true,
-      isUnique:false,
-      editable:true
-    }];
-    console.log(this.state.modelForm)
     return (
       <div className="content">
         <div className="wrapper">

@@ -503,7 +503,7 @@ export default class PageOne extends Component{
   }
 
   newAttri = ()=>{
-    const {modelData,editModal,editEntityModelAttr,entityModalAttr,data,setcanNext} = this.props;
+    const {modelData,editModal,editEntityModelAttr,entityModalAttr,data} = this.props;
     //获取实体模型数据
     let formdata = this.refs.HorizontalAddForm.getFieldsValue();
     editModal(formdata);

@@ -3,11 +3,49 @@ import assign from 'object-assign';
 import { newModelType } from '../../constants/actionTypes';
 const initialState = {
   modelData:{}, //保存表单的字段
-  entityModalAttr:[], //保存正在编辑的table属性
+  entityModalAttr:[{
+    key:1,
+    attrName: '名称',
+    attrCode: '122',
+    attrDataType: 'int',
+    attrDataType_name:'整型',
+    relObject:'',
+    relObject_name:'',
+    attrLength:20,
+    checkRule:'-',
+    isRequired:true,
+    isUnique:false,
+    editable:true 
+  }, {
+    key:2,
+    attrName: '编码',
+    attrCode: '11113',
+    attrDataType: 'int',
+    attrDataType_name:'整型',
+    relObject:'',
+    relObject_name:'',
+    attrLength:20,
+    checkRule:'-',
+    isRequired:true,
+    isUnique:false,
+    editable:true
+  }, {
+    key:3,
+    attrName: '描述',
+    attrCode: '',
+    attrDataType: 'int',
+    attrDataType_name:'整型',
+    relObject:'',
+    relObject_name:'',
+    attrLength:20,
+    checkRule:'-',
+    isRequired:true,
+    isUnique:false,
+    editable:true
+  }], //保存正在编辑的table属性
   allData:{}, //表单和table拼接的数据 待上传的数据
   category:null,
   entity:null,
-  canNext:false, //判断能否进行下一步
   relObj:[], //实体引用下拉选项,
   enumObj:[], //枚举选项
   codeObj:[], //编码规则选项,
@@ -20,11 +58,7 @@ export const newModelReducer = (state = initialState, action) => {
         return {...state,allData:payload};
 
       case newModelType.EDIT_MODEL_DATA: 
-        // if(payload.entityCode === state.modelData.entityCode){ //对同一个编辑
-          return {...state,modelData:{...state.modelData,...payload}};
-        // }else {
-          // return {...state,modelData:payload}
-        // }
+        return {...state,modelData:{...state.modelData,...payload}};
 
       case newModelType.GET_GATEGORY: 
         return {...state,category:payload};
@@ -34,9 +68,6 @@ export const newModelReducer = (state = initialState, action) => {
 
       case newModelType.EDIT_ENTITY_MODAL_ATTR:     
         return {...state,entityModalAttr:payload};
-
-      case newModelType.CAN_NEXT:
-        return {...state,canNext:!state.canNext};
 
       case newModelType.UPDATE_DATA_TYPE:
       //三种复杂类型
