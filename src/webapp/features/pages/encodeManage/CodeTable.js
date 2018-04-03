@@ -16,7 +16,6 @@ export default class CodeTable extends React.Component{
             title: '编码规则名称',
             key: 'ruleName',
             render:(text,record) =>{
-              console.log(record)
               let content = (
                 <div>
                   <p>类目名称：{record.ruleName}</p>
@@ -77,20 +76,18 @@ export default class CodeTable extends React.Component{
 
 
   componentWillReceiveProps(nextProps,nextState){
-    /* if(nextProps.tableData && nextProps.tableData.length>0){
+    if(nextProps.tableData && nextProps.tableData.length>0){
       // console.log('CategoryTable - will Receive',nextProps.tableData)
       this.setState({
         dataSource: nextProps.tableData.slice(0),
         pagination: {...this.state.pagination,...nextProps.pager}
       })
-    } */
+    }
   }
 
-  shouldComponentUpdate(){
-    return false
-  }
+
   onShowSizeChange=(current, pageSize)=> {
-    console.log(current, pageSize);
+    // console.log(current, pageSize);
     const {setPager} = this.props;
     setPager({current:current,pageSize:pageSize})
   }

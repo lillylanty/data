@@ -21,6 +21,6 @@ export default {
     return http.deleteByObj(urls.deleteCategory,p)
   },
   getCodeDetail(p){
-    return http.getCodeDetail(urls.getCodeDetail,p)
+    return http.get(urls.getCodeDetail,p)
   }
 };

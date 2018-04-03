@@ -16,7 +16,7 @@ const mapState = state => ({
   tableData : state.encodeManage.tableData,
   pager: state.encodeManage.pager,
   formItems: state.encodeManage.formItems,
-  codeDetail: state.encodeManage.codeDetail,
+  codeDetail: state.encodeManage.codeDetail, //编辑页面的级联选择
 });
 const mapDispatch = dispatch => ({
   getCodeDetail:(p)=> dispatch(encodeManageAction.getCodeDetail(p)),
@@ -64,18 +64,16 @@ export default class encodeManage extends Component {
     this.setState({
       visible: true,
     });
+    
 
   }
 
 /*******子组件中的函数******/
 editEle = (record) =>{
-  console.log('editEle',record)
-  const{ setFormItems,saveCategory } = this.props;
   this.setState({
     visible: true
   });
-
-
+  record && record.id && this.props.getCodeDetail({id:record.id});
 }
 
 deletEle = (record)=>{
@@ -146,7 +144,7 @@ deletEle = (record)=>{
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-        <NewCodeManage ref="NewCodeForm" formItems={formItems}/>
+        <NewCodeManage ref="NewCodeForm" {...this.props} formItems={formItems}/>
         </Modal> 
       </div>
     )

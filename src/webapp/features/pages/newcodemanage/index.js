@@ -1,34 +1,33 @@
 import React, { Component, PropTypes } from 'react'
 import { Form, Icon, Input, Button, Checkbox,Popover,Select } from 'antd';
-import { categoryManageAction } from '../../actions/categoryManageAction';
+import { encodeManageAction } from '../../actions/encodeManageAction';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import * as items from './fileds.json';
+import * as zhItems from './zhName.json';
 
 const Search = Input.Search;
 const FormItem = Form.Item;
 const Option = Select.Option;
+const { TextArea } = Input;
 
 
-const mapState = state => ({
-  categoryList: state.categoryManage.categoryList,
+/* const mapState = state => ({
+  codeDetail: state.encodeManage.codeDetail, //编辑页面的级联选择
 });
 const mapDispatch = dispatch => ({
-  getParentCategory:()=> dispatch(categoryManageAction.getPrentCategory()),
+  getCodeDetail:(p)=> dispatch(encodeManageAction.getCodeDetail(p)),
 });
 
-@connect(mapState, mapDispatch)
+@connect(mapState, mapDispatch) */
 
 class codeManageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form:{
-        groupName:'',
-        parentId:'',
-        sortOrder:''
-      },
-      options:[]
       
     };
+    this.itemConfig = items.ruleCfg;
     
   }
 
@@ -37,7 +36,7 @@ class codeManageForm extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+   
     
 
   }
@@ -59,16 +58,9 @@ class codeManageForm extends Component {
 
 
   componentDidMount(){
-    this.props.form.setFieldsValue({
-      groupName:'1',
-      parentId:'2',
-      sortOrder:'1'
-    })
-   /*  if(this.props.formItems){
-       this.props.form.setFieldsValue({
-      ...this.props.formsItems
-    })
-    }  */
+    console.log(items)
+    this.props.form.setFieldsValue({...items}) 
+  
   }
   selectChange = (value)=>{
 
@@ -76,57 +68,73 @@ class codeManageForm extends Component {
       parentId:value
     }) */
   }
-  test = ()=>{
+  handleLabelChange(){}
+  onEditChange(){}
+
+  operate=(v)=>{
+    console.log(v,event,event.target.getAttribute('data-opt'));
     
   }
-
-
-
 
   render() {
  
     const { getFieldDecorator } = this.props.form;
-    const { groupName,parentId, sortOrder} = this.state.form;
-    
+   
+    let {codeDetail} = this.props;
+    /* if(codeDetail && codeDetail.length <1){
+    } */
+    codeDetail = [...items.ruleCfg];
     
     return (
       <div className="content">
-      <button onClick={this.test}>测试更改值</button>
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem
-        label={'类目名称'}>
-          {getFieldDecorator('groupName', {
-            rules: [{ required: true, message: 'Please input your groupName!' }],
+        label={'编码规则名称'}>
+          {getFieldDecorator('ruleName', {
+            rules: [{ required: true}],
           })(
-            <Input placeholder="水泥" />
+            <Input  />
           )}
         </FormItem>
-        <FormItem label={'上级(父)类目'}>
-          {getFieldDecorator('parentId', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+        <FormItem
+        label={'编码规则描述'}>
+          {getFieldDecorator('ruleDesc', {
+            rules: [{ required:false}],
           })(
-            // <Cascader options={residences} />
-            <Select onChange={(value)=>this.selectChange(value)}>
-              { 
-                this.state.options.length >0 ?
-                  this.state.options.map((v,i)=>{
-                     return <Option key={v.id}>{v.groupName}</Option>
-                   }): <Option key='undefined' >父节点为空</Option>  
-              }
-            </Select>
-           
+            <TextArea  />
           )}
         </FormItem>
-        <FormItem label={'排序值'}>
-          {getFieldDecorator('sortOrder', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+        <FormItem
+        label={'编码规则解释'}>
+          {getFieldDecorator('ruleExplain', {
+            rules: [{ required:false}],
           })(
-           <Input type="number" />
-          )} 
+            <TextArea  />
+          )}
         </FormItem>
-        <FormItem>
 
-        </FormItem> 
+        <FormItem label={'编码规则配置'}>
+            {
+               codeDetail && codeDetail.map((v,i)=>{
+               return (
+                    <div style={{minWidth:'400px',display:'block'}}> 
+                      <Select style={{ width: 110 ,margin:'0 10px' }} defaultValue={zhItems[v.ruleType]} onChange={this.handleLabelChange}>
+                        <Option key={v}>{v.ruleType}</Option>
+                      </Select>
+            
+                     <Select style={{ width: 110 ,margin:'0 10px'}} defaultValue={zhItems[v.ruleValue]} onChange={this.onEditChange}>
+                          <Option key={v}>{v.ruleValue}</Option>
+                      </Select> 
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up')    } type="up-square" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down')  } type="down-square" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'edit')  } type="edit" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'delete')  } type="delete" /></span>
+                    </div>
+                  )  
+              })
+          }
+        </FormItem>
+       
       </Form>        
       </div>
     )

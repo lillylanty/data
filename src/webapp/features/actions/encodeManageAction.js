@@ -4,7 +4,7 @@ import ajax from '../../api/encodeManage';
 export const encodeManageAction = {
   getCodeDetail(v) {
     return dispatch=>{
-      ajax.getCodeDetail().then(res=>{
+      ajax.getCodeDetail(v).then(res=>{
         const { success,data, message } = res;
         if (success) {     
             dispatch({
