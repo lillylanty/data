@@ -1,7 +1,11 @@
 import mirror from 'mirror-creator';
 
 export const encodeManageType = mirror([
-  'GET_ENCODEMANAGE_DATA',
+  'GET_CODE_DETAIL',
+  'GET_TABLE',
+  'SET_PAGE',
+  'GET_PARENT_CATEGORY',
+  'SET_FORM_ITEM',
 ],'encodeManage/');
 
 export const categoryManageType = mirror([

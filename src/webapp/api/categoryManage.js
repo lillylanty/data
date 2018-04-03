@@ -1,10 +1,9 @@
 import http from '../utils/http'
-export let urls = {
+let urls = {
   getTableData:'/api/v1/entity-group/list',
   getCategorySelect:'/api/v1/entity-group/list-all',
   saveCategory: '/api/v1/entity-group/save' ,
   deleteCategory: '/api/v1/entity-group/del',
-  
 }
 
 export default {
