@@ -32,8 +32,9 @@ export default class encodeManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      edit:false, //告知子组件是编辑还是新建
       visible:false,
-      formItems:props.formItems || {}
+      formItems: {}
     };
   }
 
@@ -49,7 +50,13 @@ export default class encodeManage extends Component {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps.tableData)
+    console.log(nextProps.codeDetail);
+    if(nextProps.codeDetail !== this.props.codeDetail){ //说明点了编辑发送了更新codeDetail请求
+      this.setState({
+        formItems: nextProps.codeDetail
+      })
+    }
+    
   }
 /*   shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
@@ -63,15 +70,17 @@ export default class encodeManage extends Component {
   addCategory=()=>{
     this.setState({
       visible: true,
+      edit:false
     });
-    
+
 
   }
 
 /*******子组件中的函数******/
 editEle = (record) =>{
   this.setState({
-    visible: true
+    visible: true,
+    edit: true
   });
   record && record.id && this.props.getCodeDetail({id:record.id});
 }
@@ -79,7 +88,6 @@ editEle = (record) =>{
 deletEle = (record)=>{
   // console.log(record)
   const {deleteCategory,getTableData,pager} = this.props;
-
   record && record.id && deleteCategory({id:record.id});
   getTableData({ ...pager}); 
 }

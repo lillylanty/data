@@ -25,66 +25,108 @@ class codeManageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
-    };
-    this.itemConfig = items.ruleCfg;
-    
+      listItem:props.codeDetail || items, //已经判断是编辑还是新建了 DidMount不许再次判断
+    };    
   }
 
   componentWillMount(){
     
   }
 
-  componentDidMount() {
-   
+  componentDidMount() {   
     
-
   }
-  // shouldComponentUpdate(){
-  //   return false
-  // }
+
   componentWillReceiveProps(nextProps) {
- 
-    // if(nextProps.categoryList){
-    //   this.setState({
-    //     options:nextProps.categoryList,
-    //     form:{...nextProps.formItems}
-    //   },()=>{
-       
-    //   })
-    // }
     
   }
 
 
-  componentDidMount(){
-    console.log(items)
-    this.props.form.setFieldsValue({...items}) 
-  
-  }
-  selectChange = (value)=>{
-
-    /* this.props.form.setFieldValue({
-      parentId:value
+  componentDidMount(){ 
+      this.props.form.setFieldsValue({...this.state.formItems});
+      if(!this.state.listItem.ruleCfg){
+        this.setState({
+          listItem:{...this.state.listItem,ruleCfg:items.ruleCfg}
+        })
+      }
+     /*  let Cfg = [] ;
+    if(codeDetail && codeDetail.ruleCfg){//编辑
+      Cfg= codeDetail.ruleCfg;
+    }else{ //新建
+     Cfg = [...items.ruleCfg];
+    }
+    this.setState({
+      listItem:{...this.state.listItem, ruleCfg:Cfg}
     }) */
   }
-  handleLabelChange(){}
-  onEditChange(){}
 
-  operate=(v)=>{
-    console.log(v,event,event.target.getAttribute('data-opt'));
+  handleLabelChange(v){
+    // console.log(v)
+  }
+  onEditChange(v){
+    // console.log(v)
+  }
+
+  operate=(type,v,index)=>{
+    console.log(v,index);
     
+    let listConfigs = this.state.listItem.ruleCfg;//form的上半部分不变，Cfg变
+    if(!listConfigs){
+      return
+    }
+    let target;
+    console.log(listConfigs);
+
+    switch(type){
+      case 'up':
+        if(index == 0){return}
+        target = listConfigs[index]; 
+        listConfigs.splice(index,1);
+        listConfigs.splice(index-1,0,target);
+        console.log('up')
+        break;
+      case 'down':
+      if(index == listConfigs.length){return}
+        target = listConfigs[index]; 
+        listConfigs.splice(index,1);
+        listConfigs.splice(index+1,0,target);
+        console.log('dowm')
+        break;
+      case 'plus':
+        target = listConfigs[index]; 
+        listConfigs.splice(index,0,target);
+        console.log('plus')
+        break;
+      case 'del':
+      if(listConfigs.length === 0){return}
+        target = listConfigs[index]; 
+        listConfigs.splice(index,1,target);
+        console.log('del')
+        break;
+    }
+    this.setState({
+      listItem:{...this.state.listItem,ruleCfg:listConfigs}
+    },()=>{
+      console.log(this.state.listItem)
+    })
+    
+  }
+  shouldComponentUpdate(nextProps,nextState){
+    if(nextState.listItem !== this.state.listItem){
+      console.log(true)
+      return true
+    }else{
+      console.log(false)
+      return false
+    }
   }
 
   render() {
- 
     const { getFieldDecorator } = this.props.form;
    
-    let {codeDetail} = this.props;
-    /* if(codeDetail && codeDetail.length <1){
-    } */
-    codeDetail = [...items.ruleCfg];
+    let {listItem} = this.state; //{id: null, ruleName: null, ruleDesc: null, ruleLength: null, ruleExplain: null, …}
     
+    console.log('render',listItem.ruleCfg);
     return (
       <div className="content">
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -113,27 +155,27 @@ class codeManageForm extends Component {
           )}
         </FormItem>
 
-        <FormItem label={'编码规则配置'}>
+        <div label={'编码规则配置'}>
             {
-               codeDetail && codeDetail.map((v,i)=>{
+               listItem.ruleCfg && listItem.ruleCfg.map((v,index,k)=>{
                return (
-                    <div style={{minWidth:'400px',display:'block'}}> 
-                      <Select style={{ width: 110 ,margin:'0 10px' }} defaultValue={zhItems[v.ruleType]} onChange={this.handleLabelChange}>
+                    <div key={index} style={{minWidth:'400px',display:'block'}}> 
+                      <Select style={{ width: 110 ,margin:'0 10px' }} defaultValue={v.ruleType} onChange={this.handleLabelChange.bind(this,v)}>
                         <Option key={v}>{v.ruleType}</Option>
                       </Select>
             
-                     <Select style={{ width: 110 ,margin:'0 10px'}} defaultValue={zhItems[v.ruleValue]} onChange={this.onEditChange}>
+                     <Select style={{ width: 110 ,margin:'0 10px'}} defaultValue={v.ruleValue} onChange={this.onEditChange.bind(this,v)}>
                           <Option key={v}>{v.ruleValue}</Option>
                       </Select> 
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up')    } type="up-square" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down')  } type="down-square" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'edit')  } type="edit" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'delete')  } type="delete" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)    } type="up-square" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
+                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
                     </div>
                   )  
               })
           }
-        </FormItem>
+        </div>
        
       </Form>        
       </div>
@@ -145,3 +187,7 @@ class codeManageForm extends Component {
 const NewCodeManage = Form.create()(codeManageForm);
 export default NewCodeManage;
 
+//在编辑 时已经更新formitem的值了
+   /*  this.props.formItems && this.setState({
+      listItem:this.props.formItems
+    }) */
