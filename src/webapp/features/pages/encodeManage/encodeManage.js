@@ -104,19 +104,10 @@ deletEle = (record)=>{
     this.setState({
       visible: false,
     });
-    let v = this.refs.NewCodeForm.getFieldsValue();
-    
-/*     let a = {};
-    for(var k in v){
-      if(v.hasOwnProperty(k) && v[k]){
-        a[k] = v[k]
-      }
-    } */
-    // a.ruleCfg = 
-    // if(a){
-      // setFormItems(a);
+    if(formItems){
       saveCategory(formItems)
-    // } 
+    }
+
   }
 
   handleCancel = (e) => {
