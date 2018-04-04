@@ -104,6 +104,7 @@ deletEle = (record)=>{
       visible: false,
     });
     let v = this.refs.NewCodeForm.getFieldsValue();
+    console.log(v.ruleCfg)
     let a = {};
     for(var k in v){
       if(v.hasOwnProperty(k) && v[k]){
@@ -118,6 +119,8 @@ deletEle = (record)=>{
 
   handleCancel = (e) => {
     const{ setFormItems } = this.props;
+    let v = this.refs.NewCodeForm.getFieldsValue();
+    console.log(v.ruleCfg)
     this.setState({
       visible: false,
     });

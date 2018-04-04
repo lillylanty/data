@@ -25,9 +25,10 @@ class codeManageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listItem:props.codeDetail || items, //已经判断是编辑还是新建了 DidMount不许再次判断
+      listItem:{}, //已经判断是编辑还是新建了 DidMount不需再次判断
       editLabel:false,
       editValue:false,
+      ruleCfg:[]
     };    
   }
 
@@ -46,45 +47,38 @@ class codeManageForm extends Component {
 
   componentDidMount(){ 
       this.props.form.setFieldsValue({...this.state.formItems});
-      if(!this.state.listItem.ruleCfg){
-        this.setState({
-          listItem:{...this.state.listItem,ruleCfg:items.ruleCfg},
+      let {codeDetail} = this.props;
+      if(!codeDetail || !codeDetail.ruleCfg ){
+        items.ruleCfg.map((v,i)=>{
+          v.sortId = i;
         })
-      } 
-      
-     /*  let labels =[];let optValues= [];
-         this.state.listItem.ruleCfg.slice(0).map(v=>{
-           labels.push(v.ruleType);
-           optValues.push(v.ruleValue);
-         });
-         this.setState({
-           labels:labels,
-           optValues:optValues
-         }) */
-     /*  let Cfg = [] ;
-    if(codeDetail && codeDetail.ruleCfg){//编辑
-      Cfg= codeDetail.ruleCfg;
-    }else{ //新建
-     Cfg = [...items.ruleCfg];
-    }
-    this.setState({
-      listItem:{...this.state.listItem, ruleCfg:Cfg}
-    }) */
+        this.setState({
+          listItem:items,
+          ruleCfg:items.ruleCfg
+        })
+      }else if(codeDetail && codeDetail.ruleCfg) {
+        codeDetail.ruleCfg.map((v,i)=>{
+          v.sortId = i;
+        })
+        this.setState({
+          listItem:codeDetail,
+          ruleCfg:codeDetail.ruleCfg
+        })
+      }
   }
 
-  handleLabelChange(v,index){
-    console.log(v,index);
-    let listConfigs = this.state.listItem.ruleCfg.slice(0);//form的上半部分不变，Cfg变
-    let target = listConfigs[index];
-    console.log(target)
-    // listConfigs.splice(index,1,{})
+  handleLabelChange=(value)=>{
+    console.log(value);     
 
   }
-  onEditChange(v,index){
-    
+  onEditChange=(v)=>{
+    console.log(v);
   }
 
   operate=(type,v,index)=>{
+    if(!v){
+      return
+    }
     let listConfigs = this.state.listItem.ruleCfg;//form的上半部分不变，Cfg变
     if(!listConfigs){
       return
@@ -108,22 +102,29 @@ class codeManageForm extends Component {
       case 'plus':
         target = listConfigs[index]; 
         listConfigs.splice(index,0,target);
-      
         break;
       case 'del':
-      if(listConfigs.length === 0){return}
+      if(listConfigs.length <1){return}
         target = listConfigs[index]; 
-        listConfigs.splice(index,1,target);
-     
+        listConfigs.splice(index,1);
         break;
     }
+    listConfigs.map((v,i)=>{
+      v.sortId = i;
+    })
     this.setState({
-      listItem:{...this.state.listItem,ruleCfg:listConfigs}
+      ruleCfg:listConfigs
     },()=>{
   
     })
     
   }
+
+  componentWillUnmount(){
+    const {setFormItems} = this.props;
+    setFormItems(this.state.listItem);//关闭
+  }
+
   shouldComponentUpdate(nextProps,nextState){
     if(nextState.listItem !== this.state.listItem){
       return true
@@ -132,39 +133,63 @@ class codeManageForm extends Component {
     }
   }
 
-  showEle(listItem){
+  handleLabelChange2=(value)=>{
+    console.log(value)
+    this.setState({
+      ruleCfg:[...this.state.ruleCfg,{ruleType:value}]
+    })
+  }
+  onEditChange2=(value)=>{
+    console.log(value);
+    this.setState({
+      listItem:[...this.state.ruleCfg,{ruleValue:value}]
+    })
+  }
+
+  showEle(ruleCfg){
     let labelChildren = []; let valueChildren = [];
-    if(listItem.ruleCfg){
-      for(let i =0;i<listItem.ruleCfg.length;i++){
-        labelChildren.push( <Option key={`listItem.ruleCfg[i]-${i}`}>{listItem.ruleCfg[i].ruleType}</Option>);
-        valueChildren.push(  <Option key={`listItem.ruleCfg[i]-${i}`}>{listItem.ruleCfg[i].ruleValue}</Option> )
+    if(ruleCfg){
+      for(let i =0;i<ruleCfg.length;i++){
+        labelChildren.push( <Option  key={`${i}`}>{ruleCfg[i].ruleType}</Option>);  
+        valueChildren.push( <Option key={`${i}`}>{ruleCfg[i].ruleValue}</Option> );
       }
+      return  ruleCfg.map((v,index,arr)=>{
+        return (
+             <div key={index} style={{minWidth:'400px',display:'block'}}> 
+               <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px' }} placeholder={v.ruleType} onChange={this.handleLabelChange}>
+                { labelChildren }
+               </Select>
+              <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px'}} placeholder={v.ruleValue} onChange={this.onEditChange}>
+                { valueChildren }
+               </Select> 
+             <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)  } type="up-square" /></span>
+             <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
+             <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
+             <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
+             </div>
+           )  
+       })
+    }else{
+      return <div style={{display:'flex'}}>
+            <Input placeholder='自定义属性' style={{width:'45%'}} onChange={this.handleLabelChange2}/> 
+            <Input style={{width:'45%'}} placeholder='自定义值'  onChange={this.onEditChange2}/>
+            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,null)  } type="up-square" /></span>
+            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',null)  } type="down-square" /></span>
+            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',null)  } type="plus" /></span>
+            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,null)  } type="delete" /></span>
+            </div>
     }
+ 
+    //key={`listItem.ruleCfg[i]-${i}`}  //Select>.bind(this,v,index)}>
+    // key={`listItem.ruleCfg[i]-${i}`} //.bind(this,v,index)}>
 
-
-   return listItem.ruleCfg && listItem.ruleCfg.map((v,index,arr)=>{
-      return (
-           <div key={index} style={{minWidth:'400px',display:'block'}}> 
-             <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px' }} value={v.ruleType} onChange={this.handleLabelChange.bind(this,v,index)}>
-              { labelChildren }
-             </Select>
    
-            <Select style={{ width: 110 ,margin:'0 10px'}} value={v.ruleValue} onChange={this.onEditChange.bind(this,v,index)}>
-              { valueChildren }
-             </Select> 
-           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)    } type="up-square" /></span>
-           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
-           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
-           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
-           </div>
-         )  
-     })
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
    
-    let {listItem} = this.state; //{id: null, ruleName: null, ruleDesc: null, ruleLength: null, ruleExplain: null, …}
+    let {listItem,ruleCfg} = this.state; //{id: null, ruleName: null, ruleDesc: null, ruleLength: null, ruleExplain: null, …}
     
     console.log('render',listItem.ruleCfg);
     return (
@@ -195,11 +220,16 @@ class codeManageForm extends Component {
           )}
         </FormItem>
 
-        <div label={'编码规则配置'}>
+        <FormItem label={'编码规则配置'}>
             {
-              this.showEle(listItem)
+              /* getFieldDecorator('ruleCfg', {
+                rules: [{ required:false}],
+              })
+              (
+              ) */
+              this.showEle(ruleCfg)
           }
-        </div>
+        </FormItem>
        
       </Form>        
       </div>
