@@ -26,60 +26,70 @@ class codeManageForm extends Component {
     super(props);
     this.state = {
       listItem:{}, //已经判断是编辑还是新建了 DidMount不需再次判断
-      editLabel:false,
-      editValue:false,
-      ruleCfg:[]
+      ruleCfg:[],
+      items:{}, //上部分FormItem字段
+      value:''
     };    
   }
-
-  componentWillMount(){
-    
-  }
-
-  componentDidMount() {   
-    
-  }
-
-  componentWillReceiveProps(nextProps) {
-    
-  }
-
 
   componentDidMount(){ 
       this.props.form.setFieldsValue({...this.state.formItems});
       let {codeDetail} = this.props;
       if(!codeDetail || !codeDetail.ruleCfg ){
-        items.ruleCfg.map((v,i)=>{
-          v.sortId = i;
-        })
         this.setState({
           listItem:items,
           ruleCfg:items.ruleCfg
         })
       }else if(codeDetail && codeDetail.ruleCfg) {
-        codeDetail.ruleCfg.map((v,i)=>{
-          v.sortId = i;
-        })
         this.setState({
           listItem:codeDetail,
           ruleCfg:codeDetail.ruleCfg
         })
       }
   }
-
-  handleLabelChange=(value)=>{
-    console.log(value);     
-
+  shouldComponentUpdate(nextProps,nextState){
+    if( nextState.ruleCfg !== this.state.ruleCfg || nextState.listItem !== this.state.listItem ){
+      console.log(true)
+      return true
+    }else{
+      return false
+    }
   }
-  onEditChange=(v)=>{
-    console.log(v);
+  componentDidUpdate(){
+    //保存到redux的state中
+    if(this.state.items){
+      this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
+    }else{
+      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
+    }
   }
+
+
+  handleLabelChange=(e,index,v)=>{
+    console.log(e,index,v);     
+    let newarr = [...this.state.ruleCfg];
+    let value = newarr.filter((v,idx)=>idx == e)[0];
+    console.log(value)
+    
+     newarr.map((v,i)=>{
+      if(i==index){
+        v.ruleType = value.ruleType
+      }
+    }) 
+    this.setState({
+      ruleCfg:newarr
+    },()=>{
+      console.log(newarr)
+    })
+ 
+  }
+ 
 
   operate=(type,v,index)=>{
     if(!v){
       return
     }
-    let listConfigs = this.state.listItem.ruleCfg;//form的上半部分不变，Cfg变
+    let listConfigs = [...this.state.ruleCfg];//form的上半部分不变，Cfg变
     if(!listConfigs){
       return
     }
@@ -87,81 +97,97 @@ class codeManageForm extends Component {
        switch(type){
       case 'up':
         if(index == 0){return}
-        target = listConfigs[index]; 
+        target = {...listConfigs[index]};    
         listConfigs.splice(index,1);
         listConfigs.splice(index-1,0,target);
-      
         break;
       case 'down':
       if(index == listConfigs.length){return}
-        target = listConfigs[index]; 
+        target = {...listConfigs[index]};    
         listConfigs.splice(index,1);
         listConfigs.splice(index+1,0,target);
-      
         break;
       case 'plus':
-        target = listConfigs[index]; 
+        target = {...listConfigs[index]}; 
         listConfigs.splice(index,0,target);
+        listConfigs[index +1].edit = true; 
         break;
       case 'del':
       if(listConfigs.length <1){return}
-        target = listConfigs[index]; 
+        target = {...listConfigs[index]};         
         listConfigs.splice(index,1);
         break;
     }
-    listConfigs.map((v,i)=>{
-      v.sortId = i;
-    })
     this.setState({
       ruleCfg:listConfigs
     },()=>{
-  
+      // console.log(this.state.ruleCfg)
     })
     
   }
 
-  componentWillUnmount(){
-    const {setFormItems} = this.props;
-    setFormItems(this.state.listItem);//关闭
-  }
 
-  shouldComponentUpdate(nextProps,nextState){
-    if(nextState.listItem !== this.state.listItem){
-      return true
-    }else{
-      return false
-    }
-  }
 
-  handleLabelChange2=(value)=>{
-    console.log(value)
+  onEditChange=(e,index)=>{
+    console.log(e.target.value,index);
+    let value = e.target.value;
+    let newarr = [...this.state.ruleCfg];
+     newarr.map((v,i)=>{
+      if(i==index){
+        v.ruleValue = value
+      }
+    }) 
     this.setState({
-      ruleCfg:[...this.state.ruleCfg,{ruleType:value}]
+      ruleCfg:newarr
+    },()=>{
+      console.log(newarr)
     })
   }
-  onEditChange2=(value)=>{
-    console.log(value);
-    this.setState({
-      listItem:[...this.state.ruleCfg,{ruleValue:value}]
-    })
+  handleItem = (e,type)=>{
+    switch(type){
+      case 'ruleName':
+      this.setState({
+        items:{...this.state.items,ruleName:e.target.value}
+      });
+      break;
+      case 'ruleDesc':
+      this.setState({
+        items:{...this.state.items,ruleDesc:e.target.value}
+      });
+      break;
+      case 'ruleName':
+      this.setState({
+        items:{...this.state.items,ruleExplain:e.target.value}
+      });
+      break;
+    }    
   }
 
   showEle(ruleCfg){
     let labelChildren = []; let valueChildren = [];
-    if(ruleCfg){
+     if(ruleCfg){
       for(let i =0;i<ruleCfg.length;i++){
-        labelChildren.push( <Option  key={`${i}`}>{ruleCfg[i].ruleType}</Option>);  
-        valueChildren.push( <Option key={`${i}`}>{ruleCfg[i].ruleValue}</Option> );
+        labelChildren.push( <Option  key={i}>{ruleCfg[i].ruleType}</Option>);  
+        valueChildren.push( <Option key={i}>{ruleCfg[i].ruleValue}</Option> );
       }
       return  ruleCfg.map((v,index,arr)=>{
         return (
              <div key={index} style={{minWidth:'400px',display:'block'}}> 
-               <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px' }} placeholder={v.ruleType} onChange={this.handleLabelChange}>
+             {
+
+               v.edit ? <Select 
+               style={{ width: 110 ,margin:'0 10px' }} 
+               value={v.ruleType}
+               onChange={(e)=>this.handleLabelChange(e,index,v)}
+              >
                 { labelChildren }
-               </Select>
-              <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px'}} placeholder={v.ruleValue} onChange={this.onEditChange}>
-                { valueChildren }
-               </Select> 
+               </Select>:
+               <Input value={v.ruleType}   style={{ width: 110 ,margin:'0 10px' }}  disabled={true} />
+               
+              }
+              {
+                <Input value={v.ruleValue}   style={{ width: 110 ,margin:'0 10px' }}   onChange={e=>this.onEditChange(e,index)}/>  
+              }
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)  } type="up-square" /></span>
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
@@ -169,46 +195,36 @@ class codeManageForm extends Component {
              </div>
            )  
        })
-    }else{
-      return <div style={{display:'flex'}}>
-            <Input placeholder='自定义属性' style={{width:'45%'}} onChange={this.handleLabelChange2}/> 
-            <Input style={{width:'45%'}} placeholder='自定义值'  onChange={this.onEditChange2}/>
-            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,null)  } type="up-square" /></span>
-            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',null)  } type="down-square" /></span>
-            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',null)  } type="plus" /></span>
-            <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,null)  } type="delete" /></span>
-            </div>
     }
- 
-    //key={`listItem.ruleCfg[i]-${i}`}  //Select>.bind(this,v,index)}>
-    // key={`listItem.ruleCfg[i]-${i}`} //.bind(this,v,index)}>
-
-   
   }
 
+  showEft =(ruleCfg)=>{
+    for(var i =0,arr='';i<ruleCfg.length;i++){
+      arr += `${ruleCfg[i].ruleValue}`
+   }
+   return arr?arr.trim():arr
+  }
+ 
   render() {
     const { getFieldDecorator } = this.props.form;
-   
-    let {listItem,ruleCfg} = this.state; //{id: null, ruleName: null, ruleDesc: null, ruleLength: null, ruleExplain: null, …}
-    
-    console.log('render',listItem.ruleCfg);
+    let {listItem,ruleCfg} = this.state; 
     return (
       <div className="content">
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem
         label={'编码规则名称'}>
           {getFieldDecorator('ruleName', {
-            rules: [{ required: true}],
+            rules: [{ required: true}]
           })(
-            <Input  />
+            <Input onChange={(e=>this.handleItem(e,'ruleDesc'))} />
           )}
         </FormItem>
         <FormItem
         label={'编码规则描述'}>
           {getFieldDecorator('ruleDesc', {
-            rules: [{ required:false}],
+           
           })(
-            <TextArea  />
+            <TextArea   onChange={(e=>this.handleItem(e,'ruleDesc'))} />
           )}
         </FormItem>
         <FormItem
@@ -216,22 +232,19 @@ class codeManageForm extends Component {
           {getFieldDecorator('ruleExplain', {
             rules: [{ required:false}],
           })(
-            <TextArea  />
+            <TextArea   onChange={(e=>this.handleItem(e,'ruleExplain'))} />
           )}
         </FormItem>
 
         <FormItem label={'编码规则配置'}>
-            {
-              /* getFieldDecorator('ruleCfg', {
-                rules: [{ required:false}],
-              })
-              (
-              ) */
-              this.showEle(ruleCfg)
-          }
+            { this.showEle(ruleCfg) }
         </FormItem>
-       
-      </Form>        
+      </Form>  
+      <p>编码预览： 
+       {
+          this.showEft(ruleCfg)
+        }
+         </p>
       </div>
     )
   }
@@ -241,7 +254,5 @@ class codeManageForm extends Component {
 const NewCodeManage = Form.create()(codeManageForm);
 export default NewCodeManage;
 
-//在编辑 时已经更新formitem的值了
-   /*  this.props.formItems && this.setState({
-      listItem:this.props.formItems
-    }) */
+
+          

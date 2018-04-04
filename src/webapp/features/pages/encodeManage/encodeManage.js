@@ -71,6 +71,7 @@ export default class encodeManage extends Component {
       visible: true,
       edit:false
     });
+    
 
 
   }
@@ -99,22 +100,23 @@ deletEle = (record)=>{
 
 
   handleOk = (e) => {
-    const{ setFormItems,saveCategory } = this.props;
+    const{ setFormItems,saveCategory,formItems } = this.props;
     this.setState({
       visible: false,
     });
     let v = this.refs.NewCodeForm.getFieldsValue();
-    console.log(v.ruleCfg)
-    let a = {};
+    
+/*     let a = {};
     for(var k in v){
       if(v.hasOwnProperty(k) && v[k]){
         a[k] = v[k]
       }
-    }
-    if(a){
-      setFormItems(a);
-      saveCategory(a)
-    } 
+    } */
+    // a.ruleCfg = 
+    // if(a){
+      // setFormItems(a);
+      saveCategory(formItems)
+    // } 
   }
 
   handleCancel = (e) => {
