@@ -50,7 +50,6 @@ export default class encodeManage extends Component {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.codeDetail);
     if(nextProps.codeDetail !== this.props.codeDetail){ //说明点了编辑发送了更新codeDetail请求
       this.setState({
         formItems: nextProps.codeDetail

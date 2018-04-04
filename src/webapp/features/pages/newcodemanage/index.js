@@ -26,6 +26,8 @@ class codeManageForm extends Component {
     super(props);
     this.state = {
       listItem:props.codeDetail || items, //已经判断是编辑还是新建了 DidMount不许再次判断
+      editLabel:false,
+      editValue:false,
     };    
   }
 
@@ -46,9 +48,19 @@ class codeManageForm extends Component {
       this.props.form.setFieldsValue({...this.state.formItems});
       if(!this.state.listItem.ruleCfg){
         this.setState({
-          listItem:{...this.state.listItem,ruleCfg:items.ruleCfg}
+          listItem:{...this.state.listItem,ruleCfg:items.ruleCfg},
         })
-      }
+      } 
+      
+     /*  let labels =[];let optValues= [];
+         this.state.listItem.ruleCfg.slice(0).map(v=>{
+           labels.push(v.ruleType);
+           optValues.push(v.ruleValue);
+         });
+         this.setState({
+           labels:labels,
+           optValues:optValues
+         }) */
      /*  let Cfg = [] ;
     if(codeDetail && codeDetail.ruleCfg){//编辑
       Cfg= codeDetail.ruleCfg;
@@ -60,65 +72,93 @@ class codeManageForm extends Component {
     }) */
   }
 
-  handleLabelChange(v){
-    // console.log(v)
+  handleLabelChange(v,index){
+    console.log(v,index);
+    let listConfigs = this.state.listItem.ruleCfg.slice(0);//form的上半部分不变，Cfg变
+    let target = listConfigs[index];
+    console.log(target)
+    // listConfigs.splice(index,1,{})
+
   }
-  onEditChange(v){
-    // console.log(v)
+  onEditChange(v,index){
+    
   }
 
   operate=(type,v,index)=>{
-    console.log(v,index);
-    
     let listConfigs = this.state.listItem.ruleCfg;//form的上半部分不变，Cfg变
     if(!listConfigs){
       return
     }
     let target;
-    console.log(listConfigs);
-
-    switch(type){
+       switch(type){
       case 'up':
         if(index == 0){return}
         target = listConfigs[index]; 
         listConfigs.splice(index,1);
         listConfigs.splice(index-1,0,target);
-        console.log('up')
+      
         break;
       case 'down':
       if(index == listConfigs.length){return}
         target = listConfigs[index]; 
         listConfigs.splice(index,1);
         listConfigs.splice(index+1,0,target);
-        console.log('dowm')
+      
         break;
       case 'plus':
         target = listConfigs[index]; 
         listConfigs.splice(index,0,target);
-        console.log('plus')
+      
         break;
       case 'del':
       if(listConfigs.length === 0){return}
         target = listConfigs[index]; 
         listConfigs.splice(index,1,target);
-        console.log('del')
+     
         break;
     }
     this.setState({
       listItem:{...this.state.listItem,ruleCfg:listConfigs}
     },()=>{
-      console.log(this.state.listItem)
+  
     })
     
   }
   shouldComponentUpdate(nextProps,nextState){
     if(nextState.listItem !== this.state.listItem){
-      console.log(true)
       return true
     }else{
-      console.log(false)
       return false
     }
+  }
+
+  showEle(listItem){
+    let labelChildren = []; let valueChildren = [];
+    if(listItem.ruleCfg){
+      for(let i =0;i<listItem.ruleCfg.length;i++){
+        labelChildren.push( <Option key={`listItem.ruleCfg[i]-${i}`}>{listItem.ruleCfg[i].ruleType}</Option>);
+        valueChildren.push(  <Option key={`listItem.ruleCfg[i]-${i}`}>{listItem.ruleCfg[i].ruleValue}</Option> )
+      }
+    }
+
+
+   return listItem.ruleCfg && listItem.ruleCfg.map((v,index,arr)=>{
+      return (
+           <div key={index} style={{minWidth:'400px',display:'block'}}> 
+             <Select mode='tags' maxTagCount={1} style={{ width: 110 ,margin:'0 10px' }} value={v.ruleType} onChange={this.handleLabelChange.bind(this,v,index)}>
+              { labelChildren }
+             </Select>
+   
+            <Select style={{ width: 110 ,margin:'0 10px'}} value={v.ruleValue} onChange={this.onEditChange.bind(this,v,index)}>
+              { valueChildren }
+             </Select> 
+           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)    } type="up-square" /></span>
+           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
+           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
+           <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
+           </div>
+         )  
+     })
   }
 
   render() {
@@ -157,23 +197,7 @@ class codeManageForm extends Component {
 
         <div label={'编码规则配置'}>
             {
-               listItem.ruleCfg && listItem.ruleCfg.map((v,index,k)=>{
-               return (
-                    <div key={index} style={{minWidth:'400px',display:'block'}}> 
-                      <Select style={{ width: 110 ,margin:'0 10px' }} defaultValue={v.ruleType} onChange={this.handleLabelChange.bind(this,v)}>
-                        <Option key={v}>{v.ruleType}</Option>
-                      </Select>
-            
-                     <Select style={{ width: 110 ,margin:'0 10px'}} defaultValue={v.ruleValue} onChange={this.onEditChange.bind(this,v)}>
-                          <Option key={v}>{v.ruleValue}</Option>
-                      </Select> 
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)    } type="up-square" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'plus',v,index)  } type="plus" /></span>
-                    <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
-                    </div>
-                  )  
-              })
+              this.showEle(listItem)
           }
         </div>
        
