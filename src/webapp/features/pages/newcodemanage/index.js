@@ -47,26 +47,43 @@ class codeManageForm extends Component {
         })
       }
   }
-  shouldComponentUpdate(nextProps,nextState){
+  /*  shouldComponentUpdate(nextProps,nextState){
     if( nextState.ruleCfg !== this.state.ruleCfg || nextState.listItem !== this.state.listItem ){
       console.log(true)
       return true
     }else{
       return false
-    }
+    }  
+    
+  }*/
+
+   componentDidUpdate(nextProps,nextState){
+     console.log('did update',nextProps.formItems,nextState.formItems,this.state.formItems);
+     console.log('items',nextState.items,this.state.items);
+     
+       
+    
   }
-  componentDidUpdate(){
+   
+  
+  // componentWillUnmount(){
+    handleSubmit=()=>{
     //保存到redux的state中
+    const{saveCategory } = this.props;
     if(this.state.items){
       this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
-    }else{
-      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
+      saveCategory({...this.state.items,ruleCfg:this.state.ruleCfg})
     }
+    else{
+      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
+      saveCategory({...this.state.listItem,ruleCfg:this.state.ruleCfg})
+    }
+    this.props.close()
   }
 
 
   handleLabelChange=(e,index,v)=>{
-    console.log(e,index,v);     
+    // console.log(e,index,v);     
     let newarr = [...this.state.ruleCfg];
     let value = newarr.filter((v,idx)=>idx == e)[0];
     console.log(value)
@@ -79,8 +96,8 @@ class codeManageForm extends Component {
     this.setState({
       ruleCfg:newarr
     },()=>{
-      console.log(newarr)
-    })
+      // console.log(newarr)
+    }) 
  
   }
  
@@ -144,7 +161,7 @@ class codeManageForm extends Component {
     })
   }
   handleItem = (e,type)=>{
-    switch(type){
+     switch(type){
       case 'ruleName':
       this.setState({
         items:{...this.state.items,ruleName:e.target.value}
@@ -204,22 +221,23 @@ class codeManageForm extends Component {
    }
    return arr?arr.trim():arr
   }
+  
  
   render() {
     const { getFieldDecorator } = this.props.form;
     let {listItem,ruleCfg} = this.state; 
     return (
       <div className="content">
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form  className="login-form">
         <FormItem
         label={'编码规则名称'}>
           {getFieldDecorator('ruleName', {
             rules: [{ required: true}]
           })(
-            <Input onChange={(e=>this.handleItem(e,'ruleDesc'))} />
+            <Input onChange={(e=>this.handleItem(e,'ruleName'))} />
           )}
         </FormItem>
-        <FormItem
+         <FormItem
         label={'编码规则描述'}>
           {getFieldDecorator('ruleDesc', {
            
@@ -235,9 +253,11 @@ class codeManageForm extends Component {
             <TextArea   onChange={(e=>this.handleItem(e,'ruleExplain'))} />
           )}
         </FormItem>
-
+ 
         <FormItem label={'编码规则配置'}>
-            { this.showEle(ruleCfg) }
+            { 
+              this.showEle(ruleCfg) 
+              }
         </FormItem>
       </Form>  
       <p>编码预览： 
@@ -245,9 +265,10 @@ class codeManageForm extends Component {
           this.showEft(ruleCfg)
         }
          </p>
+         <Button type="primary" onClick={this.handleSubmit}>guanbi</Button>
       </div>
     )
-  }
+  } 
 }
 
 

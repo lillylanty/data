@@ -9,6 +9,7 @@ import assign from 'object-assign';
 import CodeTable from './CodeTable';
 import './style.scss';
 import NewCodeManage from '../newcodemanage/index';
+import Test from "../newcodemanage/test";
 
 const Search = Input.Search;
 
@@ -112,12 +113,22 @@ deletEle = (record)=>{
 
   handleCancel = (e) => {
     const{ setFormItems } = this.props;
-    let v = this.refs.NewCodeForm.getFieldsValue();
-    console.log(v.ruleCfg)
+    // let v = this.refs.NewCodeForm.getFieldsValue();
+    // console.log(v.ruleCfg)
     this.setState({
       visible: false,
     });
     setFormItems({});
+  }
+
+  close=()=>{
+    this.setState({
+      visible:false
+    });
+    const{ setFormItems,saveCategory,formItems } = this.props;
+    if(formItems){
+      saveCategory(formItems)
+    }
   }
 
   render() {
@@ -144,10 +155,11 @@ deletEle = (record)=>{
         <Modal
           title="新建编码规则"
           visible={this.state.visible}
-          onOk={this.handleOk}
+          // onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-        <NewCodeManage ref="NewCodeForm" {...this.props} formItems={formItems}/>
+        <NewCodeManage ref="NewCodeForm" {...this.props} close={this.close} formItems={formItems}/>
+        {/* <Test {...this.props} formItems={formItems}/> */}
         </Modal> 
       </div>
     )
