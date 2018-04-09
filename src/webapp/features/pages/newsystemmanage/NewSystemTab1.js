@@ -16,19 +16,19 @@ componentDidMount(){
  
 }
 
-renderTreeNodes = (data) => { 
+renderTreeNodes = (data,isAdmin) => { 
   if(!data){
     return
   }
   return data.map((item) => {
     if (item.children) {
       return (
-        <TreeNode title={item.name} key={item.id} dataRef={item}>
+        <TreeNode title={item.name} key={item.id} dataRef={item} disabled={isAdmin} disableCheckbox={isAdmin}>
           {this.renderTreeNodes(item.children)}
         </TreeNode>
       );
     }
-    return <TreeNode  title={item.name} key={item.id} dataRef={item} isLeaf={true}/>;
+    return <TreeNode  title={item.name} key={item.id} dataRef={item} isLeaf={true} disableCheckbox={isAdmin} />;
   });
 
 }
@@ -41,8 +41,8 @@ onCheck = (checkedKeys, info) => {
 }
 
   render(){
-    // console.log(this.props.treeData);
-    let {treeData} = this.props;
+
+    let {treeData, isAdmin} = this.props;
     return (
     <div >
     <div style={{margin:'20px 0',minHeight:'300px'}}>
@@ -55,7 +55,7 @@ onCheck = (checkedKeys, info) => {
         onSelect={this.onSelect}
         onCheck={this.onCheck}
       >
-        {this.renderTreeNodes(treeData)}
+        {this.renderTreeNodes(treeData,isAdmin)}
       </Tree>
     </div>
   </div>

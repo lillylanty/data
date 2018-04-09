@@ -187,7 +187,7 @@ module.exports = function makeWebpackConfig() {
       },
       {
         path:'/api/v1/**',
-        target: 'http://172.16.10.144:8899',
+        target: 'http://172.16.10.144:8899',//'http://172.16.10.144:8899',
         changeOrigin: true
       }
     ],

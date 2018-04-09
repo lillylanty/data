@@ -9,7 +9,7 @@ let urls = {
   deleteRoleEntity:'/api/v1/role/entity',  //删除角色与实体权限的关联关系
   getRoleAuthorityEntity:'/api/v1/role/entity/auto-complete', //角色-实体权限关联时检索实体
   selectAutorityList:'/api/v1/role/list-entity-permission', //查询角色关联的实体权限列表
-  getReferEntity:'/api/v1/entity/rel-entity',//关联实体
+  getReferEntity:'/api/v1/entity/rele-entity',//关联实体
   getAttr: '/api/v1/entity/attr',  //根据id获取实体属性
 
   deleteUser:'/api/v1/user',

@@ -32,7 +32,7 @@ export default class NewSystemManage  extends Component {
       roleName:'',
       roleDesc:'',
       roleId:'',
-      isAdmin:true,
+      isAdmin:false,
       treeData:null,
       key:1,
       Autority:[]
@@ -137,7 +137,7 @@ callback=(key)=>{
         <li><span>管理员：</span><Checkbox  onChange={(e)=>{this.handleInput(e,'管理员')}}/></li>
       </ul>
       <Tabs defaultActiveKey="1" onChange={this.callback}>
-        <TabPane tab="功能权限" key="1"><NewSystemTab1 {...this.props} treeData={this.props.tree} /></TabPane>
+        <TabPane tab="功能权限" key="1"><NewSystemTab1 {...this.props} treeData={this.props.tree} isAdmin={this.state.isAdmin}/></TabPane>
         <TabPane tab="实体权限" key="2"><NewSystemTab2 {...this.props} roleId={this.state.roleId} tableData={this.props.roleEntity}  /></TabPane>
       </Tabs>
       <p>
