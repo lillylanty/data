@@ -31,7 +31,16 @@ class HorizontalAddForm extends React.Component {
 
 
   componentDidMount() {
-    this.props.form.validateFields(); 
+    this.props.form.validateFields();
+    let { modelData } = this.props; 
+    if(modelData){
+      this.props.form.setFieldsValue({
+        entityName: modelData.entityName,
+        entityDesc: modelData.entityDesc,
+        entityCode: modelData.entityCode,
+        entityGroupId:modelData.entityCode,
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps){
@@ -39,7 +48,7 @@ class HorizontalAddForm extends React.Component {
    
     this.setState({
       form: {...nextProps.modelData},
-      disable: (nextProps.modelData &&  nextProps.modelData.entityCode) ? true :false
+      // disable: (nextProps.modelData &&  nextProps.modelData.entityCode) ? true :false
     },()=>{
   
     })
@@ -113,9 +122,11 @@ class HorizontalAddForm extends React.Component {
     }
     category.map((v,i)=>{
       v.value = v.id;
-      v.label = v.groupName; //后端改了此字段
+      v.label = v.nodeName; //后端改了此字段
       if(v.children && v.children.length>0){
         this.replaceKey(v.children);
+      }else if(v.children && v.children.length <1){
+        delete v.children
       }
     });
     return category
@@ -127,17 +138,26 @@ class HorizontalAddForm extends React.Component {
     const {entityCode,entityDesc,entityGroupId,entityName} = this.state.form;
     // console.log(this.state.form);
     this.arr = this.replaceKey(category);
+    // console.log(category,this.arr);
     const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
     
-      let xs = {span:12, offset: 0};
-      let lg = {span:12, offset: 0};
+    /*   let xs = {span:12, offset: 0};
+      let lg = {span:12, offset: 0}; */
+      let row = {
+        display:'flex',
+        flexWrap:'wrap',
+        justifyContent:'space-between'
+      }
+      let item = {
+        
+      }
 
     const userNameError = isFieldTouched('userName') && getFieldError('userName');
     const passwordError = isFieldTouched('password') && getFieldError('password');
      return (
-      <Form layout="inline" onSubmit={this.handleSubmit}>
-        <Row gutter={24}>       
-        <Col xs={xs} lg={lg} >
+      <Form layout="inline" style={{marginTop:'-80px',padding:'30px',background:'#fff'}} onSubmit={this.handleSubmit}>
+        <div style={row}>       
+        <div style={item}>
           <FormItem label={`实体模型名称：`} >
               {getFieldDecorator('entityName', {
                 initialValue:entityName,
@@ -147,9 +167,9 @@ class HorizontalAddForm extends React.Component {
                 <Input placeholder="请输入实体模型名称" />
               )}
           </FormItem>
-        </Col>
+        </div>
 
-        <Col xs={xs} lg={lg} >
+        <div style={item}>
           <FormItem label={`实体模型编码：`}
             validateStatus={passwordError ? 'error' : ''}
             help={passwordError || ''}
@@ -158,12 +178,12 @@ class HorizontalAddForm extends React.Component {
               initialValue:entityCode,
               rules: [{ required: true, message: '实体模型编码只能录入一次，保存后不可编辑' },{validator:this.validEntityEncode}],
             })(
-              <Input type="password" placeholder="请输入实体模型编码"  disabled={this.state.disable} />
+              <Input type="password" placeholder="请输入实体模型编码" />
             )}
           </FormItem>
-        </Col>
+        </div>
 
-        <Col xs={xs} lg={lg} >
+        <div style={item}>
           <FormItem
             label={`所属类目：`}
             hasFeedback
@@ -183,9 +203,9 @@ class HorizontalAddForm extends React.Component {
               
             )}
           </FormItem>
-        </Col>
+        </div>
         
-        <Col xs={xs} lg={lg}>
+        <div style={item}>
         <FormItem label={`描述：`}
           validateStatus={passwordError ? 'error' : ''}
           help={passwordError || ''}
@@ -194,11 +214,11 @@ class HorizontalAddForm extends React.Component {
             initialValue:entityDesc,
             rules: [{ required: true, message: 'Please input your modelEncode!' },{validator:this.validEntityDesc}],
           })(
-            <TextArea rows={4} placeholder="请填写实体描述" />
+            <TextArea rows={1}  style={{width:'250px',height:'38px'}} placeholder="请填写实体描述" />
           )}
         </FormItem>
-      </Col>
-        </Row>
+      </div>
+        </div>
       </Form>
     ); 
   }

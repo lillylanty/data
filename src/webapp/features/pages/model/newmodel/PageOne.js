@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import {  Icon, Input, Button,Popconfirm,Select, Spin ,Checkbox ,message } from 'antd';
-import HorizontalAddForm from '../../../../../common/HorizontalAddForm';
+import HorizontalAddForm from './HorizontalAddForm';
 import TableData from '../../../../../common/TableData';
 
 const { Option, OptGroup } = Select;
@@ -100,46 +100,55 @@ export default class PageOne extends Component{
       {
       title: '属性名称',
       dataIndex: 'attrName',
+      width:150,
       render: (text, record) => this.renderColumnsSpecial(text, record, 'attrName'),
     },
      {
       title: '编码',
       dataIndex: 'attrCode',
+      width:150,
       render: (text, record) => this.renderColumnsSpecial(text, record, 'attrCode'),
     }, 
     {
       title: '数据类型',
       dataIndex: 'attrDataType',
+      width:150,
       render: (text, record) => this.renderSelectableCol(text, record, 'attrDataType'),
     },
      {
       title: '引用对象',
       dataIndex: 'relObject',
+      width:150,
       render: (text, record) => this.renderSelectRefer( record, 'relObject'),
     },
     {
       title: '长度',
       dataIndex: 'attrLength',
+      width:150,
       render: (text, record) => this.renderColumns(text, record, 'attrLength'),
     },
     {
       title: '校验规则',
       dataIndex: 'checkRule',
+      width:150,
       render: (text, record) => this.renderColumns(text, record, 'checkRule'),
     },
     {
       title: '是否必填',
       dataIndex: 'isRequired',
+      width:150,
       render: (text, record) => this.renderCheckbox(text, record, 'isRequired'),
     },
     {
       title: '是否唯一',
       dataIndex: 'isUnique',
+      width:150,
       render: (text, record) => this.renderCheckbox(text, record, 'isUnique'),
     },
     {
       title: '操作',
       dataIndex: 'operation',
+      width:200,
       key:'operation',
       render:(text,record) =>{
         const { editable } = record;
@@ -191,12 +200,21 @@ export default class PageOne extends Component{
 
   renderColumnsSpecial(text, record, column){
     let editable;
-    switch(record[column]){
-      case '名称': case '编码': case '描述':
-       editable = false;
-       break;
-       default: 
+    if(column == 'attrName'){
+      switch(record[column]){
+        case '名称': case '编码': case '描述':
+         editable = false;
+         break;
+         default: 
+          editable = record.editable;
+      }
+    }
+    if(column == 'attrCode' ){
+      if(record.attrName == '名称' || record.attrName == '编码' || record.attrName == '描述'){
+        editable = false;
+      }else{
         editable = record.editable;
+      }
     }
     return (
         <EditableCell
@@ -490,9 +508,9 @@ this.setState({
     let d = [...this.state.data];
 
     return(
-      <div>
+      <div style={{background:'#fff'}}>
         <HorizontalAddForm ref="HorizontalAddForm" {...this.props} />   
-        <Button type="primary" onClick={this.newAttri}>新建属性</Button>
+        <p style={{textAlign:'left',padding:'20px',background:'#f2f7fa'}} ><Button type="primary"  onClick={this.newAttri}>新建属性</Button></p>
         <TableData  dataSource={d} columns={this.columns} rowKey="key" /> 
       </div>
     )

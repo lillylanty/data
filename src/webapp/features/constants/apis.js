@@ -10,12 +10,12 @@ export default {
   getFinishedJudgeData:'/finishedJudge.json',
 
   /*----------model--------------*/
-  getTree: '/api/v1/entity-group/list',
+  getTree: '/api/v1/entity-group/tree',
   deleteData: '/api/v1/entity/del',
   getTableData: `/api/v1/entity/list`,
   getRecordAttr: '/api/v1/entity/attr',           //编辑时获取模型属性 id传groupId
   /*----新建模型------*/
-  getCategory: `/api/v1/entity-group/list`,
+  getCategory: `/api/v1/entity-group/tree`,
   saveEntity: `/api/v1/entity/save`,         //上传编辑或新增的实体模型
   getrelEntity:'/api/v1/entity/rel-entity',  //实体引用选择 获取关联实体接口
   getEnumType: '/api/v1/dict/list',          // 获取枚举类型

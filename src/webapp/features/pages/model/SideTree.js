@@ -103,10 +103,6 @@ export default class SideTree extends Component{
               }
               
           })
-
-        
-
-  
     
   }
 
@@ -114,7 +110,7 @@ export default class SideTree extends Component{
     return data.map((item) => {
       if (item.children) {
         return (
-          <TreeNode title={item.title} key={item.id} dataRef={item}>
+          <TreeNode title={item.nodeName} key={item.id} dataRef={item}>
             {this.renderTreeNodes(item.children)}
           </TreeNode>
         );
@@ -184,6 +180,18 @@ export default class SideTree extends Component{
     return newobj;
   }
 
+  onSelect = (selectedKeys, info) => {
+    // console.log('selected', selectedKeys, info);
+    const {pager,getTableData} = this.props;
+   let entityName = info.node.props.title;
+   if(entityName){
+     //动态展示右边表  后端说加上id，使类目树点击后查看实体列表
+    getTableData({
+     ...pager,id:selectedKeys
+    })
+   }
+
+  }
 
   render() {   
     const { expandedKeys } = this.state;
@@ -200,7 +208,7 @@ export default class SideTree extends Component{
       <div>
       {
 
-        this.state.treeData.length> 0 ? <Tree loadData={this.onLoadData}>
+        this.state.treeData.length> 0 ? <Tree loadData={this.onLoadData} onSelect={this.onSelect}>
             {this.renderTreeNodes(treeData)}
           </Tree> : null
       }

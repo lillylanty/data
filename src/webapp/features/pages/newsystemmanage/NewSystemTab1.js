@@ -12,6 +12,15 @@ export default class NewSystemTab1  extends Component {
     return this.props != nextProps || this.state != nextState;
   }
  */
+componentWillMount(){
+  let data = this.props.treeData;
+  let arr = [];
+  /* data.map((v,i)=>{
+   if(i===0){
+
+   }
+  }) */
+}
 componentDidMount(){
  
 }
@@ -49,9 +58,9 @@ onCheck = (checkedKeys, info) => {
    
       <Tree
         checkable
-        defaultExpandedKeys={['0-0-0', '0-0-1']}
-        defaultSelectedKeys={['0-0-0', '0-0-1']}
-        defaultCheckedKeys={['0-0-0', '0-0-1']}
+        defaultExpandedKeys={['100','102','104']}
+        defaultSelectedKeys={['102']}
+        defaultCheckedKeys={['103']}
         onSelect={this.onSelect}
         onCheck={this.onCheck}
       >

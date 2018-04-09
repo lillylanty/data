@@ -5,7 +5,7 @@ export const newModelManageAction = {
   getCategory : (v)=>{
     return dispatch => {
       ajax.getCategory(v).then(res => {
-        const { data, success, code, result_message } = res;
+        const { data, success, code, message } = res;
         if (success) {
           dispatch({
             type: newModelType.GET_GATEGORY,

@@ -20,6 +20,12 @@ export const ModelManageAction = {
       })
     }
   },
+  setPager: (v)=>{
+    return {
+      type: manageModelType.SET_PAGE,
+      payload: v
+    }
+  },
 
   getTree : (v)=>{
     return dispatch => {

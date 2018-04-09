@@ -71,7 +71,7 @@ export default class ModelTable extends React.Component{
     });
   }
   componentWillReceiveProps(nextProps,nextState){
-    if(nextProps.tableData.length>0){
+    if(nextProps.tableData !== this.props.tableData){
       this.setState({
         dataSource: nextProps.tableData.slice(0),
         pagination: {...this.state.pagination,...nextProps.pager}
@@ -167,6 +167,7 @@ export default class ModelTable extends React.Component{
   
   
   render(){
+    // console.log(this.props.tableData)
     return(
       <div>
             <p className="search-input">
