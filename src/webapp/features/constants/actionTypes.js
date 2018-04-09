@@ -43,6 +43,7 @@ export const newModelType = mirror([
 ],'newModel/')
 
 export const manageModelType = mirror([
+  'SET_CATEGORY_ID',
   'GET_ATTR',
   'SET_PAGE',
   'GET_TREE',

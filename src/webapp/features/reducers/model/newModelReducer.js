@@ -1,48 +1,49 @@
 import { combineReducers } from 'redux';
 import assign from 'object-assign';
 import { newModelType } from '../../constants/actionTypes';
+let arr = [{
+  key:1,
+  attrName: '名称',
+  attrCode: '122',
+  attrDataType: 'int',
+  attrDataType_name:'整型',
+  relObject:'',
+  relObject_name:'',
+  attrLength:20,
+  checkRule:'-',
+  isRequired:true,
+  isUnique:false,
+  editable:true 
+}, {
+  key:2,
+  attrName: '编码',
+  attrCode: '11113',
+  attrDataType: 'int',
+  attrDataType_name:'整型',
+  relObject:'',
+  relObject_name:'',
+  attrLength:20,
+  checkRule:'-',
+  isRequired:true,
+  isUnique:false,
+  editable:true
+}, {
+  key:3,
+  attrName: '描述',
+  attrCode: '',
+  attrDataType: 'int',
+  attrDataType_name:'整型',
+  relObject:'',
+  relObject_name:'',
+  attrLength:20,
+  checkRule:'-',
+  isRequired:true,
+  isUnique:false,
+  editable:true
+}];
 const initialState = {
   modelData:{}, //保存表单的字段
-  entityModalAttr:[{
-    key:1,
-    attrName: '名称',
-    attrCode: '122',
-    attrDataType: 'int',
-    attrDataType_name:'整型',
-    relObject:'',
-    relObject_name:'',
-    attrLength:20,
-    checkRule:'-',
-    isRequired:true,
-    isUnique:false,
-    editable:true 
-  }, {
-    key:2,
-    attrName: '编码',
-    attrCode: '11113',
-    attrDataType: 'int',
-    attrDataType_name:'整型',
-    relObject:'',
-    relObject_name:'',
-    attrLength:20,
-    checkRule:'-',
-    isRequired:true,
-    isUnique:false,
-    editable:true
-  }, {
-    key:3,
-    attrName: '描述',
-    attrCode: '',
-    attrDataType: 'int',
-    attrDataType_name:'整型',
-    relObject:'',
-    relObject_name:'',
-    attrLength:20,
-    checkRule:'-',
-    isRequired:true,
-    isUnique:false,
-    editable:true
-  }], //保存正在编辑的table属性
+  entityModalAttr:arr, //保存正在编辑的table属性
   allData:{}, //表单和table拼接的数据 待上传的数据
   category:null,
   entity:null,
@@ -66,8 +67,12 @@ export const newModelReducer = (state = initialState, action) => {
       case newModelType.EDIT_ENTITY:
         return {...state,entity:payload};
 
-      case newModelType.EDIT_ENTITY_MODAL_ATTR:     
+      case newModelType.EDIT_ENTITY_MODAL_ATTR: 
+      if(payload){
         return {...state,entityModalAttr:payload};
+      }else{
+        return {...state,entityModalAttr:arr};
+      }
 
       case newModelType.UPDATE_DATA_TYPE:
       //三种复杂类型

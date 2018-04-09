@@ -7,7 +7,8 @@ const initialState = {
   pager:{total:0,pageSize:10},
   newData:[],
   filterData:[],
-  recordAttr:undefined
+  recordAttr:undefined,
+  categoryId:'',
 };
 export const modelReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -25,9 +26,13 @@ export const modelReducer = (state = initialState, action) => {
 
       case manageModelType.GET_TABLE_DATA: 
         return {...state,tableData:payload};
-      
-      case manageModelType.GET_FILTER_DATA:
-        return {...state,filterData:payload};
+        
+        case manageModelType.SET_CATEGORY_ID: 
+        console.log(state.categoryId)
+          return {...state,categoryId:payload};
+
+   /*    case manageModelType.GET_FILTER_DATA:
+        return {...state,categoryId:payload}; */
 
       case manageModelType.SET_NEW_DATA:
         return {...state,newData:payload};

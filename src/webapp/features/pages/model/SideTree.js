@@ -182,15 +182,15 @@ export default class SideTree extends Component{
 
   onSelect = (selectedKeys, info) => {
     // console.log('selected', selectedKeys, info);
-    const {pager,getTableData} = this.props;
+    const {pager,getTableData,setCategoryId,categotyId} = this.props;
    let entityName = info.node.props.title;
-   if(entityName){
+  
      //动态展示右边表  后端说加上id，使类目树点击后查看实体列表
     getTableData({
-     ...pager,id:selectedKeys
-    })
-   }
-
+     ...pager,id:selectedKeys[0]
+    });
+    setCategoryId(selectedKeys[0]);  
+    console.log(selectedKeys[0],categotyId)
   }
 
   render() {   

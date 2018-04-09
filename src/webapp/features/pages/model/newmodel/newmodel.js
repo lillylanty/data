@@ -22,8 +22,6 @@ const mapState = state => ({
   codeObj: state.newModel.codeObj,//
   category: state.newModel.category, //类目
   uploadResult: state.newModel.uploadResult, //上传结果
-  //主页的
-  recordAttr: state.model.recordAttr, 
 });
 const mapDispatch = dispatch => ({
 
@@ -33,8 +31,7 @@ const mapDispatch = dispatch => ({
   saveEntity:(params) => dispatch(newModelManageAction.saveEntity(params)), //上传新建的模型所有数据
   getDataType: (params) => dispatch(newModelManageAction.getDataType(params)),
 
-  //主页的
-  getRecordAttr:(params) =>dispatch(ModelManageAction.getRecordAttr(params)),
+  getRecordAttr:(params) =>dispatch(newModelManageAction.getRecordAttr(params)), //实际上是更新modalAttr表
 });
 
 @connect(mapState, mapDispatch)
@@ -46,9 +43,11 @@ export default class NewModel extends Component {
     };
    
   }
-  componentDidMount() {
-   
-   
+  componentWillMount() {
+   let {id} = this.props.location.state;
+   if(id){
+     this.props.getRecordAttr({id:id}); //是编辑的情况，请求编辑页面的属性列表   
+   }
   }
   componentWillReceiveProps(nextProps) {
     this.setState({

@@ -48,6 +48,20 @@ export const newModelManageAction = {
       payload:v
     }
   },
+
+  getRecordAttr: (v)=>{
+    return dispatch => {
+      ajax.getRecordAttr(v).then(res => {
+        const { data, success, message } = res;
+        if (success) {
+          dispatch({
+            type: newModelType.EDIT_ENTITY_MODAL_ATTR,
+            payload: data
+          })
+        } 
+      })
+    }
+  },
   
   getDataType: (v) =>{  //应该改为传对象的形式{type:v,data:data}。有的get需要传参数data
   let t = v;

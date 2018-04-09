@@ -178,7 +178,7 @@ class HorizontalAddForm extends React.Component {
               initialValue:entityCode,
               rules: [{ required: true, message: '实体模型编码只能录入一次，保存后不可编辑' },{validator:this.validEntityEncode}],
             })(
-              <Input type="password" placeholder="请输入实体模型编码" />
+              <Input placeholder="请输入实体模型编码" />
             )}
           </FormItem>
         </div>

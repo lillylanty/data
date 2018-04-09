@@ -15,9 +15,9 @@ import './style.scss'
 const mapState = state => ({
   tree: state.model.tree,
   newData: state.model.newData, //新建
+  categoryId:state.model.categoryId,
   pager: state.model.pager,
   tableData: state.model.tableData,
-  recordAttr: state.model.recordAttr, 
   //新建页面的
   modelData: state.newModel.modelData,
 
@@ -25,9 +25,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   getTree:(params)=> dispatch(ModelManageAction.getTree(params)),
   setPager: (params) => dispatch(ModelManageAction.setPager(params)), //当改变煤业显示条目数时
+  setCategoryId: (params) => dispatch(ModelManageAction.setCategoryId(params)), //当选择类目时显示表格
   deleteData: (params) => dispatch(ModelManageAction.deleteData(params)),
   getTableData:(params)=> dispatch(ModelManageAction.getTableData(params)),
-  getRecordAttr:(params)=> dispatch(ModelManageAction.getRecordAttr(params)),
 
   //新建页面的
   editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段

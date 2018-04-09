@@ -26,6 +26,12 @@ export const ModelManageAction = {
       payload: v
     }
   },
+  setCategoryId: (v)=>{
+    return {
+      type: manageModelType.SET_CATEGORY_ID,
+      payload: v
+    }
+  },
 
   getTree : (v)=>{
     return dispatch => {
@@ -55,7 +61,7 @@ export const ModelManageAction = {
   },
 
   getRecordAttr: (v)=>{
-    return dispatch => {
+   /*  return dispatch => {
       ajax.getRecordAttr(v).then(res => {
         const { data, success, message } = res;
         if (success) {
@@ -65,7 +71,7 @@ export const ModelManageAction = {
           })
         } 
       })
-    }
+    } */
   }
 }
 

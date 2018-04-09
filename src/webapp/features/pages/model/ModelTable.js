@@ -64,11 +64,11 @@ export default class ModelTable extends React.Component{
 
 
   componentWillMount(){
-    const {getTableData,tableData,pager} = this.props;
+    /* const {getTableData,tableData,pager} = this.props;
     getTableData({
       "pageNo": 0,
       "pageSize": 15
-    });
+    }); */
   }
   componentWillReceiveProps(nextProps,nextState){
     if(nextProps.tableData !== this.props.tableData){
@@ -89,31 +89,30 @@ export default class ModelTable extends React.Component{
 
   editEle = (record) =>{
     
-    const {modelData,editModal,getRecordAttr,getTableData,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
-    getRecordAttr({id:record.entityGroupId});
+    const {editModal,editEntityModelAttr} = this.props;
     editModal(Object.assign({},record));
-    //如果该记录有属性的话，就更新新建页面的列表 调的是api/v1/entity/attr?id=1接口,id是record的groupId
-    recordAttr && recordAttr.length>0 && editEntityModelAttr([...recordAttr]);
-    this.props.router.push({pathname:'/model/newmodel',query:{id:record.entityGroupId}})  //{recordAttr:recordAttr}});
+    //如果该记录有属性的话，就更新新建页面的列表 调的是api/v1/entity/attr?id=1接口,id是record的groupId (移到新建页面的willMount中了)
+    // getRecordAttr({id:record.id});
+    // console.log(recordAttr)
+    // recordAttr ? editEntityModelAttr([...recordAttr]) :  editEntityModelAttr() ;
+    this.props.router.push({pathname:'/model/newmodel',state:{id:record.id}})  //{id:entityGroupId}});
   }
   
   deleteElement = (record)=>{
-    const {deleteData,getTableData,tableData,pager} = this.props;
+    const {deleteData,getTableData,tableData,pager,categoryId} = this.props;
     deleteData({id:record.entityGroupId});
     getTableData({
-       ...pager,"entityName":record.entityName
+       ...pager,"entityName":record.entityName,id:categoryId
     });
   }
 
 
   searchModel(v){
-    const {getTableData,tableData,pager} = this.props;
+    const {getTableData,tableData,pager,categoryId} = this.props;
+    console.log(categoryId)
     getTableData({
-      ...pager,entityName:v.toString()
+      ...pager,id:categoryId,entityName:`${v}`
     });
-    
-    
-
   }
 
   goToNewModel=()=>{
