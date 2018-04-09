@@ -18,7 +18,13 @@ export const categoryManageType = mirror([
 ],'categoryManage/');
 
 export const systemmanageType = mirror([
-  'GET_SYSTEMMANAGE_DATA',
+  'GET_ENTITY_ATTR',
+  'GET_REFER_ENTITY',
+  'EDIT_ROLE',
+  'GET_ROLE_ENTITY',
+  'GET_TREE',
+  'ROLE_TABLE',
+  'SET_PAGE',
 ],'systemmanage/');
 
 export const newModelType = mirror([

@@ -10,6 +10,7 @@ import Noauth from './pages/noauth';
 import ModelManage from './pages/model/model';
 import NewModel from './pages/model/newmodel';
 import Systemmanage from './pages/systemmanage';
+import NewSystemmanage from './pages/newsystemmanage/index';
 import CategoryManage from './pages/categoryManage';
 import newCategoryManage from './pages/newCategoryManage'
 import EncodeManage from './pages/encodeManage';
@@ -22,6 +23,7 @@ const Routers = <Route path="/" component={WebApp}>
   <Route path='categorymanage' component={CategoryManage}></Route>
   <Route path='newcategorymanage' component={newCategoryManage}></Route>
   <Route path='systemmanage' component={Systemmanage}></Route>
+  <Route path='/newsystemmanage' component={NewSystemmanage}></Route>
   <Route path="home" component={Home}></Route>
   <Route path="model" component={ModelManage}></Route>
   <Route path="model/newmodel" component={NewModel}></Route>

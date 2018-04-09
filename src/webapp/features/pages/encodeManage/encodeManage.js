@@ -122,13 +122,20 @@ deletEle = (record)=>{
   }
 
   close=()=>{
+    const{saveCategory } = this.props;
+    if(this.state.items){
+      this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
+      saveCategory({...this.state.items,ruleCfg:this.state.ruleCfg})
+    }
+    else{
+      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
+      saveCategory({...this.state.listItem,ruleCfg:this.state.ruleCfg})
+    }
     this.setState({
       visible:false
     });
-    const{ setFormItems,saveCategory,formItems } = this.props;
-    if(formItems){
-      saveCategory(formItems)
-    }
+    
+    
   }
 
   render() {
@@ -155,7 +162,7 @@ deletEle = (record)=>{
         <Modal
           title="新建编码规则"
           visible={this.state.visible}
-          // onOk={this.handleOk}
+          onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
         <NewCodeManage ref="NewCodeForm" {...this.props} close={this.close} formItems={formItems}/>

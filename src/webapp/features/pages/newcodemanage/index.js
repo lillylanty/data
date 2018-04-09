@@ -69,7 +69,7 @@ class codeManageForm extends Component {
   // componentWillUnmount(){
     handleSubmit=()=>{
     //保存到redux的state中
-    const{saveCategory } = this.props;
+    /* const{saveCategory } = this.props;
     if(this.state.items){
       this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
       saveCategory({...this.state.items,ruleCfg:this.state.ruleCfg})
@@ -77,8 +77,8 @@ class codeManageForm extends Component {
     else{
       this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
       saveCategory({...this.state.listItem,ruleCfg:this.state.ruleCfg})
-    }
-    this.props.close()
+    } */
+    // this.props.close()
   }
 
 
@@ -161,6 +161,7 @@ class codeManageForm extends Component {
     })
   }
   handleItem = (e,type)=>{
+    // console.log(e,type);
      switch(type){
       case 'ruleName':
       this.setState({
@@ -265,7 +266,7 @@ class codeManageForm extends Component {
           this.showEft(ruleCfg)
         }
          </p>
-         <Button type="primary" onClick={this.handleSubmit}>guanbi</Button>
+         {/* <Button type="primary" onClick={this.handleSubmit}>guanbi</Button> */}
       </div>
     )
   } 

@@ -3,7 +3,7 @@ import { reqHeader, authBeforeRes, authAfterRes } from '../interceptor'
 import ProgressBar from '../features/components/progress-bar';
 class Http {
   get(url, params) { // GET请求
-   
+  //  console.log(url,params)
     let options = { method: 'GET' }
     let req_url = params ? this.buildUrl(url, params) : url;
     return this.request(req_url, options)
