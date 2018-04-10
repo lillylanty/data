@@ -10,6 +10,7 @@
     width:500px;
    li{
     //    display: flex;
+    
     padding: 20px;
         &>span{
            width:20%;
@@ -18,7 +19,7 @@
            float: left;
         }  
         &>input{
-            width:65%;
+            width:200px;
             float: left;
         }
 

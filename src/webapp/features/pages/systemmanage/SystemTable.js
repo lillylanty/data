@@ -139,7 +139,7 @@ export default class SystemTable extends React.Component{
     console.log('child',dataSource)
     return(
       <div className="table-style">   
-        <TableData columns={this.state.columns} rowKey="id" dataSource={dataSource} pagination={this.state.pagination} />
+        <TableData style={{background:'#fff'}} columns={this.state.columns} rowKey="id" dataSource={dataSource} pagination={this.state.pagination} />
       </div>
         )
      }

@@ -17,7 +17,11 @@ export default class TableData extends React.Component{
       
 
     render(){
+        let style = {
+            background:'#fff'
+        }
          let param = {
+            style:this.props.style || style,
 			rowKey:this.props.rowKey,
 			bordered: this.props.bordered,
 			expandedRowRender: this.props.expandedRowRender,

@@ -22,9 +22,7 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   getRoleTableData:(p)=> dispatch(systemmanageAction.getRoleTableData(p)),
   setPager:(p)=> dispatch(systemmanageAction.setPager(p)),
- /*  setFormItems: (p)=> dispatch(systemmanageAction.setFormItems(p)),
-  saveCategory: (p)=> dispatch(systemmanageAction.saveCategory(p)),
-  deleteCategory: (p) => dispatch(systemmanageAction.deleteCategory(p)), */
+
 });
 
 @connect(mapState, mapDispatch)
@@ -32,33 +30,18 @@ export default class Systemmanage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
-      formItems: {}
+      formItems: props.formItems
     };
   }
 
 
   componentWillMount(){
     const {getRoleTableData,pager} = this.props;
-   
     getRoleTableData({
       "pageNo": 0,
       "pageSize": 15
     }); 
  }
-  componentDidMount() {
-  }
-  componentWillReceiveProps(nextProps) {
-   /*  if(nextProps.roleTableData !== this.props.roleTableData){ //说明点了编辑发送了更新codeDetail请求
-      this.setState({
-        dataSource: nextProps.roleTableData
-      })
-    } */
-    
-  }
-/*   shouldComponentUpdate(nextProps, nextState) {
-    return this.props != nextProps || this.state != nextState;
-  } */
 
   searchCategory=(v)=>{
     const {getRoleTableData,pager} = this.props; //,tableData,pager
@@ -66,12 +49,56 @@ export default class Systemmanage extends Component {
   }
 
   addCategory=()=>{
-   // const {modelData,editModal,entityModelAttr,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
-      //新建时清空modelData和attr
-   
-    this.props.router.replace("/newsystemmanage");
 
+    this.props.router.replace("/newsystemmanage");
   }
+
+  render() {
+    let {roleTableData} = this.state;
+    console.log('parent',roleTableData)
+    return (
+      <div className="content">
+      <h3 style={{margin:'20px 10px'}}>角色管理</h3>
+      <p style={{display:'flex',justifyContent:'space-between',margin:'20px 0'}}>  
+      <div >
+        <Search
+          placeholder="输入角色名称搜索"
+          onSearch={value => this.searchCategory(value)}
+          style={{height:40,fontSize:16,paddingLeft:'10px' }}
+          size="large"
+        />
+      </div>
+      
+      <Button type="primary" size="large" style={{marginRight:'10%'}} onClick={this.addCategory}> 新建角色 </Button >
+            
+      </p>
+         <SystemTable  {...this.props}  />
+      </div>
+    )
+  }
+}
+
+
+
+
+
+ /*  setFormItems: (p)=> dispatch(systemmanageAction.setFormItems(p)),
+  saveCategory: (p)=> dispatch(systemmanageAction.saveCategory(p)),
+  deleteCategory: (p) => dispatch(systemmanageAction.deleteCategory(p)), */
+
+  /*   shouldComponentUpdate(nextProps, nextState) {
+    return this.props != nextProps || this.state != nextState;
+  } */
+
+ /*  componentDidMount() {
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.roleTableData !== this.props.roleTableData){ //说明点了编辑发送了更新codeDetail请求
+      this.setState({
+        dataSource: nextProps.roleTableData
+      })
+    } 
+  }*/
 
 /*******子组件中的函数******/
 /* editEle = (record) =>{
@@ -93,8 +120,6 @@ deletEle = (record)=>{
 
 
 /********/
-
-
 
 /*   handleOk = (e) => {
     const{ setFormItems,saveCategory,formItems } = this.props;
@@ -133,29 +158,3 @@ deletEle = (record)=>{
     
     
   } */
-
-  render() {
-   
-
-    let {roleTableData} = this.state;
-    console.log('parent',roleTableData)
-    return (
-      <div className="content">
-      <p style={{display:'flex',justifyContent:'space-between'}}>  
-      <div >
-        <Search
-          placeholder="输入角色名称搜索"
-          onSearch={value => this.searchCategory(value)}
-          style={{height:40,fontSize:16,paddingLeft:'10px' }}
-          size="large"
-        />
-      </div>
-      
-      <Button type="primary" size="large" style={{marginRight:'10%'}} onClick={this.addCategory}> 新建角色 </Button >
-            
-      </p>
-         <SystemTable {...this.props}  />
-      </div>
-    )
-  }
-}

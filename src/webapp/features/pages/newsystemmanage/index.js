@@ -66,7 +66,6 @@ export default class NewSystemManage  extends Component {
   }
 
 callback=(key)=>{
- 
   if(key == 2){
     const {roleEntity,getRoleEntity} = this.props;
     if(this.state.roleId){
@@ -81,7 +80,6 @@ callback=(key)=>{
     this.props.router.replace('/systemmanage');
   }
   handleInput = (e,t)=>{
-   
     switch(t){
       case '管理员':
        this.setState({
@@ -100,7 +98,7 @@ callback=(key)=>{
   handleCancel = ()=>{
     if( this.state.key== 1){
       const {role,addRole} =this.props;
-      addRole()
+      addRole();
   }else{
 
   }
