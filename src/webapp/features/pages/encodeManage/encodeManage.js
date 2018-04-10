@@ -9,7 +9,6 @@ import assign from 'object-assign';
 import CodeTable from './CodeTable';
 import './style.scss';
 import NewCodeManage from '../newcodemanage/index';
-import Test from "../newcodemanage/test";
 
 const Search = Input.Search;
 

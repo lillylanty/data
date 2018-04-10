@@ -155,15 +155,12 @@ componentWillReceiveProps(nextProps,nextState){
   }
   showEle=(config)=>{  
     let labelChildren = []; let valueChildren = [];
-    // console.log(config);
     let ruleCfg = [];
     if(Object.prototype.toString.call(config)=== '[object String]'){
       ruleCfg = JSON.parse(config);
     }else{
       ruleCfg = config;
     }
-
-    // console.log(ruleCfg)
       for(let i =0;i<ruleCfg.length;i++){
         labelChildren.push( <Option  key={i}>{ruleCfg[i].ruleType}</Option>);  
         valueChildren.push( <Option key={i}>{ruleCfg[i].ruleValue}</Option> );

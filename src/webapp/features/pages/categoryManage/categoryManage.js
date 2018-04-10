@@ -33,6 +33,7 @@ export default class CategoryManage extends Component {
     const {getTableData,tableData} = props;
     this.state = {
       visible:false,
+      formItems:props.formItems || {}
     };
   }
 
@@ -47,57 +48,46 @@ export default class CategoryManage extends Component {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps.tableData)
+    if(nextProps.formItems !== this.props.formItems){
+      this.setState({
+        formItems : nextProps.formItems
+      })
+    }
   }
   shouldComponentUpdate(nextProps, nextState) {
     return this.props != nextProps || this.state != nextState;
   }
 
-
-
-
-
   searchCategory=(v)=>{
-
     const {getTableData,pager} = this.props; //,tableData,pager
     console.log(getTableData)
     getTableData({...pager,entityName:v.toString()}); //
-    
-
   }
 
   addCategory=()=>{
     this.setState({
       visible: true,
     });
-      // const {modelData,editModal,entityModelAttr,editEntityModelAttr,tableData,pager,recordAttr} = this.props;
-      //新建时清空modelData和attr
-   
-      // this.props.router.replace("newcategorymanage")
-
+    const{ setFormItems} = this.props; 
+    setFormItems();
   }
 
 /*******子组件中的函数******/
 editEle = (record) =>{
-  console.log('editEle',record)
-  const{ setFormItems,saveCategory } = this.props;
+  // console.log('editEle',record)
+  const{ setFormItems} = this.props;
   this.setState({
     visible: true
   });
-
+  setFormItems(record);
 }
 
 deletEle = (record)=>{
-  // console.log(record)
   const {deleteCategory,getTableData,pager} = this.props;
-
   record && record.id && deleteCategory({id:record.id});
   getTableData({ ...pager}); 
 }
-
 /********/
-
-
 
   handleOk = (e) => {
     const{ setFormItems,saveCategory } = this.props;
@@ -130,6 +120,8 @@ deletEle = (record)=>{
       editEle: this.editEle,
       deletEle: this.deletEle,
     }
+    let {formItems} = this.state;
+    console.log('render',formItems)
     return (
       <div className="content">
       <h3 className="title">类目管理</h3>
@@ -152,7 +144,7 @@ deletEle = (record)=>{
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-        <NewCategoryManage ref="NewCategoryForm" formItems={this.props.formItems}/>
+        <NewCategoryManage ref="NewCategoryForm" formItems={formItems}/>
         </Modal>
       </div>
     )

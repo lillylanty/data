@@ -40,7 +40,7 @@ class categoryForm extends Component {
   }
 
   componentDidMount() {
-    // const {categoryList,formsItems,getParentCategory} = this.props;
+    
 
 
   }
@@ -51,7 +51,7 @@ class categoryForm extends Component {
         options:nextProps.categoryList,
         form:{...nextProps.formItems}
       },()=>{
-       
+       console.log(this.state.form)
       })
     }
     
@@ -61,17 +61,20 @@ class categoryForm extends Component {
   } */
 
   componentDidMount(){
-    
-    if(this.props.formItems){
+    console.log('didMount',this.props.formItems)
+    let v =this.props.formItems;
+    if(v){
        this.props.form.setFieldsValue({
-      ...this.props.formsItems
+        groupName: v.groupName,
+        parentId:  v.parentId,
+        sortOrder: v.sortOrder
     })
     } 
   }
   selectChange = (value)=>{
     // console.log(value)
-    this.props.form.setFieldValue({
-      parentId:value
+    this.props.form.setFieldsValue({
+      parentId:value.parentId
     })
   }
 
@@ -83,7 +86,7 @@ class categoryForm extends Component {
     const { getFieldDecorator } = this.props.form;
     const { groupName,parentId, sortOrder} = this.state.form;
 
-    
+    console.log(this.state.form);
     return (
       <div className="content">
 
@@ -91,15 +94,13 @@ class categoryForm extends Component {
         <FormItem
         label={'类目名称'}>
           {getFieldDecorator('groupName', {
-            // initialValue:groupName,
             rules: [{ required: true, message: 'Please input your groupName!' }],
           })(
-            <Input placeholder="水泥" />
+            <Input placeholder={groupName||''} />
           )}
         </FormItem>
         <FormItem label={'上级(父)类目'}>
           {getFieldDecorator('parentId', {
-            // initialValue:parentId,
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             // <Cascader options={residences} />
@@ -117,7 +118,6 @@ class categoryForm extends Component {
         <FormItem label={'排序值'}>
           {getFieldDecorator('sortOrder', {
             rules: [{ required: true, message: 'Please input your Password!' }],
-            // initialValue: sortOrder,
           })(
            <Input type="number" />
           )} 
