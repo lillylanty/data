@@ -15,6 +15,7 @@ export default {
     return http.get(urls.getCategorySelect)
   },
   saveCategory(p){
+    console.log('saveCode',p)
     return http.post(urls.saveCategory,p)
   },
   deleteCategory(p){

@@ -134,12 +134,14 @@ deletEle = (record)=>{
       <div className="content">
       <h3 className="title">类目管理</h3>
       <p className="operation-area">
+      <div >
       <Search
-          placeholder="输入实体名称"
-          onSearch={value => this.searchCategory(value)}
-          style={{ width: 300,height:40,fontSize:16,paddingLeft:'10px' }}
-          size="large"
-          />
+        placeholder="输入实体名称"
+        onSearch={value => this.searchCategory(value)}
+        style={{height:40,fontSize:16,paddingLeft:'10px' }}
+        size="large"
+      />
+      </div>
       <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.addCategory}> 新增类目 </Button >
             
       </p>

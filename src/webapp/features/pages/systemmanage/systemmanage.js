@@ -141,14 +141,17 @@ deletEle = (record)=>{
     console.log('parent',roleTableData)
     return (
       <div className="content">
-      <p className="operation-area">
-      <Search
+      <p style={{display:'flex',justifyContent:'space-between'}}>  
+      <div >
+        <Search
           placeholder="输入角色名称搜索"
           onSearch={value => this.searchCategory(value)}
-          style={{ width: 300,height:40,fontSize:16,paddingLeft:'10px' }}
+          style={{height:40,fontSize:16,paddingLeft:'10px' }}
           size="large"
-          />
-      <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.addCategory}> 新建角色 </Button >
+        />
+      </div>
+      
+      <Button type="primary" size="large" style={{marginRight:'10%'}} onClick={this.addCategory}> 新建角色 </Button >
             
       </p>
          <SystemTable {...this.props}  />

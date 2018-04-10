@@ -68,7 +68,7 @@ export default class NewModel extends Component {
     return (
       <div className="content">
         <div className="wrapper">
-          <div className="title">
+          <div style={{height:'80px'}}>
             <p style={{float:'left',width:'80%'}}>新建模型页</p>
             <Button style={{float:'left'}} onClick={this.backToModel}>返回实体模型管理</Button>
           </div>

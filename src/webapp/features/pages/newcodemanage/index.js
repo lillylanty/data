@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Checkbox,Popover,Select } from 'antd';
 import { encodeManageAction } from '../../actions/encodeManageAction';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as items from './fileds.json';
+import {ruleConfig} from './fileds.js';
 import * as zhItems from './zhName.json';
 
 const Search = Input.Search;
@@ -12,93 +12,60 @@ const Option = Select.Option;
 const { TextArea } = Input;
 
 
-/* const mapState = state => ({
-  codeDetail: state.encodeManage.codeDetail, //编辑页面的级联选择
-});
-const mapDispatch = dispatch => ({
-  getCodeDetail:(p)=> dispatch(encodeManageAction.getCodeDetail(p)),
-});
-
-@connect(mapState, mapDispatch) */
-
 class codeManageForm extends Component {
   constructor(props) {
+    let arr = [];
+    if(props.formItems && props.formItems.ruleCfg){
+      if(Object.prototype.toString.call(props.formItems.ruleCfg) === '[object Array]'){
+        arr = JSON.parse(props.formItems.ruleCfg)
+      }else{
+        arr = props.formItems.ruleCfg
+      }
+    }else{
+      arr = ruleConfig;
+    }
     super(props);
     this.state = {
-      listItem:{}, //已经判断是编辑还是新建了 DidMount不需再次判断
-      ruleCfg:[],
-      items:{}, //上部分FormItem字段
-      value:''
+      listItem:{...props.formItems,ruleCfg:arr} ||{}, //已经判断是编辑还是新建了 DidMount不需再次判断
     };    
   }
 
-  componentDidMount(){ 
-      this.props.form.setFieldsValue({...this.state.formItems});
-      let {codeDetail} = this.props;
-      if(!codeDetail || !codeDetail.ruleCfg ){
-        this.setState({
-          listItem:items,
-          ruleCfg:items.ruleCfg
-        })
-      }else if(codeDetail && codeDetail.ruleCfg) {
-        this.setState({
-          listItem:codeDetail,
-          ruleCfg:codeDetail.ruleCfg
-        })
+
+
+componentWillReceiveProps(nextProps,nextState){
+  if(nextProps.formItems !== this.state.listItems){
+    let arr = [];
+    if(nextProps.formItems && nextProps.formItems.ruleCfg){
+      if(Object.prototype.toString.call(nextProps.formItems.ruleCfg) === '[object Array]'){
+        arr = JSON.parse(nextProps.formItems.ruleCfg)
+      }else{
+        arr = nextProps.formItems.ruleCfg
       }
-  }
-  /*  shouldComponentUpdate(nextProps,nextState){
-    if( nextState.ruleCfg !== this.state.ruleCfg || nextState.listItem !== this.state.listItem ){
-      console.log(true)
-      return true
     }else{
-      return false
-    }  
-    
-  }*/
-
-   componentDidUpdate(nextProps,nextState){
-     console.log('did update',nextProps.formItems,nextState.formItems,this.state.formItems);
-     console.log('items',nextState.items,this.state.items);
-     
-       
-    
-  }
-   
-  
-  // componentWillUnmount(){
-    handleSubmit=()=>{
-    //保存到redux的state中
-    /* const{saveCategory } = this.props;
-    if(this.state.items){
-      this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
-      saveCategory({...this.state.items,ruleCfg:this.state.ruleCfg})
+      arr = ruleConfig;
     }
-    else{
-      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
-      saveCategory({...this.state.listItem,ruleCfg:this.state.ruleCfg})
-    } */
-    // this.props.close()
+    this.setState({
+      listItem:{...nextProps.formItems,ruleCfg:arr}
+    },()=>{
+      //  console.log(this.state.listItem.ruleCfg)
+    });
   }
+}
 
 
-  handleLabelChange=(e,index,v)=>{
-    // console.log(e,index,v);     
-    let newarr = [...this.state.ruleCfg];
+
+
+  handleLabelChange=(e,index,v)=>{  
+    let newarr = this.state.listItem.ruleCfg.slice(0);
     let value = newarr.filter((v,idx)=>idx == e)[0];
-    console.log(value)
-    
      newarr.map((v,i)=>{
       if(i==index){
         v.ruleType = value.ruleType
       }
     }) 
     this.setState({
-      ruleCfg:newarr
-    },()=>{
-      // console.log(newarr)
-    }) 
- 
+      listItem:{...this.state.listItem,ruleCfg:newarr}
+    });
   }
  
 
@@ -106,7 +73,8 @@ class codeManageForm extends Component {
     if(!v){
       return
     }
-    let listConfigs = [...this.state.ruleCfg];//form的上半部分不变，Cfg变
+    let listConfigs = this.state.listItem.ruleCfg.slice(0); 
+    typeof listConfigs !=='object' && (listConfigs = JSON.parse(listConfigs));
     if(!listConfigs){
       return
     }
@@ -135,60 +103,72 @@ class codeManageForm extends Component {
         listConfigs.splice(index,1);
         break;
     }
-    this.setState({
-      ruleCfg:listConfigs
-    },()=>{
-      // console.log(this.state.ruleCfg)
-    })
+ 
+      this.setState({
+        listItem:{...this.state.listItem,ruleCfg:listConfigs}
+      });
     
   }
 
 
 
   onEditChange=(e,index)=>{
-    console.log(e.target.value,index);
     let value = e.target.value;
-    let newarr = [...this.state.ruleCfg];
-     newarr.map((v,i)=>{
+    let a = this.state.listItem.ruleCfg ;
+    let newarr ;
+    if(typeof a == 'string'){
+      newarr = JSON.parse(a);
+    }else{
+      newarr = [...a]
+    } 
+ 
+     newarr.map((v,i)=>{  
       if(i==index){
         v.ruleValue = value
       }
-    }) 
+    });
     this.setState({
-      ruleCfg:newarr
+      listItems:{...this.state.listItem,ruleCfg:newarr}
     },()=>{
-      console.log(newarr)
-    })
+      // console.log(this.state.listItems);
+    }) 
   }
   handleItem = (e,type)=>{
-    // console.log(e,type);
      switch(type){
       case 'ruleName':
       this.setState({
-        items:{...this.state.items,ruleName:e.target.value}
+        listItems:{...this.state.listItem,ruleName:e.target.value}
       });
       break;
       case 'ruleDesc':
       this.setState({
-        items:{...this.state.items,ruleDesc:e.target.value}
+        listItems:{...this.state.listItem,ruleDesc:e.target.value}
       });
       break;
       case 'ruleName':
       this.setState({
-        items:{...this.state.items,ruleExplain:e.target.value}
+        listItems:{...this.state.listItem,ruleExplain:e.target.value}
       });
       break;
-    }    
+    }
+       
   }
-
-  showEle(ruleCfg){
+  showEle=(config)=>{  
     let labelChildren = []; let valueChildren = [];
-     if(ruleCfg){
+    // console.log(config);
+    let ruleCfg = [];
+    if(Object.prototype.toString.call(config)=== '[object String]'){
+      ruleCfg = JSON.parse(config);
+    }else{
+      ruleCfg = config;
+    }
+
+    // console.log(ruleCfg)
       for(let i =0;i<ruleCfg.length;i++){
         labelChildren.push( <Option  key={i}>{ruleCfg[i].ruleType}</Option>);  
         valueChildren.push( <Option key={i}>{ruleCfg[i].ruleValue}</Option> );
       }
-      return  ruleCfg.map((v,index,arr)=>{
+       return  ruleCfg.map((v,index,arr)=>{
         return (
              <div key={index} style={{minWidth:'400px',display:'block'}}> 
              {
@@ -204,7 +184,7 @@ class codeManageForm extends Component {
                
               }
               {
-                <Input value={v.ruleValue}   style={{ width: 110 ,margin:'0 10px' }}   onChange={e=>this.onEditChange(e,index)}/>  
+                <Input placeholder={v.ruleValue}   style={{ width: 110 ,margin:'0 10px' }}   onChange={e=>this.onEditChange(e,index)}/>  
               }
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'up'  ,v,index)  } type="up-square" /></span>
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'down',v,index)  } type="down-square" /></span>
@@ -212,21 +192,32 @@ class codeManageForm extends Component {
              <span style={{fontSize:'16px', margin:'0 10px'}}><Icon onClick={this.operate.bind(this,'del' ,v,index)  } type="delete" /></span>
              </div>
            )  
-       })
-    }
+       }) 
   }
 
-  showEft =(ruleCfg)=>{
-    for(var i =0,arr='';i<ruleCfg.length;i++){
-      arr += `${ruleCfg[i].ruleValue}`
-   }
+  showEft =(config)=>{
+    let ruleCfg = [];
+    if(Object.prototype.toString.call(config)=== '[object String]'){
+      ruleCfg = JSON.parse(config);
+    }else{
+      ruleCfg = config;
+    }
+      for(var i =0,arr='';i<ruleCfg.length;i++){
+         arr += `${ruleCfg[i].ruleValue}`
+      }
+    
    return arr?arr.trim():arr
   }
   
  
   render() {
     const { getFieldDecorator } = this.props.form;
-    let {listItem,ruleCfg} = this.state; 
+    const {handleCancel,handleOk} = this.props;
+
+    let {listItem} = this.state; 
+    if(typeof listItem.ruleCfg == 'string'){
+      listItem.ruleCfg = JSON.parse(listItem.ruleCfg);
+    }
     return (
       <div className="content">
       <Form  className="login-form">
@@ -235,15 +226,13 @@ class codeManageForm extends Component {
           {getFieldDecorator('ruleName', {
             rules: [{ required: true}]
           })(
-            <Input onChange={(e=>this.handleItem(e,'ruleName'))} />
+            <Input placeholder={listItem && listItem.ruleName} onChange={(e=>this.handleItem(e,'ruleName'))} />
           )}
         </FormItem>
          <FormItem
         label={'编码规则描述'}>
-          {getFieldDecorator('ruleDesc', {
-           
-          })(
-            <TextArea   onChange={(e=>this.handleItem(e,'ruleDesc'))} />
+          {getFieldDecorator('ruleDesc')(
+            <TextArea placeholder={listItem && listItem.ruleName}  onChange={(e=>this.handleItem(e,'ruleDesc'))} />
           )}
         </FormItem>
         <FormItem
@@ -251,22 +240,27 @@ class codeManageForm extends Component {
           {getFieldDecorator('ruleExplain', {
             rules: [{ required:false}],
           })(
-            <TextArea   onChange={(e=>this.handleItem(e,'ruleExplain'))} />
+            <TextArea placeholder={listItem && listItem.ruleName}  onChange={(e=>this.handleItem(e,'ruleExplain'))} />
           )}
         </FormItem>
  
-        <FormItem label={'编码规则配置'}>
+        <FormItem label={'编码规则配置'}
+        >
+        {getFieldDecorator('ruleCfg')}
             { 
-              this.showEle(ruleCfg) 
-              }
+             listItem? this.showEle(listItem.ruleCfg) : null 
+            }
         </FormItem>
       </Form>  
-      <p>编码预览： 
+      <p style={{fontSize:'16px',color:'#888'}}> 
        {
-          this.showEft(ruleCfg)
+         listItem? <span>编码预览：{this.showEft(listItem.ruleCfg)}</span>  : null
         }
          </p>
-         {/* <Button type="primary" onClick={this.handleSubmit}>guanbi</Button> */}
+         <p style={{padding:'20px 10px',textAlign:'right'}}>
+           <Button onClick={handleCancel.bind(this)} >取消</Button>
+           <Button disabled={!listItem} style={{margin:'0 20px'}} onClick={handleOk.bind(this,listItem)} type="primary">确定</Button>
+         </p>
       </div>
     )
   } 
@@ -277,4 +271,32 @@ const NewCodeManage = Form.create()(codeManageForm);
 export default NewCodeManage;
 
 
-          
+/***
+ * 
+/* const mapState = state => ({
+  codeDetail: state.encodeManage.codeDetail, //编辑页面的级联选择
+});
+const mapDispatch = dispatch => ({
+  getCodeDetail:(p)=> dispatch(encodeManageAction.getCodeDetail(p)),
+});
+
+@connect(mapState, mapDispatch) 
+ *    componentDidUpdate(nextProps,nextState){
+
+  }
+   
+    componentDidMount(){ 
+       let {codeDetail} = this.props;
+      if(!this.props.formItems && codeDetail.ruleCfg){
+        this.setState({
+          listItem:{...this.state.formItems,ruleCfg:codeDetail.ruleCfg}  
+        });
+      }
+} 
+  componentWillUnmount(){
+
+  }
+
+
+ * 
+ * **/          

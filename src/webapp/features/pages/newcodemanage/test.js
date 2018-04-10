@@ -3,8 +3,6 @@ import { Form, Icon, Input, Button, Checkbox,Popover,Select } from 'antd';
 import { encodeManageAction } from '../../actions/encodeManageAction';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as items from './fileds.json';
-import * as zhItems from './zhName.json';
 
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -16,7 +14,10 @@ class codeManageForm extends Component {
   handleItem = (e,type)=>{
     console.log(e,type)
   }
-render(){
+  render(){
+    return <div>57457493985</div>
+  }
+/* render(){
   const { getFieldDecorator } = this.props.form;
   return (
     <Form onSubmit={this.handleSubmit} className="login-form">
@@ -30,7 +31,7 @@ render(){
       </FormItem>
       </Form>
   )
-}
+} */
 }
 
 const Test = Form.create()(codeManageForm);

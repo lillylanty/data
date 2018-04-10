@@ -106,7 +106,6 @@ export default class ModelTable extends React.Component{
     });
   }
 
-
   searchModel(v){
     const {getTableData,tableData,pager,categoryId} = this.props;
     console.log(categoryId)

@@ -58,9 +58,6 @@ export default class encodeManage extends Component {
     }
     
   }
-/*   shouldComponentUpdate(nextProps, nextState) {
-    return this.props != nextProps || this.state != nextState;
-  } */
 
   searchCategory=(v)=>{
     const {getTableData,pager} = this.props; //,tableData,pager
@@ -68,12 +65,14 @@ export default class encodeManage extends Component {
   }
 
   addCategory=()=>{
+    const{ setFormItems } = this.props;
+    setFormItems({})
     this.setState({
       visible: true,
-      edit:false
+      edit:false,
+      formItems:null
     });
     
-
 
   }
 
@@ -83,11 +82,12 @@ editEle = (record) =>{
     visible: true,
     edit: true
   });
-  record && record.id && this.props.getCodeDetail({id:record.id});
+  if(record && record.id){
+    this.props.getCodeDetail({id:record.id});
+  }
 }
 
 deletEle = (record)=>{
-  // console.log(record)
   const {deleteCategory,getTableData,pager} = this.props;
   record && record.id && deleteCategory({id:record.id});
   getTableData({ ...pager}); 
@@ -100,42 +100,25 @@ deletEle = (record)=>{
 
 
 
-  handleOk = (e) => {
+  handleOk = (v) => {
     const{ setFormItems,saveCategory,formItems } = this.props;
+     //let v = this.refs.NewCodeForm.getFieldsValue();
+    console.log('handleOk',v);
     this.setState({
       visible: false,
     });
-    if(formItems){
-      saveCategory(formItems)
+    if(v){
+      saveCategory(v) ;//上传编辑的内容
     }
 
   }
 
   handleCancel = (e) => {
     const{ setFormItems } = this.props;
-    // let v = this.refs.NewCodeForm.getFieldsValue();
-    // console.log(v.ruleCfg)
     this.setState({
       visible: false,
     });
-    setFormItems({});
-  }
-
-  close=()=>{
-    const{saveCategory } = this.props;
-    if(this.state.items){
-      this.props.setFormItems({...this.state.items,ruleCfg:this.state.ruleCfg});
-      saveCategory({...this.state.items,ruleCfg:this.state.ruleCfg})
-    }
-    else{
-      this.props.setFormItems({...this.state.listItem,ruleCfg:this.state.ruleCfg});
-      saveCategory({...this.state.listItem,ruleCfg:this.state.ruleCfg})
-    }
-    this.setState({
-      visible:false
-    });
-    
-    
+    setFormItems({});//清空编辑的内容
   }
 
   render() {
@@ -144,29 +127,30 @@ deletEle = (record)=>{
       deletEle: this.deletEle,
     }
 
-    let {formItems} = this.state;
+    let {formItems,edit} = this.state;
     return (
       <div className="content">
-      <h3 className="title">编码规则管理</h3>
-      <p className="operation-area">
+      <h3 style={{margin:'20px'}}>编码规则管理</h3>
+      <div className="operation-area">
+      <div>
       <Search
           placeholder="输入编码名称搜索"
           onSearch={value => this.searchCategory(value)}
-          style={{ width: 300,height:40,fontSize:16,paddingLeft:'10px' }}
+          style={{height:40,fontSize:16,paddingLeft:'10px' }}
           size="large"
           />
+      </div>
       <Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.addCategory}> 新增编码规则 </Button >
             
-      </p>
+      </div>
          <CodeTable {...this.props} handleEvent={handleEvent}/>
         <Modal
           title="新建编码规则"
           visible={this.state.visible}
-          onOk={this.handleOk}
           onCancel={this.handleCancel}
+          footer={null}
         >
-        <NewCodeManage ref="NewCodeForm" {...this.props} close={this.close} formItems={formItems}/>
-        {/* <Test {...this.props} formItems={formItems}/> */}
+        <NewCodeManage ref="NewCodeForm" handleOk={this.handleOk}  handleCancel={this.handleCancel} {...this.props} edit={edit} formItems={formItems}/>
         </Modal> 
       </div>
     )

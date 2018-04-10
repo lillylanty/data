@@ -1,38 +1,34 @@
-{
-  "ruleCfg": [
+
+ export let ruleConfig = [
     { 
-      "sortId":"1",
+     
       "ruleType": "date",
       "ruleValue": "yyyyMMdd"
     },
     {
-      "sortId":"2",
+      
       "ruleType": "const",
       "ruleValue": "tt"
     },
     {
-      "sortId":"3",
+   
       "ruleType": "sn",
       "ruleValue": "2"
     },
     {
-      "sortId":"4",
+    
       "ruleType": "time",
       "ruleValue": "HHMMSS"
     },
     {
-      "sortId":"5",
+ 
       "ruleType": "delimiter",
       "ruleValue": "_"
     },
     {
-      "sortId":"6",
+     
       "ruleType": "self",
       "ruleValue": "2"
     }
-  ],
-  "ruleDesc": "描述",
-  "ruleExplain": "描述",
-  "ruleLength": "11",
-  "ruleName": "名称"
-}
+  ]
+  
