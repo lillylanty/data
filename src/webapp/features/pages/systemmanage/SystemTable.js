@@ -75,7 +75,6 @@ export default class SystemTable extends React.Component{
             defaultCurrent:1,
             total:300
       },
-     
       }  
   }
 

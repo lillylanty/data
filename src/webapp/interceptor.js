@@ -28,7 +28,7 @@ export function authAfterRes(response) {
             return Promise.reject(response);
         default:
             if (response.message) {
-                message.error(response.message, 5) // 异常消息默认显示5s
+                //message.error(response.message, 5) // 异常消息默认显示5s
             }
             return response
     }

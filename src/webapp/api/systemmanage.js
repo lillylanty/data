@@ -44,7 +44,15 @@ export default {
   getAttr(p){
     return http.get(urls.getAttr,p)
   },
-
+  getUserTableData(p){
+    return http.get(urls.getUserTableData,p)
+  },
+  deleteUser(p){
+    return http.deleteByObj(urls.deleteUser,p)
+  },
+  getUserRoleList(p){
+    return http.get(urls.getUserRoleList,p);
+  },
 
   
   
