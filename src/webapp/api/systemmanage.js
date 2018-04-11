@@ -53,6 +53,9 @@ export default {
   getUserRoleList(p){
     return http.get(urls.getUserRoleList,p);
   },
+  validUser(p){
+    return http.get(urls.validUser,p);
+  },
 
   
   

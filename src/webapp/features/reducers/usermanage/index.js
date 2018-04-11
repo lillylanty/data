@@ -4,6 +4,7 @@ import { usermanageType } from '../../constants/actionTypes';
 const initialState = {
   userTable: null,
   pager:{pageSize:10,total:0},
+  validuser:[]
 };
 export const usermanageReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -13,8 +14,9 @@ export const usermanageReducer = (state = initialState, action) => {
     case usermanageType.SET_PAGE: 
     	return {...state,pager:{...state.pager,...payload}};
     case usermanageType.GET_ROLE:
-      console.log(payload);
       return {...state,roles:[...payload.data]};
+    case usermanageType.VALID_USER:
+      return {...state,validuser:[...payload.data]};
     default:
       return state;
   }

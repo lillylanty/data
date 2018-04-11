@@ -31,6 +31,7 @@ export const usermanageType = mirror([
   'GET_TABLE',
   'SET_PAGE',
   'GET_ROLE',
+  'VALID_USER',
   ],'usermanage/')
 
 export const newModelType = mirror([

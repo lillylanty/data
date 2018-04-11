@@ -38,11 +38,15 @@ export default class Usermanage extends Component {
   componentWillReceiveProps(nextProps) {
     
   }
+  addUser = () => {
+    this.props.router.push({pathname:'/newusermanage'});
+  }
   render() {
     return (
       <div className="content">
       <p className="operation-area">
-      	<Button type="primary" size="large" style={{float:'right',marginRight:'10%'}} onClick={this.addCategory}> 新增用户 </Button >
+        用户管理
+      	<Button type="primary" size="large" style={{float:'right'}} onClick={this.addUser}> 新增用户 </Button >
       </p>
       <UserTable {...this.props} />
       </div>

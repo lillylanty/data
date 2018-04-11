@@ -161,6 +161,19 @@ export const systemmanageAction = {
           }
         })
       }
+    },
+    validUser:(v) => {
+      return dispatch => {
+        ajax.validUser(v).then(res =>{
+          const {success, message , data} = res;
+          if(success){
+            dispatch({
+              type:usermanageType.VALID_USER,
+              payload:{data:data}
+            });
+          }
+        })
+      }
     }
   }
   
