@@ -14,6 +14,8 @@ import NewSystemmanage from './pages/newsystemmanage/index';
 import CategoryManage from './pages/categoryManage';
 import newCategoryManage from './pages/newCategoryManage'
 import EncodeManage from './pages/encodeManage';
+import Usermanage from './pages/systemmanage/usermanage'
+import NewUserManage from './pages/systemmanage/newusermanage'
 
 
 
@@ -24,11 +26,13 @@ const Routers = <Route path="/" component={WebApp}>
   <Route path='newcategorymanage' component={newCategoryManage}></Route>
   <Route path='systemmanage' component={Systemmanage}></Route>
   <Route path='/newsystemmanage' component={NewSystemmanage}></Route>
+  <Route path='/newusermanage' component={NewUserManage}></Route>
   <Route path="home" component={Home}></Route>
   <Route path="model" component={ModelManage}></Route>
   <Route path="model/newmodel" component={NewModel}></Route>
   <Route path="contact" component={Contact}/>
   <Route path="noauth(/:notuser)" component={Noauth} />
+  <Route path="usermanage" component={Usermanage} />
   <Route path="*" component={NotFound}></Route>
 </Route>;
 export default Routers;

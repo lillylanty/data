@@ -24,8 +24,14 @@ export const systemmanageType = mirror([
   'GET_ROLE_ENTITY',
   'GET_TREE',
   'ROLE_TABLE',
+  'GET_TABLE',
   'SET_PAGE',
 ],'systemmanage/');
+export const usermanageType = mirror([
+  'GET_TABLE',
+  'SET_PAGE',
+  'GET_ROLE',
+  ],'usermanage/')
 
 export const newModelType = mirror([
   'CAN_NEXT',

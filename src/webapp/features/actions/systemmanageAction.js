@@ -1,4 +1,4 @@
-import { systemmanageType } from '../constants/actionTypes';
+import { systemmanageType , usermanageType } from '../constants/actionTypes';
 import { message } from 'antd';
 import ajax from '../../api/systemmanage';
 export const systemmanageAction = {
@@ -127,20 +127,40 @@ export const systemmanageAction = {
     }, */
     getUserTableData (v) {
       return dispatch => {
-        ajax.getTableData(v).then(res => {
+        ajax.getUserTableData(v).then(res => {
           const { success,data, message } = res;
           if (success) {   
             dispatch({
-              type:systemmanageType.GET_TABLE,
+              type:usermanageType.GET_TABLE,
               payload: data.data
             });
           dispatch({
-            type:systemmanageType.SET_PAGE,
+            type:usermanageType.SET_PAGE,
             payload:{total:data.total}
           });
           }
         })
       }
     },
+    deleteUser: (v)=>{
+      return dispatch=>{
+        ajax.deleteUser(v).then(res =>{
+          res.success ?message.success(res.message) : message.warn(res.message)
+        })
+      }
+    },
+    getUserRoleList: (v) => {
+      return dispatch => {
+        ajax.getUserRoleList(v).then(res =>{
+          const {success , message , data} = res;
+          if(success){
+            dispatch({
+              type:usermanageType.GET_ROLE,
+              payload:{data:data}
+            });
+          }
+        })
+      }
+    }
   }
   

@@ -7,6 +7,7 @@ import { globalReducer } from './global';
 import { systemmanageReducer } from './systemmanage';
 import { categoryManageReducer } from './categoryManage';
 import { encodeManageReducer } from './encodeManage';
+import { usermanageReducer } from './usermanage';
 
 const appReducer = combineReducers({
   routing,
@@ -16,7 +17,8 @@ const appReducer = combineReducers({
   global: globalReducer
  ,systemmanage:systemmanageReducer
  ,categoryManage:categoryManageReducer
- ,encodeManage:encodeManageReducer
+ ,encodeManage:encodeManageReducer,
+ usermanage:usermanageReducer
 });
 
 export default appReducer;
