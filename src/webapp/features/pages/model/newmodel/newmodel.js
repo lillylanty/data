@@ -24,7 +24,6 @@ const mapState = state => ({
   uploadResult: state.newModel.uploadResult, //上传结果
 });
 const mapDispatch = dispatch => ({
-
   getCategory:(params)=> dispatch(newModelManageAction.getCategory(params)),
   editModal:(params) => dispatch(newModelManageAction.editModal(params)),     //编辑实体表单字段
   editEntityModelAttr:(params)=> dispatch(newModelManageAction.editEntityModelAttr(params)), //编辑属性表格

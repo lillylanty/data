@@ -23,7 +23,7 @@ import '../assets/styles/main.scss';
 export default class WebApp extends React.Component {
   constructor(props) {
     super(props);
-    this.props.getNavData({});
+    this.props.getNavData();
     this.props.getUserData({});
     this.state = {
     };
@@ -45,6 +45,7 @@ export default class WebApp extends React.Component {
   }
 
   render() {
+   
     const { children, isFullScreen, theme, navData } = this.props;
     let { pathname, hash } = window.location;
     const { isInIframe, isSiderShow } = this.state;

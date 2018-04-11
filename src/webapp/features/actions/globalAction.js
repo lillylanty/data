@@ -20,8 +20,8 @@ export const globalAction = {
   getNavData(params) {
     return dispatch => {
       ajax.getNavData(params).then(ret => {
-        const { result_code, result_message, data } = ret;
-        if (result_code === 1) {
+        const { message, data ,success} = ret;
+        if (success) {
           dispatch({
             type: globalType.GET_NAV_DATA,
             payload: data

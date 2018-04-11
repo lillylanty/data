@@ -15,7 +15,7 @@ export default class SiderNav extends Component {
     this.state = {
       defaultOpenKeys: [],
       defaultSelectedKeys: [],
-      nav: { children: [] },
+      nav: props.navData,   // { children: [] },
     }
   }
   componentDidMount() {
@@ -73,6 +73,7 @@ export default class SiderNav extends Component {
     })
   }
   render() {
+    console.log('siderNav',this.props.navData)
     let { defaultOpenKeys, defaultSelectedKeys, nav, randomKey } = this.state;
     const { isSiderShow } = this.props;
     return nav.length && isSiderShow ? <Sider style={{ background: '#fff', borderRight: '1px solid #e9edef' }}>

@@ -75,13 +75,25 @@
 		},
 		{
 			"checked":true,
-			"children":[],
 			"code":"M_LIVETAIL3",
 			"id":509,
 			"name":"系统管理",
 			"pid":0,
 			"type":0,
-			"url":"/webapp.html#/systemmanage"
+			"url":"/webapp.html#/systemmanage",
+			"children":[
+				{
+							"checked":true,
+							"children":[],
+							"code":"M_UPLOAD_TYPE",
+							"icon":"iconfont icon-sahngchuan",
+							"id":524,
+							"name":"用户管理",
+							"pid":123,
+							"type":0,
+							"url":"/webapp.html#/usermanage"
+				}
+			]
 		},
 		{
 			"checked":true,
@@ -269,16 +281,6 @@
 			"name":"设置",
 			"pid":0,
 			"type":0
-		},
-		{
-			"checked":true,
-			"code":"M_ALERT",
-			"icon":"fa fa-bell",
-			"id":506,
-			"name":"类目管理",
-			"pid":0,
-			"type":0,
-			"url":"/webapp.html#/categorymanage"
 		}
 	],
 	"result":true,

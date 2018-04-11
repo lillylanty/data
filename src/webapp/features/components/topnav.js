@@ -15,6 +15,9 @@ const mapDispatch = dispatch => ({});
 export default class TopNav extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      hasChild:false
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -33,9 +36,53 @@ export default class TopNav extends React.Component {
     //   }
     // });
   }
+  showList = ()=>{
+    event.preventDefault();
+    this.setState({
+      hasChild:!this.state.hasChild
+    })
+  }
+
+  renderList = (navi)=>{
+   let li ;
+   let astyle  ={
+     padding:'0 15px',
+     textDecoration:'none'
+   }
+   let ulhideStyle = {
+     display:'none'
+   }
+   let ulshowStyle = {
+    display:'block',
+    padding:'0 10px'
+  }
+  let liStyle = {
+    height:'40px',
+    lineHeight:'40px',
+    background:'#fff',
+  }
+  
+  
+     if(navi.children && navi.children.length >0){
+       return <a href={ navi.resource }  style={astyle} onClick={this.showList} >{ navi.name } 
+          <ul style={this.hasChild?ulshowStyle:ulhideStyle}>
+          {
+              navi.children.map(v=>{
+               if( v.resource ){
+                 return <li style={liStyle}><a  style={astyle} href={ v.resource }>{ v.name }</a></li>
+               }
+             }) 
+          }
+          </ul>
+       </a>
+     }else{
+       return <a  style={astyle} href={ navi.resource }>{ navi.name }</a>
+     }
+  }
 
   render() {
     const { navData, location, userData } = this.props;
+    console.log('topNav',navData)
     const { name,email,tel } = userData;
     const { pathname, hash } = location;
     const currentUrl = window.location.pathname + '#' + pathname;
@@ -114,21 +161,22 @@ export default class TopNav extends React.Component {
         { navis.map(navi => {
           let url = navi.url;
 
-          if(!url) {
+          /* if(!url) {
             let nav = navi.children[0];
             while(!nav.url) {
               nav = nav.children[0];
             }
             url = nav.url;
-          }
+          } */
 
           return <li key={ navi.code } className={classnames('navitem', {
             active: currentUrl.indexOf(navi.url) !== -1||(currentUrl.indexOf('/alert')!=-1&&navi.url.indexOf('/alert')!=-1)
           })}>
-            { navi.url ?
-              <a href={ url }>{ navi.name }</a> :
-              <a href={ url }>{ navi.name }</a>
-            }
+          {
+           this.renderList(navi)
+              
+          }
+            
           </li>
         }) }
       </ul>

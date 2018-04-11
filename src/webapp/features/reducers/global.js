@@ -13,6 +13,7 @@ export const globalReducer = (state = initialState, action) => {
         userData: payload,
       });
       case globalType.GET_NAV_DATA:
+      console.log('global navData',payload)
       return Object.assign({}, state, {
         navData: payload,
       });

@@ -145,7 +145,7 @@ class HorizontalAddForm extends React.Component {
       let lg = {span:12, offset: 0}; */
       let row = {
         display:'flex',
-        flexWrap:'wrap',
+        flexWrap:'nowrap',
         justifyContent:'space-between'
       }
       let item = {

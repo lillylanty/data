@@ -6,7 +6,7 @@ export default {
     return http.get(apiUrl.getUserData, params);
   },
   getNavData(params) {
-    return http.get(apiUrl.getNavData, params);
+    return http.get(apiUrl.getNavData,params);
   },
   
 };
