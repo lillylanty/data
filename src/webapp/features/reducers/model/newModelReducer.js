@@ -43,7 +43,7 @@ let arr = [{
 }];
 const initialState = {
   modelData:{}, //保存表单的字段
-  entityModalAttr:arr, //保存正在编辑的table属性
+  entityModalAttr:[], //保存正在编辑的table属性
   allData:{}, //表单和table拼接的数据 待上传的数据
   category:null,
   entity:null,

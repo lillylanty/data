@@ -28,7 +28,8 @@ export default class NewModelSteps extends Component {
     this.state = {
       current: 0,
       alldata:null,
-      modelData:{}
+      modelData:{},
+      entityModalAttr:[]
     };
   }
   next() {
@@ -64,8 +65,10 @@ postData(){
 }
 
 componentWillReceiveProps(nextProps,nextState){
+  console.log('step nextProps',nextProps.entityModalAttr);
   this.setState({
-    modelData:nextProps.modelForm
+    modelData:nextProps.modelForm,
+    entityModalAttr:nextProps.entityModalAttr
   })
 }
  
@@ -89,7 +92,7 @@ componentWillReceiveProps(nextProps,nextState){
         </Steps>
         <div className="steps-content">
           {
-            this.state.current == 0 && <PageOne {...this.props}/>
+            this.state.current == 0 && <PageOne entityModalAttr={this.state.entityModalAttr} {...this.props}/>
           }
          {
             this.state.current == 1 && <PageTwo {...this.props}/>

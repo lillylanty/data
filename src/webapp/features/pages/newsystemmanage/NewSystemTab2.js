@@ -110,10 +110,17 @@ search =(e)=>{
 
   render(){
     // console.log(this.props.tableData)
+    let style1={
+      display:'block'
+    }
+    let style2={
+      display:'none'
+    }
+    console.log(this.props.roleId)
     let {columns,editRoleEntityData} = this.state;
     let dataSource = this.props.tableData;
     return (
-    <div className="content">
+    <div style={this.props.roleId?style1:style2} >
     <div >
       <div className="operation-area">
         <div><Search placeholder='全部实体' onSearch={value => this.search(value)}/></div>

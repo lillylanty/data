@@ -44,12 +44,13 @@ export default class NewModel extends Component {
    
   }
   componentWillMount() {
-   let {id} = this.props.location.state;
+  let id = this.props.location.state && this.props.location.state.id;
    if(id){
      this.props.getRecordAttr({id:id}); //是编辑的情况，请求编辑页面的属性列表   
    }
   }
   componentWillReceiveProps(nextProps) {
+    console.log('newmodel nextProps',nextProps)
     this.setState({
       modelForm:{...this.state.modelForm,...nextProps.modelData}
     },()=>{

@@ -473,7 +473,10 @@ export default class PageOne extends Component{
  
 
   componentWillReceiveProps(nextProps,nextState){   
-    
+    console.log('pageone nextProps',nextProps.entityModalAttr,this.props.entityModalAttr);
+    this.setState({
+      data:nextProps.entityModalAttr
+    })
   }
 
   newAttri = ()=>{

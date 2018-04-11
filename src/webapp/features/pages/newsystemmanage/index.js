@@ -67,6 +67,7 @@ export default class NewSystemManage  extends Component {
 
 callback=(key)=>{
   if(key == 2){
+    
     const {roleEntity,getRoleEntity} = this.props;
     if(this.state.roleId){
         getRoleEntity({roleId:this.state.roleId});
@@ -114,7 +115,11 @@ callback=(key)=>{
           permissionIds: this.state.Autority
         })
     }else {
-      
+      if(!this.state.roleId ){
+        return
+      }else{
+        
+      }
     }
    
   
@@ -140,7 +145,7 @@ callback=(key)=>{
       </Tabs>
       <p>
         <Button onClick={this.handleCancel}>取消</Button>
-        <Button type="primary" style={{marginLeft:'20px'}} onClick={this.handleSubmit}>确定</Button>
+        <Button type="primary" style={{marginLeft:'20px'}}  onClick={this.handleSubmit}>确定</Button>
       </p>
         
     </div>
